@@ -88,5 +88,8 @@
   "style": "react-mde/lib/styles/css/react-mde-all.css",
   "resolutions": {
     "@types/react": "16.9.4"
+  },
+  "dependencies": {
+    "styled-jsx": "^3.3.0"
   }
 }
