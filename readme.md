@@ -1,42 +1,24 @@
-# 📝 react-mde
+# 📝 @javier.alejandro.castro/react-mde
 
-[![npm](https://img.shields.io/npm/dt/react-mde)](https://www.npmjs.com/package/react-mde)
-[![MinZipped](https://badgen.net/bundlephobia/minzip/react-mde)](https://bundlephobia.com/result?p=react-mde)
-[![twitter](https://img.shields.io/twitter/follow/andrerpena?style=social)](https://twitter.com/andrerpena)
-
-A simple yet powerful and extensible **React Markdown Editor**. React-mde has no 3rd party dependencies.
-
-- Check the 10.0.0 breaking changes on how to migrate from 9.*: https://github.com/andrerpena/react-mde/releases/tag/10.0.0
-- Check the 9.0.0 breaking changes on how to migrate from 8.*: https://github.com/andrerpena/react-mde/releases/tag/9.0.0.
+A simple yet powerful and extensible **React Markdown Editor**. React-mde has no 3rd party dependencies. A fork of https://github.com/andrerpena/react-mde
 
 ## Demo
 
-- [Demo](http://andrerpena.me/react-mde/)
-- [CodeSandbox Demo JSX ](https://codesandbox.io/s/react-mde-latest-5i5ov?file=/src/index.js)
-- [CodeSandbox Demo TSX ](https://codesandbox.io/s/react-typescript-i3wju?file=/src/index.tsx)
-- [CodeSandbox Demo TSX - Customized toolbar](https://codesandbox.io/s/react-typescript-m7cbx?file=/src/index.tsx)
-- [CodeSandbox Demo TSX - Custom command](https://codesandbox.io/s/react-typescript-icqgv?file=/src/index.tsx)
-
-## Goal
-
-The goal is to make react-mde to look and behave like the Github's Markdown editor. These are the major remaining features/changes. I plan to tackle them in orde but if you want to help, that would be amazing.
-
-- [ ] [Design improvements](https://github.com/andrerpena/react-mde/issues/207)
-- [ ] [Image upload support](https://github.com/andrerpena/react-mde/issues/189)
-
+- [Demo](http://jacargentina.github.io/react-mde/)
 
 ## Installing
 
-    npm i react-mde
+    yarn add @javier.alejandro.castro/react-mde
     
+
 ## Markdown Preview
 
 React-mde is agnostic regarding how to preview Markdown. The examples will use [Showdown](https://github.com/showdownjs/showdown)
 
-    npm install showdown
+    yarn add showdown
     
 It is also possible to return a Promise to React Element from `generateMarkdownPreview`, which makes
-it possible to use [ReactMarkdown](https://github.com/rexxars/react-markdown) as a preview. [View issue](https://github.com/andrerpena/react-mde/issues/161).
+it possible to use [ReactMarkdown](https://github.com/rexxars/react-markdown) as a preview. [View issue](https://github.com/jacargentina/react-mde/issues/161).
     
 ## Using
 
@@ -98,14 +80,15 @@ The types are described below
 - **onChange: (value: string)**: Event handler for the `onChange` event.
 - **selectedTab: "write" | "preview"**: The currently selected tab.
 - **onTabChange: (tab) => void**: Function called when the selected tab changes.
-- **classes?: [Object](https://github.com/andrerpena/react-mde/blob/master/src/classes.ts)**: An object containing the following optional properties: *reactMde*, *toolbar*, *preview*, *textArea*, *grip* and *suggestionsDropdown*. 
+- **onMaximizedChange: (isMaximized: boolean) => void**: Function called when maximized state changes: allow the component user to customize surrounding CSS for allowing to expand to full screen editing.
+- **classes?: [Object](https://github.com/jacargentina/react-mde/blob/master/src/classes.ts)**: An object containing the following optional properties: *reactMde*, *toolbar*, *preview*, *textArea*, *grip* and *suggestionsDropdown*. 
 This allows for passing class names to each of the inner components of React-mde. Classes defined in the *classes* prop
 follow the specification of [Jed Watson's classNames project](https://github.com/JedWatson/classnames).
 - **commands?: Record<string, Command>**: An object with string properties representing keys, and a Command object as value for each key. These are custom commands. Commands are explained in more details below.
 - **toolbarCommands?: string[][]**: Array of array of strings, indicating which commands should be displayed. Each outer array is a group. Example: `[["code", "bold"], ["italic"]]`
 - **generateMarkdownPreview: (markdown: string) => Promise<string | ReactElement>;**: Function that should return a Promise to the generated HTML or a React element for the preview. If this `prop` is falsy, then no preview is going to be generated.
 - **getIcon?: (commandName: string) => React.ReactNode }** An optional set of button content options, including an `iconProvider` to allow custom icon rendering.
-options. It is recommended to [inspect the layouts source code](https://github.com/andrerpena/react-mde/tree/master/src/components-layout) to see what options can be passed to each
+options. It is recommended to [inspect the layouts source code](https://github.com/jacargentina/react-mde/tree/master/src/components-layout) to see what options can be passed to each
 while the documentation is not complete.
 - **loadingPreview**: What to display in the preview while it is loading. Value can be string, React Element or anything React can render.
 - **readOnly?: boolean**: Flag to render the editor in read-only mode.
@@ -118,7 +101,7 @@ given `text` and `triggeredBy` (character that triggered the suggestions). The r
 The `preview` is what is going to be displayed in the suggestions box. The `value` is what is going to be inserted in the `textarea` on click or enter.
 - **suggestionTriggerCharacters (string[])**: Characters that will trigger mention suggestions to be loaded. This property is useless
 without `loadSuggestions`.
-- **childProps?: [Object](https://github.com/andrerpena/react-mde/blob/master/src/child-props.ts#L16)**: An object containing props to be passed to `writeButton`, `previewButton`, `commandButtons` and `textArea`.
+- **childProps?: [Object](https://github.com/jacargentina/react-mde/blob/master/src/child-props.ts#L16)**: An object containing props to be passed to `writeButton`, `previewButton`, `commandButtons` and `textArea`.
 
 ## Styling
 
@@ -128,9 +111,9 @@ Easiest way: import `react-mde-all.css`:
 
     import 'react-mde/lib/styles/css/react-mde-all.css';
     
-If you want to have a more granular control over the styles, you can [import each individual file](https://github.com/andrerpena/react-mde/tree/master/src/styles).
+If you want to have a more granular control over the styles, you can [import each individual file](https://github.com/jacargentina/react-mde/tree/master/src/styles).
     
-If you're using SASS, you can override these variables: https://github.com/andrerpena/react-mde/blob/master/src/styles/variables.scss
+If you're using SASS, you can override these variables: https://github.com/jacargentina/react-mde/blob/master/src/styles/variables.scss
 
 ## XSS concerns
 
@@ -146,28 +129,18 @@ the user’s cookies and do something bad with it (like steal credentials). As a
 You might want to take a look at [showdown-xss-filter](https://github.com/VisionistInc/showdown-xss-filter).
 
 It is also possible to return a Promise to a React Element from `generateMarkdownPreview`, which makes
-it possible to use [ReactMarkdown](https://github.com/rexxars/react-markdown) as a preview. [View issue](https://github.com/andrerpena/react-mde/issues/161).
+it possible to use [ReactMarkdown](https://github.com/rexxars/react-markdown) as a preview. [View issue](https://github.com/jacargentina/react-mde/issues/161).
 ReactMarkdown has built-in XSS protection.
 
-Please refer to the [commands source code](https://github.com/andrerpena/react-mde/tree/master/src/commands) to understand how they
+Please refer to the [commands source code](https://github.com/jacargentina/react-mde/tree/master/src/commands) to understand how they
 should be implemented.
-
-## Change log / Migrating from older versions
-
-[Instructions here](https://github.com/andrerpena/react-mde/blob/master/docs-md/ChangeLogMigrating.md).
 
 ## Licence
 
-React-mde is [MIT licensed](https://github.com/andrerpena/react-mde/blob/master/LICENSE).
+React-mde is [MIT licensed](https://github.com/jacargentina/react-mde/blob/master/LICENSE).
 
 ## Third party
 
 In order to make React-mde zero deps, I've embedded two small libraries:
 - https://github.com/grassator/insert-text-at-cursor by https://twitter.com/d_kubyshkin
 - https://github.com/JedWatson/classnames by https://twitter.com/JedWatson
-
-## About the author
-
-Made with :heart: by André Pena and [other awesome contributors](https://github.com/andrerpena/react-mde/graphs/contributors).
-
-[![twitter](https://img.shields.io/twitter/follow/andrerpena?style=social)](https://twitter.com/andrerpena)
