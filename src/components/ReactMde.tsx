@@ -22,7 +22,6 @@ import { CommandOrchestrator } from "../commands/command-orchestrator";
 import { Refs } from "../refs";
 import { ButtonHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { ComponentSimilarTo } from "../util/type-utils";
-import { GripSvg } from "./grip-svg";
 
 export interface ReactMdeProps {
   value: string;
@@ -78,12 +77,6 @@ export class ReactMde extends React.Component<ReactMdeProps, ReactMdeState> {
   finalRefs: Refs;
   commandOrchestrator: CommandOrchestrator;
 
-  // resizeYStart will be null when it is not resizing
-  gripDrag: {
-    originalDragY: number;
-    originalHeight: number;
-  } = null;
-
   static defaultProps: Partial<ReactMdeProps> = {
     commands: getDefaultCommandMap(),
     toolbarCommands: getDefaultToolbarCommands(),
@@ -128,37 +121,6 @@ export class ReactMde extends React.Component<ReactMdeProps, ReactMdeState> {
     onChange(value);
   };
 
-  handleGripMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    this.gripDrag = {
-      originalHeight: this.state.editorHeight,
-      originalDragY: event.clientY
-    };
-  };
-
-  handleGripMouseUp = () => {
-    this.gripDrag = null;
-  };
-
-  handleGripMouseMove = (event: MouseEvent) => {
-    if (this.gripDrag !== null) {
-      const newHeight =
-        this.gripDrag.originalHeight +
-        event.clientY -
-        this.gripDrag.originalDragY;
-      if (
-        newHeight >= this.props.minEditorHeight &&
-        newHeight <= this.props.maxEditorHeight
-      ) {
-        this.setState({
-          ...this.state,
-          editorHeight:
-            this.gripDrag.originalHeight +
-            (event.clientY - this.gripDrag.originalDragY)
-        });
-      }
-    }
-  };
-
   handlePaste = async (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
     const { paste } = this.props;
     if (!paste || !paste.saveImage) {
@@ -196,14 +158,6 @@ export class ReactMde extends React.Component<ReactMdeProps, ReactMdeState> {
       onMaximizedChange(this.state.maximized)
     );
   };
-
-  componentDidMount() {
-    document.addEventListener<"mousemove">(
-      "mousemove",
-      this.handleGripMouseMove
-    );
-    document.addEventListener<"mouseup">("mouseup", this.handleGripMouseUp);
-  }
 
   handleCommand = async (commandName: string) => {
     await this.commandOrchestrator.executeCommand(commandName);
@@ -302,14 +256,6 @@ export class ReactMde extends React.Component<ReactMdeProps, ReactMdeState> {
               <span>{l18n.pasteDropSelect}</span>
             </label>
           )}
-          {!this.state.maximized ? (
-            <div
-              className={classNames("grip", classes?.grip)}
-              onMouseDown={this.handleGripMouseDown}
-            >
-              <GripSvg />
-            </div>
-          ) : null}
         </div>
         {selectedTab !== "write" && (
           <Preview
