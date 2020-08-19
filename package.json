@@ -6,9 +6,8 @@
   "types": "./lib/definitions/index.d.ts",
   "scripts": {
     "test": "jest",
-    "dev": "cross-env NODE_ENV=development ts-node ./demo/server.ts",
-    "build:ts": "tsc --project ./tsconfig.build.json",
-    "build": "cross-env NODE_ENV=production gulp build",
+    "build": "babel src -d lib",
+    "dev": "cross-env NODE_ENV=development npx babel-node ./demo/server.js",
     "build:demo": "cross-env NODE_ENV=production gulp build-demo",
     "build:lib": "cross-env NODE_ENV=production gulp build-lib",
     "lint": "pretty-quick",
@@ -53,6 +52,7 @@
     "express": "^4.16.2",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^5.0.2",
+    "flow-bin": "^0.131.0",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
     "gulp-rename": "^2.0.0",
@@ -90,6 +90,16 @@
     "@types/react": "16.9.4"
   },
   "dependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/polyfill": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-flow": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "flowgen": "^1.11.0",
     "styled-jsx": "^3.3.0"
   }
 }
