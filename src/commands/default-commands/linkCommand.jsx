@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import { TextApi, TextState } from '../../index';
 import { selectWord } from '../../util/MarkdownUtil';
 
 export const linkCommand: Command = {

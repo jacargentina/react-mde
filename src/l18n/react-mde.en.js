@@ -1,4 +1,4 @@
-import { L18n } from "..";
+// @flow
 
 export const enL18n: L18n = {
   write: "Write",

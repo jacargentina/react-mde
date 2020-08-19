@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import { TextApi, TextState } from '../..';
 import { selectWord } from '../../util/MarkdownUtil';
 
 function setHeader(initialState: TextState, api: TextApi, prefix: string) {

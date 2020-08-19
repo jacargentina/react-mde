@@ -1,4 +1,3 @@
-// @flow
 /*!
  * The MIT License
    Copyright (c) 2018 Dmitriy Kubyshkin

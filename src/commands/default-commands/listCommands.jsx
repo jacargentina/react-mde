@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import { TextApi, TextState } from '../../index';
 import {
   getBreaksNeededForEmptyLineAfter,
   getBreaksNeededForEmptyLineBefore,

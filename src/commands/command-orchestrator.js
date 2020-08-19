@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { getDefaultCommandMap, L18n, TextApi, TextState } from '..';
+import { getDefaultCommandMap } from '..';
 import { insertText } from '../util/InsertTextAtPosition';
 import { extractKeyActivatedCommands } from './command-utils';
 import { getDefaultSaveImageCommandName } from './default-commands/defaults';
@@ -69,7 +69,7 @@ export class CommandOrchestrator {
   constructor(
     customCommands: CommandMap,
     textArea: null | HTMLTextAreaElement,
-    l18n?: L18n,
+    l18n: L18n,
     pasteOptions?: PasteOptions
   ) {
     if (pasteOptions && !pasteOptions.saveImage) {

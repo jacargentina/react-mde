@@ -88,12 +88,20 @@ export class App extends React.Component<{}, AppState> {
       return true;
     };
 
-    var classes = 'container';
-    if (this.state.maximized) {
-      classes += ' maximized';
-    }
     return (
-      <div className={classes}>
+      <div>
+        <style jsx>
+          {`
+            div {
+              display: ${this.state.maximized ? 'flex' : 'block'};
+              max-width: ${this.state.maximized ? 'none' : '650px'};
+              height: ${this.state.maximized ? 'auto' : '600px'};
+              padding: 10px;
+              margin: 0 auto;
+              flex: 1;
+            }
+          `}
+        </style>
         <ReactMde
           onChange={this.handleValueChange}
           onTabChange={this.handleTabChange}

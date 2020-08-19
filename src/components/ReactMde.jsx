@@ -1,15 +1,15 @@
 // @flow
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { Preview, Toolbar, TextArea, ToolbarButtonData } from '.';
+import { Preview, Toolbar, TextArea } from '.';
 import {
   getDefaultCommandMap,
   getDefaultToolbarCommands
 } from '../commands/default-commands/defaults';
-import { L18n } from '..';
 import { enL18n } from '../l18n/react-mde.en';
 import { SvgIcon } from '../icons';
 import { CommandOrchestrator } from '../commands/command-orchestrator';
+import { colors, misc } from './theme';
 
 export type ReactMdeProps = {
   value: string,
@@ -58,12 +58,7 @@ export const ReactMde = (props: ReactMdeProps) => {
   const textarea = useRef<null | HTMLTextAreaElement>(null);
   const preview = useRef<null | HTMLDivElement>(null);
   const commandOrchestrator = useRef(
-    new CommandOrchestrator(
-      props.commands,
-      textarea.current,
-      props.l18n,
-      props.paste
-    )
+    new CommandOrchestrator(props.commands, textarea.current, l18n, paste)
   );
   const [maximized, setMaximized] = useState(false);
 
@@ -90,15 +85,55 @@ export const ReactMde = (props: ReactMdeProps) => {
   });
 
   return (
-    <div
-      className={classNames(
-        'react-mde',
-        'react-mde-tabbed-layout',
-        { 'react-mde-maximized': maximized },
-        classes?.reactMde
-      )}>
+    <div className={maximized ? 'maximized' : ''}>
+      <style jsx>
+        {`
+          border: 1px solid ${colors.border};
+          border-radius: ${misc.borderRadius};
+
+          * {
+            box-sizing: border-box;
+          }
+
+          .maximized {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+          }
+
+          .mde-editor {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            display: ${selectedTab !== 'write' ? 'none' : 'auto'};
+          }
+
+          .image-tip {
+            user-select: none;
+            display: flex !important;
+            padding: 7px 10px;
+            margin: 0;
+            font-size: 13px;
+            line-height: 16px;
+            color: gray;
+            background-color: ${colors.toolbar};
+            border-top: 1px solid ${colors.border};
+            position: relative;
+          }
+
+          .image-input {
+            min-height: 0;
+            opacity: 0.01;
+            width: 100% !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 5px;
+            cursor: pointer;
+          }
+        `}
+      </style>
       <Toolbar
-        classes={classes?.toolbar}
         buttons={toolbarButtons}
         onCommand={async (commandName: string) => {
           await commandOrchestrator.current.executeCommand(commandName, {});
@@ -117,13 +152,8 @@ export const ReactMde = (props: ReactMdeProps) => {
         writeButtonProps={finalChildProps.writeButton}
         previewButtonProps={finalChildProps.previewButton}
       />
-      <div
-        className={classNames('mde-editor', {
-          invisible: selectedTab !== 'write'
-        })}>
+      <div className="mde-editor">
         <TextArea
-          classes={classes?.textArea}
-          suggestionsDropdownClasses={classes?.suggestionsDropdown}
           refObject={textarea}
           onChange={(value: string) => {
             if (onChange) {
@@ -155,9 +185,9 @@ export const ReactMde = (props: ReactMdeProps) => {
           }
         />
         {paste && (
-          <label className={classNames('image-tip')}>
+          <label className="image-tip">
             <input
-              className={classNames('image-input')}
+              className="image-input"
               type="file"
               accept="image/*"
               multiple
@@ -170,15 +200,13 @@ export const ReactMde = (props: ReactMdeProps) => {
                 await commandOrchestrator.current.executeSelectImageCommand(
                   event
                 );
-              }}
-            />
+              }}></input>
             <span>{l18n.pasteDropSelect}</span>
           </label>
         )}
       </div>
       {selectedTab !== 'write' && (
         <Preview
-          classes={classes?.preview}
           refObject={preview}
           loadingPreview={loadingPreview}
           minHeight={minPreviewHeight}

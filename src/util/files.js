@@ -8,10 +8,12 @@ export async function readFileAsync(file: Blob): Promise<ArrayBuffer> {
     let reader = new FileReader();
 
     reader.onload = () => {
-      if (typeof reader.result === "string") {
-        throw new Error("reader.result is expected to be an ArrayBuffer");
+      if (typeof reader.result === 'string') {
+        throw new Error('reader.result is expected to be an ArrayBuffer');
       }
-      resolve(reader.result);
+      if (reader.result !== null) {
+        resolve(reader.result);
+      }
     };
 
     reader.onerror = reject;

@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import { colors, paddings } from './theme';
 
 export type ToolbarButtonGroupProps = {
   children: React.Node,
@@ -8,7 +9,19 @@ export type ToolbarButtonGroupProps = {
 
 export const ToolbarButtonGroup = (props: ToolbarButtonGroupProps) => {
   return (
-    <ul className={classNames('mde-header-group', { hidden: props.hidden })}>
+    <ul>
+      <style jsx>
+        {`
+          ul {
+            margin: 0;
+            padding: ${paddings.toolbar};
+            list-style: none;
+            display: flex;
+            flex-wrap: nowrap;
+            visibility: ${props.hidden ? 'hidden' : 'auto'};
+          }
+        `}
+      </style>
       {props.children}
     </ul>
   );

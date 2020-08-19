@@ -1,10 +1,12 @@
 // @flow
 import * as React from 'react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { getCaretCoordinates } from '../util/TextAreaCaretPosition';
 import { insertText } from '../util/InsertTextAtPosition';
 import { mod } from '../util/Math';
 import { SuggestionsDropdown } from './SuggestionsDropdown';
+import { paddings } from './theme';
+import css from 'styled-jsx/css';
 
 export type MentionState = {
   status: 'active' | 'inactive' | 'loading',
@@ -26,7 +28,6 @@ export type TextAreaProps = {
   onChange: (value: string) => void,
   refObject: any,
   readOnly?: boolean,
-  height?: number,
   suggestionTriggerCharacters?: string[],
   loadSuggestions?: (
     text: string,
@@ -61,16 +62,25 @@ const initialMention = {
   caret: { top: 0, left: 0, lineHeight: 0 }
 };
 
+const { className, styles } = css.resolve`
+  display: flex;
+  flex: 1;
+  border: 0;
+  padding: ${paddings.editor};
+  vertical-align: top;
+  resize: vertical;
+  overflow-y: auto;
+`;
+
 export const TextArea = (props: TextAreaProps) => {
   const {
     readOnly,
     refObject,
     textAreaProps,
-    height,
     value,
     suggestionTriggerCharacters,
     loadSuggestions,
-    textAreaComponent = <textarea />,
+    textAreaComponent,
     onPaste,
     onDrop
   } = props;
@@ -326,11 +336,22 @@ export const TextArea = (props: TextAreaProps) => {
     }
   };
 
+  const TextAreaComponent = textAreaComponent || 'textarea';
+
   return (
-    <div className="mde-textarea-wrapper">
-      <textAreaComponent
-        className={classNames('mde-text', classes)}
-        style={{ height }}
+    <div>
+      <style jsx>
+        {`
+          div {
+            display: flex;
+            flex: 1;
+            position: relative;
+          }
+        `}
+      </style>
+      {styles}
+      <TextAreaComponent
+        className={className}
         ref={refObject}
         readOnly={readOnly}
         value={value}

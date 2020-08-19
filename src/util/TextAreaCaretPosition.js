@@ -1,4 +1,3 @@
-// @flow
 /* jshint browser: true */
 
 // We'll copy the properties below into the mirror div.

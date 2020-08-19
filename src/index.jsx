@@ -9,7 +9,7 @@ import {
   Toolbar,
   ToolbarButtonGroup
 } from './components';
-import { SvgIcon, MdeFontAwesomeIcon } from './icons';
+import { SvgIcon } from './icons';
 import {
   getDefaultCommandMap,
   getDefaultToolbarCommands
@@ -22,7 +22,6 @@ export {
   Toolbar,
   MarkdownUtil,
   SvgIcon,
-  MdeFontAwesomeIcon,
   getDefaultCommandMap,
   getDefaultToolbarCommands
 };
