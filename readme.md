@@ -4,7 +4,7 @@ A simple yet powerful and extensible **React Markdown Editor**. React-mde has no
 
 ## Demo
 
-- [Demo](http://jacargentina.github.io/react-mde/)
+- TODO
 
 ## Installing
 
@@ -18,18 +18,16 @@ React-mde is agnostic regarding how to preview Markdown. The examples will use [
     yarn add showdown
     
 It is also possible to return a Promise to React Element from `generateMarkdownPreview`, which makes
-it possible to use [ReactMarkdown](https://github.com/rexxars/react-markdown) as a preview. [View issue](https://github.com/jacargentina/react-mde/issues/161).
+it possible to use [ReactMarkdown](https://github.com/rexxars/react-markdown) as a preview.
     
 ## Using
 
 React-mde is a completely controlled component.
 
-Minimal example using Showdown. [View live on CodeSandBox](https://codesandbox.io/s/react-mde-latest-bm6p3):
 ```jsx
 import * as React from "react";
-import ReactMde from "react-mde";
+import ReactMde from "@javier.alejandro.castro/react-mde";
 import * as Showdown from "showdown";
-import "react-mde/lib/styles/css/react-mde-all.css";
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -81,39 +79,20 @@ The types are described below
 - **selectedTab: "write" | "preview"**: The currently selected tab.
 - **onTabChange: (tab) => void**: Function called when the selected tab changes.
 - **onMaximizedChange: (isMaximized: boolean) => void**: Function called when maximized state changes: allow the component user to customize surrounding CSS for allowing to expand to full screen editing.
-- **classes?: [Object](https://github.com/jacargentina/react-mde/blob/master/src/classes.ts)**: An object containing the following optional properties: *reactMde*, *toolbar*, *preview*, *textArea*, *grip* and *suggestionsDropdown*. 
-This allows for passing class names to each of the inner components of React-mde. Classes defined in the *classes* prop
-follow the specification of [Jed Watson's classNames project](https://github.com/JedWatson/classnames).
 - **commands?: Record<string, Command>**: An object with string properties representing keys, and a Command object as value for each key. These are custom commands. Commands are explained in more details below.
 - **toolbarCommands?: string[][]**: Array of array of strings, indicating which commands should be displayed. Each outer array is a group. Example: `[["code", "bold"], ["italic"]]`
 - **generateMarkdownPreview: (markdown: string) => Promise<string | ReactElement>;**: Function that should return a Promise to the generated HTML or a React element for the preview. If this `prop` is falsy, then no preview is going to be generated.
 - **getIcon?: (commandName: string) => React.ReactNode }** An optional set of button content options, including an `iconProvider` to allow custom icon rendering.
-options. It is recommended to [inspect the layouts source code](https://github.com/jacargentina/react-mde/tree/master/src/components-layout) to see what options can be passed to each
-while the documentation is not complete.
+options.
 - **loadingPreview**: What to display in the preview while it is loading. Value can be string, React Element or anything React can render.
 - **readOnly?: boolean**: Flag to render the editor in read-only mode.
-- **l18n?**: A localization option. It contains the strings `write`, `preview` and `uploadingImage`.
-- **minEditorHeight?: number**: The minimum height of the editor.
-- **maxEditorHeight?: number**: The max height of the editor (after that, it will scroll).
-- **minPreviewHeight?: number**: The minimum height of the preview.
+- **l18n?**: A localization option. It contains the strings `write`, `preview`,`uploadingImage` and `pasteDropSelect`.
 - **loadSuggestions?: (text: string, triggeredBy: string) => Promise<Suggestion[]>**: Function to load mention suggestions based on the
 given `text` and `triggeredBy` (character that triggered the suggestions). The result should be an array of `{preview: React.ReactNode, value: string}`.
 The `preview` is what is going to be displayed in the suggestions box. The `value` is what is going to be inserted in the `textarea` on click or enter.
 - **suggestionTriggerCharacters (string[])**: Characters that will trigger mention suggestions to be loaded. This property is useless
 without `loadSuggestions`.
-- **childProps?: [Object](https://github.com/jacargentina/react-mde/blob/master/src/child-props.ts#L16)**: An object containing props to be passed to `writeButton`, `previewButton`, `commandButtons` and `textArea`.
-
-## Styling
-
-The following styles from React-mde should be added: (Both .scss and .css files are available. No need to use sass-loader if you don't want)
-
-Easiest way: import `react-mde-all.css`:
-
-    import 'react-mde/lib/styles/css/react-mde-all.css';
-    
-If you want to have a more granular control over the styles, you can [import each individual file](https://github.com/jacargentina/react-mde/tree/master/src/styles).
-    
-If you're using SASS, you can override these variables: https://github.com/jacargentina/react-mde/blob/master/src/styles/variables.scss
+- **childProps?: [Object](https://github.com/jacargentina/react-mde/blob/master/flow-typed/Child-props.js)**: An object containing props to be passed to `writeButton`, `previewButton`, `commandButtons` and `textArea`.
 
 ## XSS concerns
 
@@ -129,18 +108,8 @@ the user’s cookies and do something bad with it (like steal credentials). As a
 You might want to take a look at [showdown-xss-filter](https://github.com/VisionistInc/showdown-xss-filter).
 
 It is also possible to return a Promise to a React Element from `generateMarkdownPreview`, which makes
-it possible to use [ReactMarkdown](https://github.com/rexxars/react-markdown) as a preview. [View issue](https://github.com/jacargentina/react-mde/issues/161).
-ReactMarkdown has built-in XSS protection.
-
-Please refer to the [commands source code](https://github.com/jacargentina/react-mde/tree/master/src/commands) to understand how they
-should be implemented.
+it possible to use [ReactMarkdown](https://github.com/rexxars/react-markdown) as a preview. ReactMarkdown has built-in XSS protection.
 
 ## Licence
 
 React-mde is [MIT licensed](https://github.com/jacargentina/react-mde/blob/master/LICENSE).
-
-## Third party
-
-In order to make React-mde zero deps, I've embedded two small libraries:
-- https://github.com/grassator/insert-text-at-cursor by https://twitter.com/d_kubyshkin
-- https://github.com/JedWatson/classnames by https://twitter.com/JedWatson
