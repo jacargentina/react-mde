@@ -21,7 +21,7 @@ function fileListToArray(list: FileList): Array<File> {
   return result;
 }
 
-export const saveImageCommand: Command = {
+const saveImageCommand: Command = {
   async execute({
     initialState,
     textApi,
@@ -90,3 +90,5 @@ export const saveImageCommand: Command = {
     });
   }
 };
+
+export default saveImageCommand;

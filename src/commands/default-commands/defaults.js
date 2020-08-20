@@ -1,18 +1,18 @@
 // @flow
-import { headerCommand } from './headerCommand';
-import { boldCommand } from './boldCommand';
-import { italicCommand } from './italicCommand';
-import { strikeThroughCommand } from './strikeThroughCommand';
-import { linkCommand } from './linkCommand';
-import { quoteCommand } from './quoteCommand';
-import { codeCommand } from './codeCommand';
+import headerCommand from './headerCommand';
+import boldCommand from './boldCommand';
+import italicCommand from './italicCommand';
+import strikeThroughCommand from './strikeThroughCommand';
+import linkCommand from './linkCommand';
+import quoteCommand from './quoteCommand';
+import codeCommand from './codeCommand';
 import {
   checkedListCommand,
   orderedListCommand,
   unorderedListCommand
 } from './listCommands';
-import { imageCommand } from './imageCommand';
-import { saveImageCommand } from './save-image-command';
+import imageCommand from './imageCommand';
+import saveImageCommand from './save-image-command';
 
 export function getDefaultToolbarCommands(): ToolbarCommands {
   return [

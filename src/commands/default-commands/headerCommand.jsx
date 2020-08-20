@@ -1,5 +1,4 @@
 // @flow
-import * as React from 'react';
 import { selectWord } from '../../util/MarkdownUtil';
 
 function setHeader(initialState: TextState, api: TextApi, prefix: string) {
@@ -18,9 +17,11 @@ function setHeader(initialState: TextState, api: TextApi, prefix: string) {
   });
 }
 
-export const headerCommand: Command = {
+const headerCommand: Command = {
   buttonProps: { 'aria-label': 'Add header' },
   execute: ({ initialState, textApi }) => {
     setHeader(initialState, textApi, '### ');
   }
 };
+
+export default headerCommand;

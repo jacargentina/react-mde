@@ -1,8 +1,7 @@
 // @flow
-import * as React from 'react';
 import { selectWord } from '../../util/MarkdownUtil';
 
-export const strikeThroughCommand: Command = {
+const strikeThroughCommand: Command = {
   buttonProps: { 'aria-label': 'Add strikethrough text' },
   execute: ({ initialState, textApi }) => {
     // Adjust the selection to encompass the whole word if the caret is inside one
@@ -20,3 +19,5 @@ export const strikeThroughCommand: Command = {
     });
   }
 };
+
+export default strikeThroughCommand;

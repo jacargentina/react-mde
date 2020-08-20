@@ -1,8 +1,7 @@
 // @flow
-import * as React from 'react';
 import { selectWord } from '../../util/MarkdownUtil';
 
-export const italicCommand: Command = {
+const italicCommand: Command = {
   buttonProps: { 'aria-label': 'Add italic text' },
   execute: ({ initialState, textApi }) => {
     // Adjust the selection to encompass the whole word if the caret is inside one
@@ -21,3 +20,5 @@ export const italicCommand: Command = {
   },
   handleKeyCommand: e => (e.ctrlKey || e.metaKey) && e.key == 'i'
 };
+
+export default italicCommand;

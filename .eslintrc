@@ -1,0 +1,13 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["plugin:flowtype/recommended", "airbnb", "prettier"],
+  "plugins": ["react-hooks", "import", "flowtype"],
+  "rules": {
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "comma-dangle": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
+    "arrow-body-style": "off",
+    "operator-linebreak": "off",
+  }
+}

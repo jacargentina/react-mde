@@ -1,5 +1,4 @@
 // @flow
-import * as React from 'react';
 import {
   getBreaksNeededForEmptyLineAfter,
   getBreaksNeededForEmptyLineBefore,
@@ -23,7 +22,8 @@ export function insertBeforeEachLine(
       if (typeof insertBefore === 'string') {
         insertionLength += insertBefore.length;
         return insertBefore + item;
-      } else if (typeof insertBefore === 'function') {
+      }
+      if (typeof insertBefore === 'function') {
         const insertionResult = insertBefore(item, index);
         insertionLength += insertionResult.length;
         return insertBefore(item, index) + item;

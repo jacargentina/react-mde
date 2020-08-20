@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { colors, paddings } from './theme';
+import { colors } from './theme';
 import css from 'styled-jsx/css';
 
 export type ToolbarButtonProps = {

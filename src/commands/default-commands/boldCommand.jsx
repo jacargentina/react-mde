@@ -1,8 +1,7 @@
 // @flow
-import * as React from 'react';
 import { selectWord } from '../../util/MarkdownUtil';
 
-export const boldCommand: Command = {
+const boldCommand: Command = {
   buttonProps: { 'aria-label': 'Add bold text' },
   execute: ({ initialState, textApi }) => {
     // Adjust the selection to encompass the whole word if the caret is inside one
@@ -21,3 +20,5 @@ export const boldCommand: Command = {
   },
   handleKeyCommand: e => (e.ctrlKey || e.metaKey) && e.key == 'b'
 };
+
+export default boldCommand;

@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { colors, paddings } from './theme';
+import { paddings } from './theme';
 
 export type ToolbarButtonGroupProps = {
   children: React.Node,

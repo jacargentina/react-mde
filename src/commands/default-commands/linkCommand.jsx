@@ -1,8 +1,7 @@
 // @flow
-import * as React from 'react';
 import { selectWord } from '../../util/MarkdownUtil';
 
-export const linkCommand: Command = {
+const linkCommand: Command = {
   buttonProps: { 'aria-label': 'Add a link' },
   execute: ({ initialState, textApi }) => {
     // Adjust the selection to encompass the whole word if the caret is inside one
@@ -21,3 +20,5 @@ export const linkCommand: Command = {
   },
   handleKeyCommand: e => (e.ctrlKey || e.metaKey) && e.key == 'k'
 };
+
+export default linkCommand;

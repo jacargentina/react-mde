@@ -1,7 +1,9 @@
 // @flow
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { Preview, Toolbar, TextArea } from '.';
+import { Preview } from './Preview';
+import { Toolbar } from './Toolbar';
+import { TextArea } from './TextArea';
 import {
   getDefaultCommandMap,
   getDefaultToolbarCommands
@@ -30,8 +32,7 @@ export type ReactMdeProps = {
   childProps?: ChildProps,
   paste?: PasteOptions,
   l18n: L18n,
-  textAreaComponent?: any,
-  toolbarButtonComponent?: any
+  textAreaComponent?: any
 };
 
 export const ReactMde = (props: ReactMdeProps) => {
@@ -65,8 +66,11 @@ export const ReactMde = (props: ReactMdeProps) => {
   useEffect(() => {
     if (onMaximizedChange) {
       onMaximizedChange(maximized);
+      if (textarea.current && maximized) {
+        textarea.current.style.height = 'auto';
+      }
     }
-  }, [maximized]);
+  }, [maximized, textarea]);
 
   const finalChildProps = childProps || {};
 
@@ -177,6 +181,7 @@ export const ReactMde = (props: ReactMdeProps) => {
             await commandOrchestrator.current.executeDropCommand(event);
           }}
           readOnly={readOnly}
+          maximized={maximized}
           textAreaComponent={textAreaComponent}
           textAreaProps={childProps && childProps.textArea}
           value={value}

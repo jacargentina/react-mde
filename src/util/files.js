@@ -5,7 +5,7 @@
  */
 export async function readFileAsync(file: Blob): Promise<ArrayBuffer> {
   return new Promise((resolve, reject) => {
-    let reader = new FileReader();
+    const reader = new FileReader();
 
     reader.onload = () => {
       if (typeof reader.result === 'string') {

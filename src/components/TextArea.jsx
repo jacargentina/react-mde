@@ -6,7 +6,6 @@ import { insertText } from '../util/InsertTextAtPosition';
 import { mod } from '../util/Math';
 import { SuggestionsDropdown } from './SuggestionsDropdown';
 import { paddings } from './theme';
-import css from 'styled-jsx/css';
 
 export type MentionState = {
   status: 'active' | 'inactive' | 'loading',
@@ -50,7 +49,8 @@ export type TextAreaProps = {
    */
   onPossibleKeyCommand?: (
     e: SyntheticKeyboardEvent<HTMLTextAreaElement>
-  ) => boolean
+  ) => boolean,
+  maximized: boolean
 };
 
 const initialMention = {
@@ -61,16 +61,6 @@ const initialMention = {
   startPosition: 0,
   caret: { top: 0, left: 0, lineHeight: 0 }
 };
-
-const { className, styles } = css.resolve`
-  display: flex;
-  flex: 1;
-  border: 0;
-  padding: ${paddings.editor};
-  vertical-align: top;
-  resize: vertical;
-  overflow-y: auto;
-`;
 
 export const TextArea = (props: TextAreaProps) => {
   const {
@@ -104,9 +94,9 @@ export const TextArea = (props: TextAreaProps) => {
 
   const suggestionsEnabled = () => {
     return (
-      props.suggestionTriggerCharacters &&
-      props.suggestionTriggerCharacters.length &&
-      props.loadSuggestions
+      suggestionTriggerCharacters &&
+      suggestionTriggerCharacters.length &&
+      loadSuggestions
     );
   };
 
@@ -143,20 +133,20 @@ export const TextArea = (props: TextAreaProps) => {
         if (mention.status === 'inactive') {
           // This means this promise resolved too late when the status has already been set to inactice
           return;
-        } else if (suggestionsPromiseIndex.current === promiseIndex) {
+        }
+        if (suggestionsPromiseIndex.current === promiseIndex) {
           if (!suggestions || !suggestions.length) {
             clearMention();
           } else {
             setMention(prev => ({
               ...prev,
               status: 'active',
-              suggestions: suggestions,
+              suggestions,
               focusIndex: 0
             }));
           }
           suggestionsPromiseIndex.current = 0;
         }
-        return Promise.resolve();
       });
   };
 
@@ -167,7 +157,7 @@ export const TextArea = (props: TextAreaProps) => {
       status: 'loading',
       focusIndex: 0,
       startPosition: target.selectionStart + 1,
-      caret: caret,
+      caret,
       suggestions: [],
       triggeredBy: key
     });
@@ -249,7 +239,6 @@ export const TextArea = (props: TextAreaProps) => {
 
   const handleKeyUp = (event: SyntheticKeyboardEvent<HTMLTextAreaElement>) => {
     const { key } = event;
-    const { suggestionTriggerCharacters, value } = props;
 
     switch (mention.status) {
       case 'loading':
@@ -291,33 +280,34 @@ export const TextArea = (props: TextAreaProps) => {
   const handleKeyPress = (
     event: SyntheticKeyboardEvent<HTMLTextAreaElement>
   ) => {
-    const { suggestionTriggerCharacters, value } = props;
     const { key } = event;
 
     switch (mention.status) {
       case 'loading':
       case 'active':
-        if (key === ' ') {
-          setMention(prev => ({
-            ...prev,
-            status: 'inactive'
-          }));
-          return;
-        }
+        {
+          if (key === ' ') {
+            setMention(prev => ({
+              ...prev,
+              status: 'inactive'
+            }));
+            return;
+          }
 
-        const searchText =
-          value.substr(
-            mention.startPosition,
-            getTextArea().selectionStart - mention.startPosition
-          ) + key;
+          const searchText =
+            value.substr(
+              mention.startPosition,
+              getTextArea().selectionStart - mention.startPosition
+            ) + key;
 
-        // In this case, the mentions box was open but the user typed something else
-        startLoadingSuggestions(searchText);
-        if (mention.status !== 'loading') {
-          setMention(prev => ({
-            ...prev,
-            status: 'loading'
-          }));
+          // In this case, the mentions box was open but the user typed something else
+          startLoadingSuggestions(searchText);
+          if (mention.status !== 'loading') {
+            setMention(prev => ({
+              ...prev,
+              status: 'loading'
+            }));
+          }
         }
         break;
       case 'inactive':
@@ -333,6 +323,8 @@ export const TextArea = (props: TextAreaProps) => {
 
         loadEmptySuggestion(event.currentTarget, event.key);
         break;
+      default:
+        break;
     }
   };
 
@@ -345,13 +337,23 @@ export const TextArea = (props: TextAreaProps) => {
           div {
             display: flex;
             flex: 1;
+            flex-basis: auto;
             position: relative;
+          }
+
+          .textarea {
+            display: flex;
+            flex: 1;
+            border: 0;
+            padding: ${paddings.editor};
+            vertical-align: top;
+            resize: vertical;
+            overflow-y: auto;
           }
         `}
       </style>
-      {styles}
       <TextAreaComponent
-        className={className}
+        className="textarea"
         ref={refObject}
         readOnly={readOnly}
         value={value}

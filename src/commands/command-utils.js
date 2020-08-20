@@ -18,3 +18,29 @@ export function extractKeyActivatedCommands(
   }
   return result;
 }
+
+export function getStateFromTextArea(
+  textArea: null | HTMLTextAreaElement
+): TextState {
+  if (textArea == null) {
+    return {
+      selection: {
+        start: 0,
+        end: 0
+      },
+      text: '',
+      selectedText: ''
+    };
+  }
+  return {
+    selection: {
+      start: textArea?.selectionStart,
+      end: textArea?.selectionEnd
+    },
+    text: textArea?.value,
+    selectedText: textArea?.value.slice(
+      textArea?.selectionStart,
+      textArea?.selectionEnd
+    )
+  };
+}

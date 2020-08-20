@@ -61,7 +61,7 @@ export function getCaretCoordinates(
   div.id = 'input-textarea-caret-position-mirror-div';
   document.body.appendChild(div);
 
-  const style = div.style;
+  const { style } = div;
   const computed = window.getComputedStyle
     ? window.getComputedStyle(element)
     : element.currentStyle; // currentStyle for IE < 9
@@ -81,8 +81,7 @@ export function getCaretCoordinates(
 
   if (isFirefox) {
     // Firefox lies about the overflow property for textareas: https://bugzilla.mozilla.org/show_bug.cgi?id=984275
-    if (element.scrollHeight > parseInt(computed.height))
-      style.overflowY = 'scroll';
+    if (element.scrollHeight > parseInt(computed.height)) style.overflowY = 'scroll';
   } else {
     style.overflow = 'hidden'; // for Chrome to not render a scrollbar; IE keeps overflowY = 'scroll'
   }
@@ -102,9 +101,9 @@ export function getCaretCoordinates(
   div.appendChild(span);
 
   const coordinates: CaretCoordinates = {
-    top: span.offsetTop + parseInt(computed['borderTopWidth']),
-    left: span.offsetLeft + parseInt(computed['borderLeftWidth']),
-    lineHeight: parseInt(computed['lineHeight'])
+    top: span.offsetTop + parseInt(computed.borderTopWidth),
+    left: span.offsetLeft + parseInt(computed.borderLeftWidth),
+    lineHeight: parseInt(computed.lineHeight)
   };
 
   document.body.removeChild(div);

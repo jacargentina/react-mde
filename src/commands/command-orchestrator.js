@@ -1,74 +1,28 @@
 // @flow
-import * as React from 'react';
-import { getDefaultCommandMap } from '..';
-import { insertText } from '../util/InsertTextAtPosition';
-import { extractKeyActivatedCommands } from './command-utils';
-import { getDefaultSaveImageCommandName } from './default-commands/defaults';
+import {
+  getDefaultCommandMap,
+  getDefaultSaveImageCommandName
+} from './default-commands/defaults';
+import {
+  extractKeyActivatedCommands,
+  getStateFromTextArea
+} from './command-utils';
+import TextAreaTextApi from './TextAreaTextApi';
 
-export class TextAreaTextApi implements TextApi {
+export default class CommandOrchestrator {
   textAreaRef: { current: null | HTMLTextAreaElement };
 
-  constructor(textAreaRef: { current: null | HTMLTextAreaElement }) {
-    this.textAreaRef = textAreaRef;
-  }
-
-  replaceSelection(text: string): TextState {
-    const textArea = this.textAreaRef.current;
-    insertText(textArea, text);
-    return getStateFromTextArea(textArea);
-  }
-
-  setSelectionRange(selection: Selection): TextState {
-    const textArea = this.textAreaRef.current;
-    if (textArea) {
-      textArea.focus();
-      textArea.selectionStart = selection.start;
-      textArea.selectionEnd = selection.end;
-    }
-    return getStateFromTextArea(textArea);
-  }
-
-  getState(): TextState {
-    const textArea = this.textAreaRef.current;
-    return getStateFromTextArea(textArea);
-  }
-}
-
-export function getStateFromTextArea(
-  textArea: null | HTMLTextAreaElement
-): TextState {
-  if (textArea == null) {
-    return {
-      selection: {
-        start: 0,
-        end: 0
-      },
-      text: '',
-      selectedText: ''
-    };
-  }
-  return {
-    selection: {
-      start: textArea?.selectionStart,
-      end: textArea?.selectionEnd
-    },
-    text: textArea?.value,
-    selectedText: textArea?.value.slice(
-      textArea?.selectionStart,
-      textArea?.selectionEnd
-    )
-  };
-}
-
-export class CommandOrchestrator {
-  textAreaRef: { current: null | HTMLTextAreaElement };
   textApi: TextApi;
+
   commandMap: CommandMap;
+
   l18n: L18n;
+
   /**
    * Names of commands that can be activated by the keyboard
    */
   keyActivatedCommands: string[];
+
   /**
    * Indicates whether there is a command currently executing
    */
@@ -159,6 +113,7 @@ export class CommandOrchestrator {
         }
       );
     }
+    return undefined;
   }
 
   /**
@@ -177,6 +132,7 @@ export class CommandOrchestrator {
         }
       );
     }
+    return undefined;
   }
 
   /**
@@ -195,5 +151,6 @@ export class CommandOrchestrator {
         }
       );
     }
+    return undefined;
   }
 }

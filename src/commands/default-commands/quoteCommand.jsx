@@ -1,12 +1,11 @@
 // @flow
-import * as React from 'react';
 import {
   getBreaksNeededForEmptyLineAfter,
   getBreaksNeededForEmptyLineBefore,
   selectWord
 } from '../../util/MarkdownUtil';
 
-export const quoteCommand: Command = {
+const quoteCommand: Command = {
   buttonProps: { 'aria-label': 'Insert a quote' },
   execute: ({ initialState, textApi }) => {
     // Adjust the selection to encompass the whole word if the caret is inside one
@@ -42,3 +41,5 @@ export const quoteCommand: Command = {
     });
   }
 };
+
+export default quoteCommand;

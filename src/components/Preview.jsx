@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { colors, paddings } from './theme';
 import css from 'styled-jsx/css';
+import { colors, paddings } from './theme';
 
 export type PreviewProps = {
   refObject?: RefObj<HTMLDivElement>,
@@ -153,13 +153,17 @@ const mdStyle = css.global`
 `;
 
 export const Preview = (props: PreviewProps) => {
-  const { markdown, loadingPreview, refObject } = props;
+  const {
+    markdown,
+    loadingPreview,
+    refObject,
+    generateMarkdownPreview
+  } = props;
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState();
   const finalHtml = loading ? loadingPreview : preview;
 
   const generatePreview = () => {
-    const { markdown, generateMarkdownPreview } = props;
     setLoading(true);
     generateMarkdownPreview(markdown).then(preview => {
       setPreview(preview);
