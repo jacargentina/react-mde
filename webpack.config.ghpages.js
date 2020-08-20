@@ -6,7 +6,7 @@ module.exports = {
   entry: ['./demo/client.jsx'],
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'ghpages'),
+    path: path.resolve(__dirname, 'docs'),
     publicPath: '/react-mde'
   },
   resolve: {
