@@ -13,3 +13,4 @@ webpack*
 jest.config.js
 babel.config.js
 cypress*
+ghpages/
