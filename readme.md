@@ -4,7 +4,7 @@ A simple yet powerful and extensible **React Markdown Editor**. React-mde has no
 
 ## Demo
 
-- TODO
+[Demo](https://jacargentina.github.io/react-mde/)
 
 ## Installing
 
