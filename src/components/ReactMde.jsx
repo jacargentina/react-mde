@@ -10,7 +10,7 @@ import {
 } from '../commands/default-commands/defaults';
 import { enL18n } from '../l18n/react-mde.en';
 import { SvgIcon } from './SvgIcon';
-import { CommandOrchestrator } from '../commands/command-orchestrator';
+import CommandOrchestrator from '../commands/command-orchestrator';
 import { colors, misc } from './theme';
 
 export type ReactMdeProps = {
