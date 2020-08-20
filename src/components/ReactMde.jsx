@@ -6,9 +6,9 @@ import { Toolbar } from './Toolbar';
 import { TextArea } from './TextArea';
 import {
   getDefaultCommandMap,
-  getDefaultToolbarCommands
+  getDefaultToolbarCommands,
 } from '../commands/default-commands/defaults';
-import { enL18n } from '../l18n/react-mde.en';
+import enL18n from '../l18n/react-mde.en';
 import { SvgIcon } from './SvgIcon';
 import CommandOrchestrator from '../commands/command-orchestrator';
 import { colors, misc } from './theme';
@@ -32,7 +32,7 @@ export type ReactMdeProps = {
   childProps?: ChildProps,
   paste?: PasteOptions,
   l18n: L18n,
-  textAreaComponent?: any
+  textAreaComponent?: any,
 };
 
 export const ReactMde = (props: ReactMdeProps) => {
@@ -54,7 +54,7 @@ export const ReactMde = (props: ReactMdeProps) => {
     paste,
     onChange,
     onMaximizedChange,
-    onTabChange
+    onTabChange,
   } = props;
   const textarea = useRef<null | HTMLTextAreaElement>(null);
   const preview = useRef<null | HTMLDivElement>(null);
@@ -74,8 +74,8 @@ export const ReactMde = (props: ReactMdeProps) => {
 
   const finalChildProps = childProps || {};
 
-  const toolbarButtons = toolbarCommands.map(group => {
-    return group.map(commandName => {
+  const toolbarButtons = toolbarCommands.map((group) => {
+    return group.map((commandName) => {
       const command = commandOrchestrator.current.getCommand(commandName);
       return {
         commandName: commandName,
@@ -83,7 +83,7 @@ export const ReactMde = (props: ReactMdeProps) => {
           ? command.icon(getIcon)
           : getIcon(commandName),
         buttonProps: command.buttonProps,
-        buttonComponentClass: command.buttonComponentClass
+        buttonComponentClass: command.buttonComponentClass,
       };
     });
   });
@@ -149,7 +149,7 @@ export const ReactMde = (props: ReactMdeProps) => {
             onTabChange(newTab);
           }
         }}
-        onMaximize={() => setMaximized(current => !current)}
+        onMaximize={() => setMaximized((current) => !current)}
         tab={selectedTab}
         readOnly={readOnly}
         disablePreview={disablePreview}
@@ -228,10 +228,10 @@ export const ReactMde = (props: ReactMdeProps) => {
 ReactMde.defaultProps = {
   commands: getDefaultCommandMap(),
   toolbarCommands: getDefaultToolbarCommands(),
-  getIcon: name => <SvgIcon icon={name} />,
+  getIcon: (name) => <SvgIcon icon={name} />,
   readOnly: false,
   l18n: enL18n,
   selectedTab: 'write',
   disablePreview: false,
-  suggestionTriggerCharacters: ['@']
+  suggestionTriggerCharacters: ['@'],
 };

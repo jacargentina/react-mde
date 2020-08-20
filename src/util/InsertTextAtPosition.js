@@ -1,14 +1,36 @@
+// @flow
+
+declare var document: any;
+
 /*!
  * The MIT License
    Copyright (c) 2018 Dmitriy Kubyshkin
    Copied from https://github.com/grassator/insert-text-at-cursor
  */
 
+function canManipulateViaTextNodes(
+  input: HTMLTextAreaElement | HTMLInputElement
+) {
+  if (input.nodeName !== 'TEXTAREA') {
+    return false;
+  }
+  let browserSupportsTextareaTextNodes;
+  if (typeof browserSupportsTextareaTextNodes === 'undefined') {
+    const textarea = document.createElement('textarea');
+    textarea.value = '1';
+    browserSupportsTextareaTextNodes = !!textarea.firstChild;
+  }
+  return browserSupportsTextareaTextNodes;
+}
+
 /**
  * Inserts the given text at the cursor. If the element contains a selection, the selection
  * will be replaced by the text.
  */
-export function insertText(input: HTMLTextAreaElement | HTMLInputElement, text: string) {
+export default function insertText(
+  input: HTMLTextAreaElement | HTMLInputElement,
+  text: string
+) {
   // Most of the used APIs only work with the field selected
   input.focus();
 
@@ -31,6 +53,7 @@ export function insertText(input: HTMLTextAreaElement | HTMLInputElement, text: 
     const end = input.selectionEnd;
     // Firefox (non-standard method)
     if (typeof input.setRangeText === 'function') {
+      // $FlowIgnore
       input.setRangeText(text);
     } else if (canManipulateViaTextNodes(input)) {
       const textNode = document.createTextNode(text);
@@ -77,6 +100,7 @@ export function insertText(input: HTMLTextAreaElement | HTMLInputElement, text: 
     } else {
       // For the text input the only way is to replace the whole value :(
       const { value } = input;
+      // eslint-disable-next-line no-param-reassign
       input.value = value.slice(0, start) + text + value.slice(end);
     }
 
@@ -88,17 +112,4 @@ export function insertText(input: HTMLTextAreaElement | HTMLInputElement, text: 
     e.initEvent('input', true, false);
     input.dispatchEvent(e);
   }
-}
-
-function canManipulateViaTextNodes(input: HTMLTextAreaElement | HTMLInputElement) {
-  if (input.nodeName !== 'TEXTAREA') {
-    return false;
-  }
-  let browserSupportsTextareaTextNodes;
-  if (typeof browserSupportsTextareaTextNodes === 'undefined') {
-    const textarea = document.createElement('textarea');
-    textarea.value = '1';
-    browserSupportsTextareaTextNodes = !!textarea.firstChild;
-  }
-  return browserSupportsTextareaTextNodes;
 }

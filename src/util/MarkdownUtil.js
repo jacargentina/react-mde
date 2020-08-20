@@ -11,7 +11,7 @@ export function getSurroundingWord(text: string, position: number): Selection {
   let end = text.length;
 
   // iterate to the left
-  for (let i = position; i - 1 > -1; i--) {
+  for (let i = position; i - 1 > -1; i -= 1) {
     if (isWordDelimiter(text[i - 1])) {
       start = i;
       break;
@@ -19,7 +19,7 @@ export function getSurroundingWord(text: string, position: number): Selection {
   }
 
   // iterate to the right
-  for (let i = position; i < text.length; i++) {
+  for (let i = position; i < text.length; i += 1) {
     if (isWordDelimiter(text[i])) {
       end = i;
       break;
@@ -60,12 +60,12 @@ export function getBreaksNeededForEmptyLineBefore(
 
   let neededBreaks = 2;
   let isInFirstLine = true;
-  for (let i = startPosition - 1; i >= 0 && neededBreaks >= 0; i--) {
+  for (let i = startPosition - 1; i >= 0 && neededBreaks >= 0; i -= 1) {
     switch (text.charCodeAt(i)) {
       case 32: // blank space
         continue;
       case 10: // line break
-        neededBreaks--;
+        neededBreaks -= 1;
         isInFirstLine = false;
         break;
       default:
@@ -92,12 +92,12 @@ export function getBreaksNeededForEmptyLineAfter(
 
   let neededBreaks = 2;
   let isInLastLine = true;
-  for (let i = startPosition; i < text.length && neededBreaks >= 0; i++) {
+  for (let i = startPosition; i < text.length && neededBreaks >= 0; i += 1) {
     switch (text.charCodeAt(i)) {
       case 32:
         continue;
       case 10: {
-        neededBreaks--;
+        neededBreaks -= 1;
         isInLastLine = false;
         break;
       }

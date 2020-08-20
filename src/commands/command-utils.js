@@ -9,13 +9,11 @@ export function extractKeyActivatedCommands(
   commandMap: CommandMap
 ): Array<string> {
   const result: Array<string> = [];
-  for (const command in commandMap) {
-    if (commandMap.hasOwnProperty(command)) {
-      if (commandMap[command].handleKeyCommand) {
-        result.push(command);
-      }
+  Object.keys(commandMap).forEach((command) => {
+    if (commandMap[command].handleKeyCommand) {
+      result.push(command);
     }
-  }
+  });
   return result;
 }
 
@@ -26,21 +24,21 @@ export function getStateFromTextArea(
     return {
       selection: {
         start: 0,
-        end: 0
+        end: 0,
       },
       text: '',
-      selectedText: ''
+      selectedText: '',
     };
   }
   return {
     selection: {
       start: textArea?.selectionStart,
-      end: textArea?.selectionEnd
+      end: textArea?.selectionEnd,
     },
     text: textArea?.value,
     selectedText: textArea?.value.slice(
       textArea?.selectionStart,
       textArea?.selectionEnd
-    )
+    ),
   };
 }

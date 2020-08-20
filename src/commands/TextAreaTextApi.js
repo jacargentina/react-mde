@@ -1,5 +1,5 @@
 // @flow
-import { insertText } from '../util/InsertTextAtPosition';
+import insertText from '../util/InsertTextAtPosition';
 import { getStateFromTextArea } from './command-utils';
 
 export default class TextAreaTextApi implements TextApi {
@@ -11,7 +11,9 @@ export default class TextAreaTextApi implements TextApi {
 
   replaceSelection(text: string): TextState {
     const textArea = this.textAreaRef.current;
-    insertText(textArea, text);
+    if (textArea) {
+      insertText(textArea, text);
+    }
     return getStateFromTextArea(textArea);
   }
 

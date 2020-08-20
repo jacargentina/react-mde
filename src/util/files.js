@@ -1,9 +1,12 @@
 // @flow
+
+/* global FileReader */
+
 /**
  * Reads a file and returns an ArrayBuffer
  * @param file
  */
-export async function readFileAsync(file: Blob): Promise<ArrayBuffer> {
+export default async function readFileAsync(file: Blob): Promise<ArrayBuffer> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 

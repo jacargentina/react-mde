@@ -1,4 +1,7 @@
-/* jshint browser: true */
+// @flow
+
+declare var window: any;
+declare var document: any;
 
 // We'll copy the properties below into the mirror div.
 // Note that some browsers, such as Firefox, do not concatenate properties
@@ -42,13 +45,13 @@ const properties = [
   'wordSpacing',
 
   'tabSize',
-  'MozTabSize'
+  'MozTabSize',
 ];
 
 const isBrowser = typeof window !== 'undefined';
 const isFirefox = isBrowser && window.mozInnerScreenX != null;
 
-export function getCaretCoordinates(
+export default function getCaretCoordinates(
   element: HTMLTextAreaElement,
   append?: string
 ): CaretCoordinates {
@@ -81,7 +84,8 @@ export function getCaretCoordinates(
 
   if (isFirefox) {
     // Firefox lies about the overflow property for textareas: https://bugzilla.mozilla.org/show_bug.cgi?id=984275
-    if (element.scrollHeight > parseInt(computed.height)) style.overflowY = 'scroll';
+    if (element.scrollHeight > parseInt(computed.height, 10))
+      style.overflowY = 'scroll';
   } else {
     style.overflow = 'hidden'; // for Chrome to not render a scrollbar; IE keeps overflowY = 'scroll'
   }
@@ -101,9 +105,9 @@ export function getCaretCoordinates(
   div.appendChild(span);
 
   const coordinates: CaretCoordinates = {
-    top: span.offsetTop + parseInt(computed.borderTopWidth),
-    left: span.offsetLeft + parseInt(computed.borderLeftWidth),
-    lineHeight: parseInt(computed.lineHeight)
+    top: span.offsetTop + parseInt(computed.borderTopWidth, 10),
+    left: span.offsetLeft + parseInt(computed.borderLeftWidth, 10),
+    lineHeight: parseInt(computed.lineHeight, 10),
   };
 
   document.body.removeChild(div);

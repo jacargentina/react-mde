@@ -1,5 +1,5 @@
 // @flow
-import { readFileAsync } from '../../util/files';
+import readFileAsync from '../../util/files';
 import { getBreaksNeededForEmptyLineBefore } from '../../util/MarkdownUtil';
 
 function dataTransferToArray(items: DataTransferItemList): Array<File> {
@@ -15,7 +15,7 @@ function dataTransferToArray(items: DataTransferItemList): Array<File> {
 
 function fileListToArray(list: FileList): Array<File> {
   const result = [];
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i += 1) {
     result.push(list[0]);
   }
   return result;
@@ -26,7 +26,7 @@ const saveImageCommand: Command = {
     initialState,
     textApi,
     context,
-    l18n
+    l18n,
   }: ExecuteOptions): Promise<void> {
     if (!context.saveImage || !context.event) {
       throw new Error('wrong context');
@@ -45,7 +45,7 @@ const saveImageCommand: Command = {
       ? fileListToArray(inputEvt.target.files)
       : [];
 
-    items.forEach(async blob => {
+    items.forEach(async (blob) => {
       const breaksBeforeCount = getBreaksNeededForEmptyLineBefore(
         initialState.text,
         initialState.selection.start
@@ -74,7 +74,7 @@ const saveImageCommand: Command = {
         // we will replace it with the real one that came from the server
         textApi.setSelectionRange({
           start: initialState.selection.start,
-          end: initialState.selection.start + placeHolder.length
+          end: initialState.selection.start + placeHolder.length,
         });
 
         const realImageMarkdown = `${breaksBefore}![image](${imageUrl})`;
@@ -84,11 +84,11 @@ const saveImageCommand: Command = {
         textApi.replaceSelection(realImageMarkdown);
         textApi.setSelectionRange({
           start: newState.selection.start + selectionDelta,
-          end: newState.selection.end + selectionDelta
+          end: newState.selection.end + selectionDelta,
         });
       }
     });
-  }
+  },
 };
 
 export default saveImageCommand;
