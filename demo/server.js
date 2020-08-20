@@ -4,7 +4,7 @@ import express from 'express';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpack from 'webpack';
-import webpackConfig from '../webpack.config.demo.dev';
+import webpackConfig from '../webpack.config.demo';
 
 const packageJson = require('../package.json');
 

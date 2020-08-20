@@ -9,7 +9,6 @@ import {
   Toolbar,
   ToolbarButtonGroup
 } from './components';
-import { SvgIcon } from './icons';
 import {
   getDefaultCommandMap,
   getDefaultToolbarCommands
@@ -21,7 +20,6 @@ export {
   Preview,
   Toolbar,
   MarkdownUtil,
-  SvgIcon,
   getDefaultCommandMap,
   getDefaultToolbarCommands
 };

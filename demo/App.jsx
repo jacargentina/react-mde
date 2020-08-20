@@ -90,6 +90,11 @@ export class App extends React.Component<{}, AppState> {
 
     return (
       <div>
+        <style jsx global>{`
+          body {
+            margin: 0;
+          }
+        `}</style>
         <style jsx>
           {`
             div {

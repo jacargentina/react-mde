@@ -6,20 +6,20 @@ import { extractKeyActivatedCommands } from './command-utils';
 import { getDefaultSaveImageCommandName } from './default-commands/defaults';
 
 export class TextAreaTextApi implements TextApi {
-  textAreaRef: null | HTMLTextAreaElement;
+  textAreaRef: { current: null | HTMLTextAreaElement };
 
-  constructor(textAreaRef: null | HTMLTextAreaElement) {
+  constructor(textAreaRef: { current: null | HTMLTextAreaElement }) {
     this.textAreaRef = textAreaRef;
   }
 
   replaceSelection(text: string): TextState {
-    const textArea = this.textAreaRef;
+    const textArea = this.textAreaRef.current;
     insertText(textArea, text);
     return getStateFromTextArea(textArea);
   }
 
   setSelectionRange(selection: Selection): TextState {
-    const textArea = this.textAreaRef;
+    const textArea = this.textAreaRef.current;
     if (textArea) {
       textArea.focus();
       textArea.selectionStart = selection.start;
@@ -29,7 +29,7 @@ export class TextAreaTextApi implements TextApi {
   }
 
   getState(): TextState {
-    const textArea = this.textAreaRef;
+    const textArea = this.textAreaRef.current;
     return getStateFromTextArea(textArea);
   }
 }
@@ -37,6 +37,16 @@ export class TextAreaTextApi implements TextApi {
 export function getStateFromTextArea(
   textArea: null | HTMLTextAreaElement
 ): TextState {
+  if (textArea == null) {
+    return {
+      selection: {
+        start: 0,
+        end: 0
+      },
+      text: '',
+      selectedText: ''
+    };
+  }
   return {
     selection: {
       start: textArea?.selectionStart,
@@ -51,7 +61,7 @@ export function getStateFromTextArea(
 }
 
 export class CommandOrchestrator {
-  textAreaRef: null | HTMLTextAreaElement;
+  textAreaRef: { current: null | HTMLTextAreaElement };
   textApi: TextApi;
   commandMap: CommandMap;
   l18n: L18n;
@@ -68,7 +78,7 @@ export class CommandOrchestrator {
 
   constructor(
     customCommands: CommandMap,
-    textArea: null | HTMLTextAreaElement,
+    textArea: { current: null | HTMLTextAreaElement },
     l18n: L18n,
     pasteOptions?: PasteOptions
   ) {
@@ -124,7 +134,7 @@ export class CommandOrchestrator {
     this.isExecuting = true;
     const command = this.commandMap[commandName];
     const result = command.execute({
-      initialState: getStateFromTextArea(this.textAreaRef),
+      initialState: getStateFromTextArea(this.textAreaRef.current),
       textApi: this.textApi,
       l18n: this.l18n,
       context

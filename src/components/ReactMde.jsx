@@ -7,7 +7,7 @@ import {
   getDefaultToolbarCommands
 } from '../commands/default-commands/defaults';
 import { enL18n } from '../l18n/react-mde.en';
-import { SvgIcon } from '../icons';
+import { SvgIcon } from './SvgIcon';
 import { CommandOrchestrator } from '../commands/command-orchestrator';
 import { colors, misc } from './theme';
 
@@ -58,7 +58,7 @@ export const ReactMde = (props: ReactMdeProps) => {
   const textarea = useRef<null | HTMLTextAreaElement>(null);
   const preview = useRef<null | HTMLDivElement>(null);
   const commandOrchestrator = useRef(
-    new CommandOrchestrator(props.commands, textarea.current, l18n, paste)
+    new CommandOrchestrator(props.commands, textarea, l18n, paste)
   );
   const [maximized, setMaximized] = useState(false);
 
@@ -88,8 +88,10 @@ export const ReactMde = (props: ReactMdeProps) => {
     <div className={maximized ? 'maximized' : ''}>
       <style jsx>
         {`
-          border: 1px solid ${colors.border};
-          border-radius: ${misc.borderRadius};
+          div {
+            border: 1px solid ${colors.border};
+            border-radius: ${misc.borderRadius};
+          }
 
           * {
             box-sizing: border-box;
