@@ -33,8 +33,8 @@ export type TextAreaProps = {
     triggeredBy: string
   ) => Promise<Suggestion[]>,
 
-  onPaste?: (evt: Event) => {},
-  onDrop?: (evt: Event) => {},
+  onPaste?: (evt: SyntheticClipboardEvent<HTMLTextAreaElement>) => void,
+  onDrop?: (evt: SyntheticDragEvent<HTMLTextAreaElement>) => void,
 
   /**
    * Custom textarea component. "textAreaComponent" can be any React component which

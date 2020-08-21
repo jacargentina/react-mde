@@ -65,9 +65,7 @@ export default function getCaretCoordinates(
   document.body.appendChild(div);
 
   const { style } = div;
-  const computed = window.getComputedStyle
-    ? window.getComputedStyle(element)
-    : element.currentStyle; // currentStyle for IE < 9
+  const computed = window.getComputedStyle(element);
 
   // Default textarea styles
   style.whiteSpace = 'pre-wrap';

@@ -4,18 +4,9 @@ import { ToolbarButtonGroup } from './ToolbarButtonGroup';
 import { ToolbarButton } from './ToolbarButton';
 import { SvgIcon } from './SvgIcon';
 import { colors, paddings, misc } from './theme';
-import css from 'styled-jsx/css';
-
-export type ToolbarButtonData = {
-  commandName: string,
-  buttonContent: React.Node,
-  buttonProps: any,
-  buttonComponentClass: any
-};
 
 export type ToolbarProps = {
-  children: React.Node,
-  buttons: ToolbarButtonData[][],
+  buttons: ToolbarRenderGroups,
   onCommand: (commandName: string) => void,
   onTabChange: (tab: Tab) => void,
   onMaximize: () => void,
@@ -25,27 +16,27 @@ export type ToolbarProps = {
   l18n: L18n,
   writeButtonProps: ButtonChildProps,
   previewButtonProps: ButtonChildProps,
-  buttonProps: ButtonChildProps
+  buttonProps: ButtonChildProps,
 };
 
 export const Toolbar = (props: ToolbarProps) => {
   const {
-    children,
     buttons,
+    tab,
     onCommand,
     readOnly,
-    disablePreview,
-    writeButtonProps,
-    previewButtonProps,
+    disablePreview = false,
+    writeButtonProps = {},
+    previewButtonProps = {},
     buttonProps,
     l18n,
     onTabChange,
-    onMaximize
+    onMaximize,
   } = props;
 
-  const handleTabChange = (tab: Tab) => {
+  const handleTabChange = (tabName: Tab) => {
     if (onTabChange) {
-      onTabChange(tab);
+      onTabChange(tabName);
     }
   };
 
@@ -55,7 +46,7 @@ export const Toolbar = (props: ToolbarProps) => {
     }
   };
 
-  if ((!buttons || buttons.length === 0) && !children) {
+  if (!buttons || buttons.length === 0) {
     return null;
   }
 
@@ -87,14 +78,14 @@ export const Toolbar = (props: ToolbarProps) => {
       </style>
       <button
         type="button"
-        className={props.tab === 'write' ? 'selected' : ''}
+        className={tab === 'write' ? 'selected' : ''}
         onClick={() => handleTabChange('write')}
         {...writeButtonProps}>
         {l18n.write}
       </button>
       <button
         type="button"
-        className={props.tab === 'preview' ? 'selected' : ''}
+        className={tab === 'preview' ? 'selected' : ''}
         onClick={() => handleTabChange('preview')}
         {...previewButtonProps}>
         {l18n.preview}
@@ -133,12 +124,12 @@ export const Toolbar = (props: ToolbarProps) => {
         `}
       </style>
       {!disablePreview && writePreviewTabs}
-      {buttons.map((commandGroup: ToolbarButtonData[], i: number) => (
-        <ToolbarButtonGroup key={i} hidden={props.tab === 'preview'}>
-          {commandGroup.map((c: ToolbarButtonData, j) => {
+      {buttons.map((group: ToolbarRenderGroup) => (
+        <ToolbarButtonGroup key={group.name} hidden={props.tab === 'preview'}>
+          {group.items.map((c) => {
             return (
               <ToolbarButton
-                key={j}
+                key={c.commandName}
                 name={c.commandName}
                 buttonContent={c.buttonContent}
                 buttonProps={{ ...(buttonProps || {}), ...c.buttonProps }}

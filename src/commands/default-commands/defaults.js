@@ -9,16 +9,22 @@ import codeCommand from './codeCommand';
 import {
   checkedListCommand,
   orderedListCommand,
-  unorderedListCommand
+  unorderedListCommand,
 } from './listCommands';
 import imageCommand from './imageCommand';
 import saveImageCommand from './save-image-command';
 
-export function getDefaultToolbarCommands(): ToolbarCommands {
+export function getDefaultToolbarCommands(): ToolbarGroups {
   return [
-    ['header', 'bold', 'italic', 'strikethrough'],
-    ['link', 'quote', 'code', 'image'],
-    ['unordered-list', 'ordered-list', 'checked-list']
+    {
+      name: 'font',
+      items: ['header', 'bold', 'italic', 'strikethrough'],
+    },
+    { name: 'special', items: ['link', 'quote', 'code', 'image'] },
+    {
+      name: 'lists',
+      items: ['unordered-list', 'ordered-list', 'checked-list'],
+    },
   ];
 }
 
@@ -35,7 +41,7 @@ export function getDefaultCommandMap(): CommandMap {
     'unordered-list': unorderedListCommand,
     'ordered-list': orderedListCommand,
     'checked-list': checkedListCommand,
-    'save-image': saveImageCommand
+    'save-image': saveImageCommand,
   };
 }
 

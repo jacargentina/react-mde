@@ -4,10 +4,11 @@ import { paddings } from './theme';
 
 export type ToolbarButtonGroupProps = {
   children: React.Node,
-  hidden: boolean
+  hidden: boolean,
 };
 
 export const ToolbarButtonGroup = (props: ToolbarButtonGroupProps) => {
+  const { hidden, children } = props;
   return (
     <ul>
       <style jsx>
@@ -18,11 +19,11 @@ export const ToolbarButtonGroup = (props: ToolbarButtonGroupProps) => {
             list-style: none;
             display: flex;
             flex-wrap: nowrap;
-            visibility: ${props.hidden ? 'hidden' : 'auto'};
+            visibility: ${hidden ? 'hidden' : 'auto'};
           }
         `}
       </style>
-      {props.children}
+      {children}
     </ul>
   );
 };

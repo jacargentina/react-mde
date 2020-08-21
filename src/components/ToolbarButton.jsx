@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
-import { colors } from './theme';
 import css from 'styled-jsx/css';
+import { colors } from './theme';
 
 export type ToolbarButtonProps = {
   name: string,
@@ -9,11 +9,7 @@ export type ToolbarButtonProps = {
   buttonProps?: any,
   buttonContent: React.Node,
   onClick: ?(evt: Event) => mixed,
-  readOnly: boolean
-};
-
-const defaultButtonProps = {
-  tabIndex: -1
+  readOnly: boolean,
 };
 
 const { className, styles } = css.resolve`
@@ -69,10 +65,18 @@ export const ToolbarButton = (props: ToolbarButtonProps) => {
     buttonProps,
     onClick,
     readOnly,
-    name
+    name,
   } = props;
-  const finalButtonProps = { ...defaultButtonProps, ...(buttonProps || {}) };
+
+  const finalButtonProps = {
+    className,
+    tabIndex: -1,
+    'data-name': name,
+    ...(buttonProps || {}),
+  };
+
   const finalButtonComponent = buttonComponentClass || 'button';
+
   return (
     <li>
       <style jsx>
@@ -87,14 +91,12 @@ export const ToolbarButton = (props: ToolbarButtonProps) => {
       {React.createElement(
         finalButtonComponent,
         {
-          className: className,
-          'data-name': name,
           ...finalButtonProps,
           ...{
             onClick,
             disabled: readOnly,
-            type: 'button'
-          }
+            type: 'button',
+          },
         },
         buttonContent
       )}

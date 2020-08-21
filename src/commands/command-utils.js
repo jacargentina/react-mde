@@ -21,20 +21,22 @@ export function getStateFromTextArea(
   textArea: null | HTMLTextAreaElement
 ): TextState {
   if (textArea == null) {
+    const selection: Selection = {
+      start: 0,
+      end: 0,
+    };
     return {
-      selection: {
-        start: 0,
-        end: 0,
-      },
+      selection,
       text: '',
       selectedText: '',
     };
   }
+  const selection: Selection = {
+    start: textArea?.selectionStart,
+    end: textArea?.selectionEnd,
+  };
   return {
-    selection: {
-      start: textArea?.selectionStart,
-      end: textArea?.selectionEnd,
-    },
+    selection,
     text: textArea?.value,
     selectedText: textArea?.value.slice(
       textArea?.selectionStart,

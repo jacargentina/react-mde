@@ -21,7 +21,7 @@ export type ReactMdeProps = {
   onMaximizedChange: (isMaximized: boolean) => void,
   generateMarkdownPreview: GenerateMarkdownPreview,
   minPreviewHeight: number,
-  toolbarCommands: ToolbarCommands,
+  toolbarCommands: ToolbarGroups,
   commands: CommandMap,
   getIcon: GetIcon,
   loadingPreview?: React.Node,
@@ -37,20 +37,20 @@ export type ReactMdeProps = {
 
 export const ReactMde = (props: ReactMdeProps) => {
   const {
-    getIcon,
-    commands,
-    toolbarCommands,
+    getIcon = (name) => <SvgIcon icon={name} />,
+    commands = getDefaultCommandMap(),
+    toolbarCommands = getDefaultToolbarCommands(),
     loadingPreview,
     readOnly = false,
     disablePreview = false,
     value,
-    l18n,
+    l18n = enL18n,
     minPreviewHeight,
     childProps,
-    selectedTab,
+    selectedTab = 'write',
     generateMarkdownPreview,
     loadSuggestions,
-    suggestionTriggerCharacters,
+    suggestionTriggerCharacters = ['@'],
     textAreaComponent,
     paste,
     onChange,
@@ -83,18 +83,22 @@ export const ReactMde = (props: ReactMdeProps) => {
     return commandOrchestrator.current;
   };
 
-  const toolbarButtons = toolbarCommands.map((group) => {
-    return group.map((commandName) => {
-      const command = getCommandOrch().getCommand(commandName);
-      return {
-        commandName,
-        buttonContent: command.icon
-          ? command.icon(getIcon)
-          : getIcon(commandName),
-        buttonProps: command.buttonProps,
-        buttonComponentClass: command.buttonComponentClass,
-      };
-    });
+  const toolbarButtons: ToolbarRenderGroups = toolbarCommands.map((group) => {
+    const { name, items } = group;
+    return {
+      name,
+      items: items.map((commandName) => {
+        const command = getCommandOrch().getCommand(commandName);
+        return {
+          commandName,
+          buttonContent: command.icon
+            ? command.icon(getIcon)
+            : getIcon(commandName),
+          buttonProps: command.buttonProps,
+          buttonComponentClass: command.buttonComponentClass,
+        };
+      }),
+    };
   });
 
   const finalChildProps = childProps || {};
@@ -197,10 +201,11 @@ export const ReactMde = (props: ReactMdeProps) => {
           suggestionTriggerCharacters={suggestionTriggerCharacters}
           loadSuggestions={loadSuggestions}
           onPossibleKeyCommand={(e) => {
-            getCommandOrch().handlePossibleKeyCommand(e);
+            return getCommandOrch().handlePossibleKeyCommand(e);
           }}
         />
         {paste && (
+          // eslint-disable-next-line
           <label className="image-tip">
             <input
               className="image-input"
@@ -231,15 +236,4 @@ export const ReactMde = (props: ReactMdeProps) => {
       )}
     </div>
   );
-};
-
-ReactMde.defaultProps = {
-  commands: getDefaultCommandMap(),
-  toolbarCommands: getDefaultToolbarCommands(),
-  getIcon: (name) => <SvgIcon icon={name} />,
-  readOnly: false,
-  l18n: enL18n,
-  selectedTab: 'write',
-  disablePreview: false,
-  suggestionTriggerCharacters: ['@'],
 };

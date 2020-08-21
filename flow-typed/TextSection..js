@@ -1,6 +1,6 @@
 // @flow
 
-export interface TextSection {
-  text: string;
-  selection: Selection;
-}
+export type TextSection = {
+  text: string,
+  selection: Selection,
+};
