@@ -3,11 +3,15 @@
   "version": "11.0.7",
   "description": "React Markdown Editor",
   "main": "./lib/index.js",
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
+    "prepare": "yarn run build",
+    "postversion": "yarn run ghpages && git add . && git commit -m 'rebuild docs'",
     "test": "jest",
-    "build": "babel src -d lib",
+    "build": "cross-env NODE_ENV=production babel src -d lib",
     "dev": "cross-env NODE_ENV=development npx babel-node ./demo/server.js",
-    "build:lib": "cross-env NODE_ENV=production yarn build",
     "ghpages": "webpack --config webpack.config.ghpages.js",
     "cypress:open": "cypress open"
   },
