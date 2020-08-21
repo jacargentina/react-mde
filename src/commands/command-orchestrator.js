@@ -1,11 +1,11 @@
 // @flow
 import {
   getDefaultCommandMap,
-  getDefaultSaveImageCommandName
+  getDefaultSaveImageCommandName,
 } from './default-commands/defaults';
 import {
   extractKeyActivatedCommands,
-  getStateFromTextArea
+  getStateFromTextArea,
 } from './command-utils';
 import TextAreaTextApi from './TextAreaTextApi';
 
@@ -63,7 +63,8 @@ export default class CommandOrchestrator {
   handlePossibleKeyCommand(
     e: SyntheticKeyboardEvent<HTMLTextAreaElement>
   ): boolean {
-    for (const commandName of this.keyActivatedCommands) {
+    for (let i = 0; i < this.keyActivatedCommands.length; i += 1) {
+      const commandName = this.keyActivatedCommands[i];
       const handler = this.getCommand(commandName).handleKeyCommand;
       if (handler && handler(e)) {
         this.executeCommand(commandName, {});
@@ -91,7 +92,7 @@ export default class CommandOrchestrator {
       initialState: getStateFromTextArea(this.textAreaRef.current),
       textApi: this.textApi,
       l18n: this.l18n,
-      context
+      context,
     });
     await result;
     this.isExecuting = false;
@@ -109,7 +110,7 @@ export default class CommandOrchestrator {
         options.command || getDefaultSaveImageCommandName(),
         {
           saveImage: options.saveImage,
-          event
+          event,
         }
       );
     }
@@ -128,7 +129,7 @@ export default class CommandOrchestrator {
         options.command || getDefaultSaveImageCommandName(),
         {
           saveImage: options.saveImage,
-          event
+          event,
         }
       );
     }
@@ -147,7 +148,7 @@ export default class CommandOrchestrator {
         options.command || getDefaultSaveImageCommandName(),
         {
           saveImage: options.saveImage,
-          event
+          event,
         }
       );
     }

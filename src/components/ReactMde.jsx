@@ -38,10 +38,11 @@ export type ReactMdeProps = {
 export const ReactMde = (props: ReactMdeProps) => {
   const {
     getIcon,
+    commands,
     toolbarCommands,
     loadingPreview,
-    readOnly,
-    disablePreview,
+    readOnly = false,
+    disablePreview = false,
     value,
     l18n,
     minPreviewHeight,
@@ -58,9 +59,7 @@ export const ReactMde = (props: ReactMdeProps) => {
   } = props;
   const textarea = useRef<null | HTMLTextAreaElement>(null);
   const preview = useRef<null | HTMLDivElement>(null);
-  const commandOrchestrator = useRef(
-    new CommandOrchestrator(props.commands, textarea, l18n, paste)
-  );
+  const commandOrchestrator = useRef(null);
   const [maximized, setMaximized] = useState(false);
 
   useEffect(() => {
@@ -72,13 +71,23 @@ export const ReactMde = (props: ReactMdeProps) => {
     }
   }, [maximized, textarea]);
 
-  const finalChildProps = childProps || {};
+  const getCommandOrch = () => {
+    if (!commandOrchestrator.current) {
+      commandOrchestrator.current = new CommandOrchestrator(
+        commands,
+        textarea,
+        l18n,
+        paste
+      );
+    }
+    return commandOrchestrator.current;
+  };
 
   const toolbarButtons = toolbarCommands.map((group) => {
     return group.map((commandName) => {
-      const command = commandOrchestrator.current.getCommand(commandName);
+      const command = getCommandOrch().getCommand(commandName);
       return {
-        commandName: commandName,
+        commandName,
         buttonContent: command.icon
           ? command.icon(getIcon)
           : getIcon(commandName),
@@ -87,6 +96,8 @@ export const ReactMde = (props: ReactMdeProps) => {
       };
     });
   });
+
+  const finalChildProps = childProps || {};
 
   return (
     <div className={maximized ? 'maximized' : ''}>
@@ -141,8 +152,8 @@ export const ReactMde = (props: ReactMdeProps) => {
       </style>
       <Toolbar
         buttons={toolbarButtons}
-        onCommand={async (commandName: string) => {
-          await commandOrchestrator.current.executeCommand(commandName, {});
+        onCommand={(commandName: string) => {
+          getCommandOrch().executeCommand(commandName, {});
         }}
         onTabChange={(newTab: Tab) => {
           if (onTabChange) {
@@ -161,24 +172,22 @@ export const ReactMde = (props: ReactMdeProps) => {
       <div className="mde-editor">
         <TextArea
           refObject={textarea}
-          onChange={(value: string) => {
+          onChange={(newValue: string) => {
             if (onChange) {
-              onChange(value);
+              onChange(newValue);
             }
           }}
-          onPaste={async (
-            event: SyntheticClipboardEvent<HTMLTextAreaElement>
-          ) => {
+          onPaste={(event: SyntheticClipboardEvent<HTMLTextAreaElement>) => {
             if (!paste || !paste.saveImage) {
               return;
             }
-            await commandOrchestrator.current.executePasteCommand(event);
+            getCommandOrch().executePasteCommand(event);
           }}
-          onDrop={async (event: SyntheticDragEvent<HTMLTextAreaElement>) => {
+          onDrop={(event: SyntheticDragEvent<HTMLTextAreaElement>) => {
             if (!paste || !paste.saveImage) {
               return;
             }
-            await commandOrchestrator.current.executeDropCommand(event);
+            getCommandOrch().executeDropCommand(event);
           }}
           readOnly={readOnly}
           maximized={maximized}
@@ -187,9 +196,9 @@ export const ReactMde = (props: ReactMdeProps) => {
           value={value}
           suggestionTriggerCharacters={suggestionTriggerCharacters}
           loadSuggestions={loadSuggestions}
-          onPossibleKeyCommand={
-            commandOrchestrator.current.handlePossibleKeyCommand
-          }
+          onPossibleKeyCommand={(e) => {
+            getCommandOrch().handlePossibleKeyCommand(e);
+          }}
         />
         {paste && (
           <label className="image-tip">
@@ -204,10 +213,9 @@ export const ReactMde = (props: ReactMdeProps) => {
                 if (!paste || !paste.saveImage) {
                   return;
                 }
-                await commandOrchestrator.current.executeSelectImageCommand(
-                  event
-                );
-              }}></input>
+                getCommandOrch().executeSelectImageCommand(event);
+              }}
+            />
             <span>{l18n.pasteDropSelect}</span>
           </label>
         )}
