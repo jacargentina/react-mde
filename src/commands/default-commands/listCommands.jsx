@@ -2,7 +2,7 @@
 import {
   getBreaksNeededForEmptyLineAfter,
   getBreaksNeededForEmptyLineBefore,
-  selectWord
+  selectWord,
 } from '../../util/MarkdownUtil';
 
 export type AlterLineFunction = (line: string, index: number) => string;
@@ -43,7 +43,7 @@ export const makeList = (
   // Adjust the selection to encompass the whole word if the caret is inside one
   const newSelectionRange = selectWord({
     text: state0.text,
-    selection: state0.selection
+    selection: state0.selection,
   });
   const state1 = api.setSelectionRange(newSelectionRange);
 
@@ -77,7 +77,7 @@ export const makeList = (
   // Adjust the selection to not contain the **
   api.setSelectionRange({
     start: selectionStart,
-    end: selectionEnd
+    end: selectionEnd,
   });
 };
 
@@ -85,19 +85,19 @@ export const unorderedListCommand: Command = {
   buttonProps: { 'aria-label': 'Add unordered list' },
   execute: ({ initialState, textApi }) => {
     makeList(initialState, textApi, '- ');
-  }
+  },
 };
 
 export const orderedListCommand: Command = {
   buttonProps: { 'aria-label': 'Add ordered list' },
   execute: ({ initialState, textApi }) => {
     makeList(initialState, textApi, (item, index) => `${index + 1}. `);
-  }
+  },
 };
 
 export const checkedListCommand: Command = {
   buttonProps: { 'aria-label': 'Add checked list' },
   execute: ({ initialState, textApi }) => {
-    makeList(initialState, textApi, (item, index) => `- [ ] `);
-  }
+    makeList(initialState, textApi, () => `- [ ] `);
+  },
 };

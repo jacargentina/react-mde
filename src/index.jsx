@@ -7,11 +7,10 @@ import {
   SuggestionsDropdown,
   Preview,
   Toolbar,
-  ToolbarButtonGroup
 } from './components';
 import {
   getDefaultCommandMap,
-  getDefaultToolbarCommands
+  getDefaultToolbarCommands,
 } from './commands/default-commands/defaults';
 
 export {
@@ -21,7 +20,7 @@ export {
   Toolbar,
   MarkdownUtil,
   getDefaultCommandMap,
-  getDefaultToolbarCommands
+  getDefaultToolbarCommands,
 };
 
 export default ReactMde;

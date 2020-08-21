@@ -7,7 +7,7 @@ const boldCommand: Command = {
     // Adjust the selection to encompass the whole word if the caret is inside one
     const newSelectionRange = selectWord({
       text: initialState.text,
-      selection: initialState.selection
+      selection: initialState.selection,
     });
     const state1 = textApi.setSelectionRange(newSelectionRange);
     // Replaces the current selection with the bold mark up
@@ -15,10 +15,10 @@ const boldCommand: Command = {
     // Adjust the selection to not contain the **
     textApi.setSelectionRange({
       start: state2.selection.end - 2 - state1.selectedText.length,
-      end: state2.selection.end - 2
+      end: state2.selection.end - 2,
     });
   },
-  handleKeyCommand: e => (e.ctrlKey || e.metaKey) && e.key == 'b'
+  handleKeyCommand: (e) => (e.ctrlKey || e.metaKey) && e.key === 'b',
 };
 
 export default boldCommand;

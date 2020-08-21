@@ -8,7 +8,7 @@ export type PreviewProps = {
   refObject?: RefObj<HTMLDivElement>,
   loadingPreview?: React.Node,
   generateMarkdownPreview: GenerateMarkdownPreview,
-  markdown: string
+  markdown: string,
 };
 
 const mdStyle = css.global`
@@ -157,7 +157,7 @@ export const Preview = (props: PreviewProps) => {
     markdown,
     loadingPreview,
     refObject,
-    generateMarkdownPreview
+    generateMarkdownPreview,
   } = props;
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState();
@@ -165,8 +165,8 @@ export const Preview = (props: PreviewProps) => {
 
   const generatePreview = () => {
     setLoading(true);
-    generateMarkdownPreview(markdown).then(preview => {
-      setPreview(preview);
+    generateMarkdownPreview(markdown).then((html) => {
+      setPreview(html);
       setLoading(false);
     });
   };
@@ -182,8 +182,10 @@ export const Preview = (props: PreviewProps) => {
     content = (
       <div
         style={{ padding: paddings.preview }}
+        // eslint-disable-next-line
         dangerouslySetInnerHTML={{ __html: htmlAndStyles || '<p>&nbsp;</p>' }}
-        ref={refObject}></div>
+        ref={refObject}
+      />
     );
   } else {
     content = (

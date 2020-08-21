@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { ToolbarButtonGroup } from './ToolbarButtonGroup';
 import { ToolbarButton } from './ToolbarButton';
-import { SvgIcon } from './SvgIcon';
+import SvgIcon from './SvgIcon';
 import { colors, paddings, misc } from './theme';
 
 export type ToolbarProps = {

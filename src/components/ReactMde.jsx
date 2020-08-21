@@ -9,7 +9,7 @@ import {
   getDefaultToolbarCommands,
 } from '../commands/default-commands/defaults';
 import enL18n from '../l18n/react-mde.en';
-import { SvgIcon } from './SvgIcon';
+import SvgIcon from './SvgIcon';
 import CommandOrchestrator from '../commands/command-orchestrator';
 import { colors, misc } from './theme';
 
@@ -20,7 +20,6 @@ export type ReactMdeProps = {
   onTabChange: (tab: Tab) => void,
   onMaximizedChange: (isMaximized: boolean) => void,
   generateMarkdownPreview: GenerateMarkdownPreview,
-  minPreviewHeight: number,
   toolbarCommands: ToolbarGroups,
   commands: CommandMap,
   getIcon: GetIcon,
@@ -45,8 +44,7 @@ export const ReactMde = (props: ReactMdeProps) => {
     disablePreview = false,
     value,
     l18n = enL18n,
-    minPreviewHeight,
-    childProps,
+    childProps = {},
     selectedTab = 'write',
     generateMarkdownPreview,
     loadSuggestions,
@@ -100,8 +98,6 @@ export const ReactMde = (props: ReactMdeProps) => {
       }),
     };
   });
-
-  const finalChildProps = childProps || {};
 
   return (
     <div className={maximized ? 'maximized' : ''}>
@@ -169,9 +165,9 @@ export const ReactMde = (props: ReactMdeProps) => {
         readOnly={readOnly}
         disablePreview={disablePreview}
         l18n={l18n}
-        buttonProps={finalChildProps.commandButtons}
-        writeButtonProps={finalChildProps.writeButton}
-        previewButtonProps={finalChildProps.previewButton}
+        buttonProps={childProps.commandButtons}
+        writeButtonProps={childProps.writeButton}
+        previewButtonProps={childProps.previewButton}
       />
       <div className="mde-editor">
         <TextArea
@@ -196,7 +192,7 @@ export const ReactMde = (props: ReactMdeProps) => {
           readOnly={readOnly}
           maximized={maximized}
           textAreaComponent={textAreaComponent}
-          textAreaProps={childProps && childProps.textArea}
+          textAreaProps={childProps.textArea}
           value={value}
           suggestionTriggerCharacters={suggestionTriggerCharacters}
           loadSuggestions={loadSuggestions}
@@ -229,7 +225,6 @@ export const ReactMde = (props: ReactMdeProps) => {
         <Preview
           refObject={preview}
           loadingPreview={loadingPreview}
-          minHeight={minPreviewHeight}
           generateMarkdownPreview={generateMarkdownPreview}
           markdown={value}
         />

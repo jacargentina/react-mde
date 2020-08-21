@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import { useCallback } from 'react';
+import { colors, misc } from './theme';
 
 export type SuggestionsDropdownProps = {
   caret: CaretCoordinates,
@@ -10,7 +11,7 @@ export type SuggestionsDropdownProps = {
    * Which item is focused by the keyboard
    */
   focusIndex: number,
-  textAreaRef: null | HTMLTextAreaElement
+  textAreaRef: null | HTMLTextAreaElement,
 };
 
 export const SuggestionsDropdown = (props: SuggestionsDropdownProps) => {
@@ -19,13 +20,15 @@ export const SuggestionsDropdown = (props: SuggestionsDropdownProps) => {
     caret,
     onSuggestionSelected,
     focusIndex,
-    textAreaRef
+    textAreaRef,
   } = props;
+
   const handleSuggestionClick = useCallback(
     (event: SyntheticMouseEvent<any>) => {
       event.preventDefault();
       const index = parseInt(
-        event.currentTarget.attributes['data-index'].value
+        event.currentTarget.attributes['data-index'].value,
+        10
       );
       onSuggestionSelected(index);
     },
@@ -42,7 +45,7 @@ export const SuggestionsDropdown = (props: SuggestionsDropdownProps) => {
     <ul
       style={{
         left: caret.left - (textAreaRef ? textAreaRef.scrollLeft : 0),
-        top: caret.top - (textAreaRef ? textAreaRef.scrollTop : 0)
+        top: caret.top - (textAreaRef ? textAreaRef.scrollTop : 0),
       }}>
       <style jsx>
         {`
@@ -54,7 +57,7 @@ export const SuggestionsDropdown = (props: SuggestionsDropdownProps) => {
             list-style: none;
             cursor: pointer;
             background: #fff;
-            border: 1px solid $mde-border-color;
+            border: 1px solid ${colors.border};
             border-radius: 3px;
             box-shadow: 0 1px 5px rgba(27, 31, 35, 0.15);
           }
@@ -65,27 +68,28 @@ export const SuggestionsDropdown = (props: SuggestionsDropdownProps) => {
           }
 
           li:first-child {
-            border-top-left-radius: $mde-border-radius;
-            border-top-right-radius: $mde-border-radius;
+            border-top-left-radius: ${misc.borderRadius};
+            border-top-right-radius: ${misc.borderRadius};
           }
 
           li:last-child {
-            border-bottom-right-radius: $mde-border-radius;
-            border-bottom-left-radius: $mde-border-radius;
+            border-bottom-right-radius: ${misc.borderRadius};
+            border-bottom-left-radius: ${misc.borderRadius};
           }
 
           li:hover,
           li[aria-selected='true'] {
-            color: $mde-white-color;
-            background-color: $mde-selected-color;
+            color: ${colors.white};
+            background-color: ${colors.selected};
           }
         `}
       </style>
       {suggestions.map((s, i) => (
+        // eslint-disable-next-line
         <li
+          key={i}
           onClick={handleSuggestionClick}
           onMouseDown={handleMouseDown}
-          key={i}
           aria-selected={focusIndex === i ? 'true' : 'false'}
           data-index={`${i}`}>
           {s.preview}

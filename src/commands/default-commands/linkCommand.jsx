@@ -18,7 +18,7 @@ const linkCommand: Command = {
       end: state2.selection.end - 6
     });
   },
-  handleKeyCommand: e => (e.ctrlKey || e.metaKey) && e.key == 'k'
+  handleKeyCommand: e => (e.ctrlKey || e.metaKey) && e.key === 'k'
 };
 
 export default linkCommand;

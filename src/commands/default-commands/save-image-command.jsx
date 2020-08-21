@@ -4,7 +4,8 @@ import { getBreaksNeededForEmptyLineBefore } from '../../util/MarkdownUtil';
 
 function dataTransferToArray(items: DataTransferItemList): Array<File> {
   const result = [];
-  for (const item of items) {
+  for (let i = 0; i < items.length; i += 1) {
+    const item = items[i];
     if (item.kind === 'file') {
       const asFile = item.getAsFile();
       if (asFile) result.push(asFile);
@@ -37,13 +38,16 @@ const saveImageCommand: Command = {
     const dragEvt: SyntheticDragEvent<HTMLTextAreaElement> = (event: any);
     const inputEvt: SyntheticInputEvent<HTMLTextAreaElement> = (event: any);
 
-    const items = clipboardEvt
-      ? dataTransferToArray(clipboardEvt.clipboardData.items)
-      : dragEvt
-      ? dataTransferToArray(dragEvt.dataTransfer.items)
-      : inputEvt
-      ? fileListToArray(inputEvt.target.files)
-      : [];
+    let items;
+    if (clipboardEvt) {
+      items = dataTransferToArray(clipboardEvt.clipboardData.items);
+    } else if (dragEvt) {
+      items = dataTransferToArray(dragEvt.dataTransfer.items);
+    } else if (inputEvt) {
+      items = fileListToArray(inputEvt.target.files);
+    } else {
+      items = [];
+    }
 
     items.forEach(async (blob) => {
       const breaksBeforeCount = getBreaksNeededForEmptyLineBefore(

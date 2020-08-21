@@ -199,7 +199,7 @@ const maximizeIcon = (
   </svg>
 );
 
-export const SvgIcon = (props: any) => {
+const SvgIcon = (props: any) => {
   const { icon } = props;
   switch (icon) {
     case 'header':
@@ -230,3 +230,5 @@ export const SvgIcon = (props: any) => {
       return null;
   }
 };
+
+export default SvgIcon;

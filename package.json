@@ -13,7 +13,8 @@
     "build": "cross-env NODE_ENV=production babel src -d lib",
     "dev": "cross-env NODE_ENV=development npx babel-node ./demo/server.js",
     "ghpages": "webpack --config webpack.config.ghpages.js",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "lint": "eslint 'src/**'"
   },
   "repository": {
     "type": "git",
@@ -74,5 +75,8 @@
     "webpack-hot-middleware": "^2.21.0",
     "webpack-stream": "^5.1.1"
   },
-  "homepage": "https://github.com/jacargentina/react-mde.git#readme"
+  "homepage": "https://github.com/jacargentina/react-mde.git#readme",
+  "dependencies": {
+    "@testing-library/react": "^10.4.9"
+  }
 }

@@ -126,7 +126,8 @@ export const TextArea = (props: TextAreaProps) => {
     if (!loadSuggestions) {
       return;
     }
-    const promiseIndex = ++suggestionsPromiseIndex.current;
+    suggestionsPromiseIndex.current += 1;
+    const promiseIndex = suggestionsPromiseIndex.current;
     currentLoadSuggestionsPromise.current = currentLoadSuggestionsPromise.current
       .then(() => loadSuggestions(text, mention.triggeredBy))
       .then((suggestions) => {
@@ -165,12 +166,14 @@ export const TextArea = (props: TextAreaProps) => {
 
   const handleSuggestionSelected = (index: number) => {
     getTextArea().selectionStart = mention.startPosition - 1;
+    // TODO
+    // unused variable?
     const textForInsert = props.value.substr(
       getTextArea().selectionStart,
       getTextArea().selectionEnd - getTextArea().selectionStart
     );
 
-    insertText(getTextArea(), mention.suggestions[index].value + ' ');
+    insertText(getTextArea(), `${mention.suggestions[index].value} `);
     clearMention();
   };
 
