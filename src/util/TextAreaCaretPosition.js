@@ -76,8 +76,8 @@ export default function getCaretCoordinates(
   style.visibility = 'hidden'; // not 'display: none' because we want rendering
 
   // Transfer the element's properties to the div
-  properties.forEach((prop, idx) => {
-    style[idx] = computed[prop];
+  properties.forEach((prop) => {
+    style[prop] = computed[prop];
   });
 
   if (isFirefox) {

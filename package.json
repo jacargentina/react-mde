@@ -77,6 +77,7 @@
   },
   "homepage": "https://github.com/jacargentina/react-mde.git#readme",
   "dependencies": {
+    "@simbathesailor/use-what-changed": "^0.1.25",
     "@testing-library/react": "^10.4.9"
   }
 }

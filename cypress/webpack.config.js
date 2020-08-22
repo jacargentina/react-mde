@@ -1,23 +1,15 @@
 module.exports = {
-  mode: "development",
+  mode: 'development',
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: ['.js'],
   },
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        exclude: [/node_modules/],
-        use: [
-          {
-            loader: "awesome-typescript-loader",
-            options: {
-              // skip typechecking for speed
-              transpileOnly: true
-            }
-          }
-        ]
-      }
-    ]
-  }
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+    ],
+  },
 };

@@ -2,6 +2,7 @@
   "parser": "babel-eslint",
   "extends": ["plugin:flowtype/recommended", "airbnb", "prettier"],
   "plugins": ["react-hooks", "import", "flowtype"],
+  "ignorePatterns": ["cypress/*"],
   "rules": {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "comma-dangle": "off",

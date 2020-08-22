@@ -131,10 +131,10 @@ export const TextArea = (props: TextAreaProps) => {
     currentLoadSuggestionsPromise.current = currentLoadSuggestionsPromise.current
       .then(() => loadSuggestions(text, mention.triggeredBy))
       .then((suggestions) => {
-        if (mention.status === 'inactive') {
-          // This means this promise resolved too late when the status has already been set to inactice
-          return;
-        }
+        // if (mention.status === 'inactive') {
+        //   // This means this promise resolved too late when the status has already been set to inactice
+        //   return;
+        // }
         if (suggestionsPromiseIndex.current === promiseIndex) {
           if (!suggestions || !suggestions.length) {
             clearMention();
@@ -413,7 +413,7 @@ export const TextArea = (props: TextAreaProps) => {
           suggestions={mention.suggestions}
           onSuggestionSelected={handleSuggestionSelected}
           focusIndex={mention.focusIndex}
-          textAreaRef={refObject}
+          textAreaRef={refObject.current}
         />
       )}
     </div>

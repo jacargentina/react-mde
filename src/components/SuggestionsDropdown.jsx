@@ -41,8 +41,10 @@ export const SuggestionsDropdown = (props: SuggestionsDropdownProps) => {
     (event: SyntheticMouseEvent<any>) => event.preventDefault(),
     []
   );
+
   return (
     <ul
+      data-testid="suggestions"
       style={{
         left: caret.left - (textAreaRef ? textAreaRef.scrollLeft : 0),
         top: caret.top - (textAreaRef ? textAreaRef.scrollTop : 0),
@@ -60,6 +62,7 @@ export const SuggestionsDropdown = (props: SuggestionsDropdownProps) => {
             border: 1px solid ${colors.border};
             border-radius: 3px;
             box-shadow: 0 1px 5px rgba(27, 31, 35, 0.15);
+            z-index: 9999;
           }
 
           li {
@@ -87,7 +90,7 @@ export const SuggestionsDropdown = (props: SuggestionsDropdownProps) => {
       {suggestions.map((s, i) => (
         // eslint-disable-next-line
         <li
-          key={i}
+          key={s.preview}
           onClick={handleSuggestionClick}
           onMouseDown={handleMouseDown}
           aria-selected={focusIndex === i ? 'true' : 'false'}

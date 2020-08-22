@@ -3,14 +3,14 @@ context("Keyboard commands", () => {
     cy.visit("http://localhost:4000");
   });
   it("bold", () => {
-    cy.get(".mde-text")
+    cy.get("[data-testid=text-area]")
       .type("{selectall}{backspace}")
       .type("nice")
       .type("{ctrl}b")
       .should("have.value", "**nice**");
   });
   it("italic", () => {
-    cy.get(".mde-text")
+    cy.get("[data-testid=text-area]")
       .type("{selectall}{backspace}")
       .type("nice")
       .type("{ctrl}i")
