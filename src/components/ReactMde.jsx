@@ -17,6 +17,7 @@ export type ReactMdeProps = {
   value: string,
   onChange: (value: string) => void,
   selectedTab: Tab,
+  isMaximized: boolean,
   onTabChange: (tab: Tab) => void,
   onMaximizedChange: (isMaximized: boolean) => void,
   generateMarkdownPreview: GenerateMarkdownPreview,
@@ -42,6 +43,7 @@ export const ReactMde = (props: ReactMdeProps) => {
     loadingPreview,
     readOnly = false,
     disablePreview = false,
+    isMaximized = false,
     value,
     l18n = enL18n,
     childProps = {},
@@ -58,16 +60,24 @@ export const ReactMde = (props: ReactMdeProps) => {
   const textarea = useRef<null | HTMLTextAreaElement>(null);
   const preview = useRef<null | HTMLDivElement>(null);
   const commandOrchestrator = useRef(null);
-  const [maximized, setMaximized] = useState(false);
+  const [maximized, setMaximized] = useState(isMaximized);
+
+  const adjustTextareaHeight = () => {
+    if (textarea.current && maximized) {
+      textarea.current.style.height = 'auto';
+    }
+  };
 
   useEffect(() => {
     if (onMaximizedChange) {
       onMaximizedChange(maximized);
-      if (textarea.current && maximized) {
-        textarea.current.style.height = 'auto';
-      }
     }
+    adjustTextareaHeight();
   }, [maximized, textarea]);
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [textarea]);
 
   const getCommandOrch = () => {
     if (!commandOrchestrator.current) {

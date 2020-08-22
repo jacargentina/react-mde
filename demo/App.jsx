@@ -145,6 +145,7 @@ const App = () => {
         </a>
       </div>
       <ReactMde
+        isMaximized={maximized}
         onChange={handleValueChange}
         onTabChange={handleTabChange}
         onMaximizedChange={handleMaximizedChange}
