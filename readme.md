@@ -1,10 +1,8 @@
 # 📝 @javier.alejandro.castro/react-mde
 
-A simple yet powerful and extensible **React Markdown Editor**. React-mde has no 3rd party dependencies. A fork of https://github.com/andrerpena/react-mde
+A simple yet powerful and extensible **React Markdown Editor**. React-mde has no 3rd party dependencies.
 
-## Demo
-
-[Demo](https://jacargentina.github.io/react-mde/)
+- [Demo](https://jacargentina.github.io/react-mde/)
 
 ## Installing
 
@@ -24,7 +22,7 @@ it possible to use [ReactMarkdown](https://github.com/rexxars/react-markdown) as
 React-mde is a completely controlled component.
 
 ```jsx
-import * as React from 'react';
+import React, { useState } from 'react';
 import ReactMde from '@javier.alejandro.castro/react-mde';
 import * as Showdown from 'showdown';
 
@@ -35,10 +33,9 @@ const converter = new Showdown.Converter({
   tasklists: true,
 });
 
-export default function App() {
-  const [value, setValue] = React.useState('**Hello world!!!**');
-  const [selectedTab, setSelectedTab] =
-    (React.useState < 'write') | ('preview' > 'write');
+const App = () => {
+  const [value, setValue] = useState('**Hello world!!!**');
+  const [selectedTab, setSelectedTab] = useState('write');
   return (
     <div className="container">
       <ReactMde
@@ -52,7 +49,9 @@ export default function App() {
       />
     </div>
   );
-}
+};
+
+export default App;
 ```
 
 ### Customizing Icons
@@ -75,13 +74,13 @@ given a command name.
 The types are described below
 
 - **value: string**: The Markdown value.
-- **onChange: (value: string)**: Event handler for the `onChange` event.
 - **selectedTab: "write" | "preview"**: The currently selected tab.
 - **isMaximized: boolean**: The current maximized state; defaults to false.
+- **onChange: (value: string)**: Event handler for the `onChange` event.
 - **onTabChange: (tab) => void**: Function called when the selected tab changes.
 - **onMaximizedChange: (isMaximized: boolean) => void**: Function called when maximized state changes: allow the component user to customize surrounding CSS for allowing to expand to full screen editing.
 - **commands?: Record<string, Command>**: An object with string properties representing keys, and a Command object as value for each key. These are custom commands. Commands are explained in more details below.
-- **toolbarCommands?: ToolbarGroups**: Array of ToolbarGroup, indicating which commands should be displayed. Each outer array is a named group. Example: `{name: 'key' , ["code", "bold"], ["italic"]}`
+- **toolbarCommands?: ToolbarGroups**: Array of ToolbarGroup, indicating which commands should be displayed. Each outer array is a named group. Example: `[{name: 'style' , items: ["bold", "italic"]}, {name: 'lists' , items: ["unordered", "ordered"]}]`
 - **generateMarkdownPreview: (markdown: string) => Promise<string | ReactElement>;**: Function that should return a Promise to the generated HTML or a React element for the preview. If this `prop` is falsy, then no preview is going to be generated.
 - **getIcon?: (commandName: string) => React.ReactNode }** An optional set of button content options, including an `iconProvider` to allow custom icon rendering.
   options.
@@ -114,3 +113,7 @@ it possible to use [ReactMarkdown](https://github.com/rexxars/react-markdown) as
 ## Licence
 
 React-mde is [MIT licensed](https://github.com/jacargentina/react-mde/blob/master/LICENSE).
+
+## Fork
+
+This started as a fork of https://github.com/andrerpena/react-mde to enable additional features
