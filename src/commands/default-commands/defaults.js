@@ -1,5 +1,10 @@
 // @flow
-import headerCommand from './headerCommand';
+import header1Command from './header1Command';
+import header2Command from './header2Command';
+import header3Command from './header3Command';
+import header4Command from './header4Command';
+import header5Command from './header5Command';
+import header6Command from './header6Command';
 import boldCommand from './boldCommand';
 import italicCommand from './italicCommand';
 import strikeThroughCommand from './strikeThroughCommand';
@@ -18,7 +23,7 @@ export function getDefaultToolbarCommands(): ToolbarGroups {
   return [
     {
       name: 'font',
-      items: ['header', 'bold', 'italic', 'strikethrough'],
+      items: ['header3', 'bold', 'italic', 'strikethrough'],
     },
     { name: 'special', items: ['link', 'quote', 'code', 'image'] },
     {
@@ -30,7 +35,12 @@ export function getDefaultToolbarCommands(): ToolbarGroups {
 
 export function getDefaultCommandMap(): CommandMap {
   return {
-    header: headerCommand,
+    header1: header1Command,
+    header2: header2Command,
+    header3: header3Command,
+    header4: header4Command,
+    header5: header5Command,
+    header6: header6Command,
     bold: boldCommand,
     italic: italicCommand,
     strikethrough: strikeThroughCommand,

@@ -1,11 +1,15 @@
 // @flow
 import { selectWord } from '../../util/MarkdownUtil';
 
-function setHeader(initialState: TextState, api: TextApi, prefix: string) {
+export function setHeader(
+  initialState: TextState,
+  api: TextApi,
+  prefix: string
+) {
   // Adjust the selection to encompass the whole word if the caret is inside one
   const newSelectionRange = selectWord({
     text: initialState.text,
-    selection: initialState.selection
+    selection: initialState.selection,
   });
   const state1 = api.setSelectionRange(newSelectionRange);
   // Add the prefix to the selection
@@ -13,15 +17,6 @@ function setHeader(initialState: TextState, api: TextApi, prefix: string) {
   // Adjust the selection to not contain the prefix
   api.setSelectionRange({
     start: state2.selection.end - state1.selectedText.length,
-    end: state2.selection.end
+    end: state2.selection.end,
   });
 }
-
-const headerCommand: Command = {
-  buttonProps: { 'aria-label': 'Add header' },
-  execute: ({ initialState, textApi }) => {
-    setHeader(initialState, textApi, '### ');
-  }
-};
-
-export default headerCommand;
