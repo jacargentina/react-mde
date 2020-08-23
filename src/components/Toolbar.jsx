@@ -12,6 +12,7 @@ export type ToolbarProps = {
   onMaximize: () => void,
   readOnly: boolean,
   disablePreview: boolean,
+  disableMaximize: boolean,
   tab: Tab,
   l18n: L18n,
   writeButtonProps: ButtonChildProps,
@@ -26,6 +27,7 @@ export const Toolbar = (props: ToolbarProps) => {
     onCommand,
     readOnly,
     disablePreview = false,
+    disableMaximize = false,
     writeButtonProps = {},
     previewButtonProps = {},
     buttonProps,
@@ -141,15 +143,17 @@ export const Toolbar = (props: ToolbarProps) => {
           })}
         </ToolbarButtonGroup>
       ))}
-      <ul>
-        <ToolbarButton
-          name="maximize"
-          readOnly={false}
-          buttonContent={<SvgIcon icon="maximize" />}
-          buttonComponentClass="button"
-          onClick={() => handleMaximize()}
-        />
-      </ul>
+      {!disableMaximize && (
+        <ul>
+          <ToolbarButton
+            name="maximize"
+            readOnly={false}
+            buttonContent={<SvgIcon icon="maximize" />}
+            buttonComponentClass="button"
+            onClick={() => handleMaximize()}
+          />
+        </ul>
+      )}
     </div>
   );
 };

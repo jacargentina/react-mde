@@ -86,6 +86,8 @@ The types are described below
   options.
 - **loadingPreview**: What to display in the preview while it is loading. Value can be string, React Element or anything React can render.
 - **readOnly?: boolean**: Flag to render the editor in read-only mode.
+- **disablePreview?: boolean**: Flag to disable built-in preview, when you need to handle it outside the component.
+- **disableMaximize?: boolean**: Flag to disable (hide) maximize button.
 - **l18n?**: A localization option. It contains the strings `write`, `preview`,`uploadingImage` and `pasteDropSelect`.
 - **loadSuggestions?: (text: string, triggeredBy: string) => Promise<Suggestion[]>**: Function to load mention suggestions based on the
   given `text` and `triggeredBy` (character that triggered the suggestions). The result should be an array of `{preview: React.ReactNode, value: string}`.

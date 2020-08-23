@@ -73,6 +73,7 @@ export const TextArea = (props: TextAreaProps) => {
     textAreaComponent,
     onPaste,
     onDrop,
+    maximized,
   } = props;
 
   const currentLoadSuggestionsPromise = useRef<Promise<any>>(Promise.resolve());
@@ -350,7 +351,7 @@ export const TextArea = (props: TextAreaProps) => {
             border: 0;
             padding: ${paddings.editor};
             vertical-align: top;
-            resize: vertical;
+            resize: ${maximized ? 'none' : 'vertical'};
             overflow-y: auto;
           }
         `}

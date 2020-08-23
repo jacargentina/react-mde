@@ -27,6 +27,7 @@ export type ReactMdeProps = {
   loadingPreview?: React.Node,
   readOnly?: boolean,
   disablePreview?: boolean,
+  disableMaximize?: boolean,
   suggestionTriggerCharacters?: string[],
   loadSuggestions?: (text: string) => Promise<Suggestion[]>,
   childProps?: ChildProps,
@@ -43,6 +44,7 @@ export const ReactMde = (props: ReactMdeProps) => {
     loadingPreview,
     readOnly = false,
     disablePreview = false,
+    disableMaximize = false,
     isMaximized = false,
     value,
     l18n = enL18n,
@@ -174,6 +176,7 @@ export const ReactMde = (props: ReactMdeProps) => {
         tab={selectedTab}
         readOnly={readOnly}
         disablePreview={disablePreview}
+        disableMaximize={disableMaximize}
         l18n={l18n}
         buttonProps={childProps.commandButtons}
         writeButtonProps={childProps.writeButton}
