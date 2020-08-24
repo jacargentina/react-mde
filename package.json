@@ -1,6 +1,6 @@
 {
   "name": "@javier.alejandro.castro/react-mde",
-  "version": "11.0.9",
+  "version": "11.0.10",
   "description": "React Markdown Editor",
   "main": "./lib/index.js",
   "files": [
