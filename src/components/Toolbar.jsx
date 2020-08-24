@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { ToolbarButtonGroup } from './ToolbarButtonGroup';
 import { ToolbarButton } from './ToolbarButton';
+import { ToolbarDropdown } from './ToolbarDropdown';
 import SvgIcon from './SvgIcon';
 import { colors, paddings, misc } from './theme';
 
@@ -15,9 +16,9 @@ export type ToolbarProps = {
   disableMaximize: boolean,
   tab: Tab,
   l18n: L18n,
-  writeButtonProps: ButtonChildProps,
-  previewButtonProps: ButtonChildProps,
-  buttonProps: ButtonChildProps,
+  writeButtonProps?: ButtonChildProps,
+  previewButtonProps?: ButtonChildProps,
+  buttonProps?: ButtonChildProps,
 };
 
 export const Toolbar = (props: ToolbarProps) => {
@@ -109,7 +110,7 @@ export const Toolbar = (props: ToolbarProps) => {
             background: ${colors.toolbar};
           }
 
-          ul {
+          ul.maximizeRight {
             margin: 0;
             padding: ${paddings.toolbar};
             list-style: none;
@@ -118,33 +119,41 @@ export const Toolbar = (props: ToolbarProps) => {
             flex-direction: row-reverse;
             flex-wrap: nowrap;
           }
-          li {
-            display: inline-block;
-            position: relative;
-            margin: 0 4px;
-          }
         `}
       </style>
       {!disablePreview && writePreviewTabs}
       {buttons.map((group: ToolbarRenderGroup) => (
-        <ToolbarButtonGroup key={group.name} hidden={props.tab === 'preview'}>
-          {group.items.map((c) => {
-            return (
-              <ToolbarButton
-                key={c.commandName}
-                name={c.commandName}
-                buttonContent={c.buttonContent}
-                buttonProps={{ ...(buttonProps || {}), ...c.buttonProps }}
-                onClick={() => onCommand(c.commandName)}
-                readOnly={readOnly}
-                buttonComponentClass={c.buttonComponentClass}
-              />
-            );
-          })}
+        <ToolbarButtonGroup
+          key={group.name}
+          hidden={props.tab === 'preview'}
+          className={group.dropdownContent ? 'dropdown' : ''}>
+          {group.dropdownContent ? (
+            <ToolbarDropdown
+              dropdownContent={group.dropdownContent}
+              dropdownProps={group.dropdownProps}
+              commands={group}
+              onCommand={onCommand}
+              readOnly={readOnly}
+            />
+          ) : (
+            group.items.map((c) => {
+              return (
+                <ToolbarButton
+                  key={c.commandName}
+                  name={c.commandName}
+                  buttonContent={c.buttonContent}
+                  buttonProps={{ ...(buttonProps || {}), ...c.buttonProps }}
+                  onClick={() => onCommand(c.commandName)}
+                  readOnly={readOnly}
+                  buttonComponentClass={c.buttonComponentClass}
+                />
+              );
+            })
+          )}
         </ToolbarButtonGroup>
       ))}
       {!disableMaximize && (
-        <ul>
+        <ul className="maximizeRight">
           <ToolbarButton
             name="maximize"
             readOnly={false}

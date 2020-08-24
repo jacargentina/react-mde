@@ -3,14 +3,15 @@ import * as React from 'react';
 import { paddings } from './theme';
 
 export type ToolbarButtonGroupProps = {
+  className: string,
   children: React.Node,
   hidden: boolean,
 };
 
 export const ToolbarButtonGroup = (props: ToolbarButtonGroupProps) => {
-  const { hidden, children } = props;
+  const { hidden, children, className } = props;
   return (
-    <ul>
+    <ul className={className}>
       <style jsx>
         {`
           ul {

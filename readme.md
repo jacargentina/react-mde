@@ -86,6 +86,7 @@ The types are described below
   options.
 - **loadingPreview**: What to display in the preview while it is loading. Value can be string, React Element or anything React can render.
 - **readOnly?: boolean**: Flag to render the editor in read-only mode.
+- **minHeight?: number**: Minimum height for textarea while in write.
 - **disablePreview?: boolean**: Flag to disable built-in preview, when you need to handle it outside the component.
 - **disableMaximize?: boolean**: Flag to disable (hide) maximize button.
 - **l18n?**: A localization option. It contains the strings `write`, `preview`,`uploadingImage` and `pasteDropSelect`.

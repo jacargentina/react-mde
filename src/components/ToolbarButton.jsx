@@ -8,8 +8,9 @@ export type ToolbarButtonProps = {
   buttonComponentClass?: any,
   buttonProps?: any,
   buttonContent: React.Node,
-  onClick: ?(evt: Event) => mixed,
+  onClick: ?(evt: SyntheticEvent<any>) => mixed,
   readOnly: boolean,
+  display: string,
 };
 
 const { className, styles } = css.resolve`
@@ -21,6 +22,7 @@ const { className, styles } = css.resolve`
   border: none;
   background: none;
   color: ${colors.button};
+  white-space: nowrap;
 
   .tooltipped:hover::before {
     opacity: 0;
@@ -66,6 +68,7 @@ export const ToolbarButton = (props: ToolbarButtonProps) => {
     onClick,
     readOnly,
     name,
+    display = 'inline-block',
   } = props;
 
   const finalButtonProps = {
@@ -82,7 +85,7 @@ export const ToolbarButton = (props: ToolbarButtonProps) => {
       <style jsx>
         {`
           li {
-            display: inline-block;
+            display: ${display};
             position: relative;
             margin: 0 4px;
           }

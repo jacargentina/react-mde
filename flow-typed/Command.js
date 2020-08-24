@@ -8,6 +8,7 @@ export type SaveImageHandler = (
 ) => AsyncGenerator<string, boolean, void>;
 
 export type CommandContext = {
+  // eslint-disable-next-line
   event?:
     | SyntheticClipboardEvent<HTMLTextAreaElement>
     | SyntheticDragEvent<HTMLTextAreaElement>
@@ -25,6 +26,7 @@ export type ExecuteOptions = {
 export type Command = {
   buttonComponentClass?: React.Component<> | string,
   icon?: (getIconFromProvider: GetIcon) => React.Node,
+  title?: string,
   buttonProps?: any,
   execute(options: ExecuteOptions): ?Promise<void>,
 
@@ -38,6 +40,8 @@ export type Command = {
 
 export type ToolbarGroup = {
   name: string,
+  dropdownContent?: React.Node,
+  dropdownProps?: ButtonChildProps,
   items: string[],
 };
 
@@ -52,6 +56,8 @@ export type ToolbarRenderData = {
 
 export type ToolbarRenderGroup = {
   name: string,
+  dropdownContent?: React.Node,
+  dropdownProps?: ButtonChildProps,
   items: ToolbarRenderData[],
 };
 

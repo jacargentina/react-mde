@@ -1,29 +1,34 @@
 // @flow
 import * as React from 'react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { Preview } from './Preview';
 import { Toolbar } from './Toolbar';
 import { TextArea } from './TextArea';
 import {
   getDefaultCommandMap,
   getDefaultToolbarCommands,
+  getDefaultSaveImageCommandName,
 } from '../commands/default-commands/defaults';
 import enL18n from '../l18n/react-mde.en';
 import SvgIcon from './SvgIcon';
-import CommandOrchestrator from '../commands/command-orchestrator';
 import { colors, misc } from './theme';
+import {
+  extractKeyActivatedCommands,
+  getStateFromTextArea,
+} from '../commands/command-utils';
+import TextAreaTextApi from '../commands/TextAreaTextApi';
 
 export type ReactMdeProps = {
   value: string,
   onChange: (value: string) => void,
   selectedTab: Tab,
-  isMaximized: boolean,
+  isMaximized?: boolean,
   onTabChange: (tab: Tab) => void,
-  onMaximizedChange: (isMaximized: boolean) => void,
+  onMaximizedChange?: (isMaximized: boolean) => void,
   generateMarkdownPreview: GenerateMarkdownPreview,
   toolbarCommands: ToolbarGroups,
   commands: CommandMap,
-  getIcon: GetIcon,
+  getIcon?: GetIcon,
   loadingPreview?: React.Node,
   readOnly?: boolean,
   disablePreview?: boolean,
@@ -32,8 +37,9 @@ export type ReactMdeProps = {
   loadSuggestions?: (text: string) => Promise<Suggestion[]>,
   childProps?: ChildProps,
   paste?: PasteOptions,
-  l18n: L18n,
+  l18n?: L18n,
   textAreaComponent?: any,
+  minHeight?: number,
 };
 
 export const ReactMde = (props: ReactMdeProps) => {
@@ -58,16 +64,117 @@ export const ReactMde = (props: ReactMdeProps) => {
     onChange,
     onMaximizedChange,
     onTabChange,
+    minHeight,
   } = props;
   const textarea = useRef<null | HTMLTextAreaElement>(null);
   const preview = useRef<null | HTMLDivElement>(null);
-  const commandOrchestrator = useRef(null);
   const [maximized, setMaximized] = useState(isMaximized);
+  const isExecuting = useRef(false);
+
+  const textApi = useRef(new TextAreaTextApi(textarea));
+  const keyActivatedCommands = useMemo(() => {
+    return extractKeyActivatedCommands(commands);
+  }, [commands]);
 
   const adjustTextareaHeight = () => {
     if (textarea.current && maximized) {
       textarea.current.style.height = 'auto';
     }
+  };
+
+  const getCommand = (name: string): Command => {
+    const command = commands[name];
+    if (!command) {
+      throw new Error(`Cannot execute command. Command not found: ${name}`);
+    }
+    return command;
+  };
+
+  const executeCommand = async (
+    commandName: string,
+    context: CommandContext
+  ): Promise<void> => {
+    if (isExecuting.current) {
+      // The simplest thing to do is to ignore commands while
+      // there is already a command executing. The alternative would be to queue commands
+      // but there is no guarantee that the state after one command executes will still be compatible
+      // with the next one. In fact, it is likely not to be.
+      return;
+    }
+
+    isExecuting.current = true;
+    const command = commands[commandName];
+    const result = command.execute({
+      initialState: getStateFromTextArea(textarea.current),
+      textApi: textApi.current,
+      l18n,
+      context,
+    });
+    await result;
+    isExecuting.current = false;
+  };
+
+  /**
+   * Tries to find a command the wants to handle the keyboard event.
+   * If a command is found, it is executed and the function returns
+   */
+  const handlePossibleKeyCommand = (
+    e: SyntheticKeyboardEvent<HTMLTextAreaElement>
+  ): boolean => {
+    for (let i = 0; i < keyActivatedCommands.length; i += 1) {
+      const commandName = keyActivatedCommands[i];
+      const handler = getCommand(commandName).handleKeyCommand;
+      if (handler && handler(e)) {
+        executeCommand(commandName, {});
+        return true;
+      }
+    }
+    return false;
+  };
+
+  /**
+   * Executes the paste command
+   */
+  const executePasteCommand = async (
+    event: SyntheticClipboardEvent<HTMLTextAreaElement>
+  ): Promise<void> => {
+    if (paste) {
+      return executeCommand(paste.command || getDefaultSaveImageCommandName(), {
+        saveImage: paste.saveImage,
+        event,
+      });
+    }
+    return undefined;
+  };
+
+  /**
+   * Executes the drop command
+   */
+  const executeDropCommand = async (
+    event: SyntheticDragEvent<HTMLTextAreaElement>
+  ): Promise<void> => {
+    if (paste) {
+      return executeCommand(paste.command || getDefaultSaveImageCommandName(), {
+        saveImage: paste.saveImage,
+        event,
+      });
+    }
+    return undefined;
+  };
+
+  /**
+   * Executes the "select image" command
+   */
+  const executeSelectImageCommand = async (
+    event: SyntheticInputEvent<HTMLTextAreaElement>
+  ): Promise<void> => {
+    if (paste) {
+      return executeCommand(paste.command || getDefaultSaveImageCommandName(), {
+        saveImage: paste.saveImage,
+        event,
+      });
+    }
+    return undefined;
   };
 
   useEffect(() => {
@@ -81,29 +188,24 @@ export const ReactMde = (props: ReactMdeProps) => {
     adjustTextareaHeight();
   }, [textarea]);
 
-  const getCommandOrch = () => {
-    if (!commandOrchestrator.current) {
-      commandOrchestrator.current = new CommandOrchestrator(
-        commands,
-        textarea,
-        l18n,
-        paste
-      );
-    }
-    return commandOrchestrator.current;
-  };
-
   const toolbarButtons: ToolbarRenderGroups = toolbarCommands.map((group) => {
-    const { name, items } = group;
+    const { name, dropdownContent, items } = group;
     return {
       name,
+      dropdownContent,
       items: items.map((commandName) => {
-        const command = getCommandOrch().getCommand(commandName);
+        const command = getCommand(commandName);
+        const cmdIcon = command.icon
+          ? command.icon(getIcon)
+          : getIcon(commandName);
         return {
           commandName,
-          buttonContent: command.icon
-            ? command.icon(getIcon)
-            : getIcon(commandName),
+          buttonContent: (
+            <span>
+              {cmdIcon}
+              {command.title}
+            </span>
+          ),
           buttonProps: command.buttonProps,
           buttonComponentClass: command.buttonComponentClass,
         };
@@ -165,7 +267,7 @@ export const ReactMde = (props: ReactMdeProps) => {
       <Toolbar
         buttons={toolbarButtons}
         onCommand={(commandName: string) => {
-          getCommandOrch().executeCommand(commandName, {});
+          executeCommand(commandName, {});
         }}
         onTabChange={(newTab: Tab) => {
           if (onTabChange) {
@@ -194,13 +296,13 @@ export const ReactMde = (props: ReactMdeProps) => {
             if (!paste || !paste.saveImage) {
               return;
             }
-            getCommandOrch().executePasteCommand(event);
+            executePasteCommand(event);
           }}
           onDrop={(event: SyntheticDragEvent<HTMLTextAreaElement>) => {
             if (!paste || !paste.saveImage) {
               return;
             }
-            getCommandOrch().executeDropCommand(event);
+            executeDropCommand(event);
           }}
           readOnly={readOnly}
           maximized={maximized}
@@ -210,8 +312,9 @@ export const ReactMde = (props: ReactMdeProps) => {
           suggestionTriggerCharacters={suggestionTriggerCharacters}
           loadSuggestions={loadSuggestions}
           onPossibleKeyCommand={(e) => {
-            return getCommandOrch().handlePossibleKeyCommand(e);
+            return handlePossibleKeyCommand(e);
           }}
+          minHeight={minHeight}
         />
         {paste && (
           // eslint-disable-next-line
@@ -227,7 +330,7 @@ export const ReactMde = (props: ReactMdeProps) => {
                 if (!paste || !paste.saveImage) {
                   return;
                 }
-                getCommandOrch().executeSelectImageCommand(event);
+                executeSelectImageCommand(event);
               }}
             />
             <span>{l18n.pasteDropSelect}</span>

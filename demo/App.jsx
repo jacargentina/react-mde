@@ -1,7 +1,10 @@
 // @flow
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import * as Showdown from 'showdown';
-import ReactMde from '../src';
+import ReactMde, {
+  getDefaultToolbarCommands,
+  getDefaultCommandMap,
+} from '../src';
 import pkg from '../package.json';
 
 const converter = new Showdown.Converter({
@@ -11,10 +14,36 @@ const converter = new Showdown.Converter({
   tasklists: true,
 });
 
+const customDropDown = {
+  name: 'my-dropdown',
+  dropdownContent: 'Advanced',
+  items: ['showalert'],
+};
+
+const customCommand = {
+  title: 'Show alert',
+  execute: () => {
+    window.alert('Hey there!');
+  },
+};
+
 const App = () => {
   const [value, setValue] = useState('**Hello world!!!**');
   const [tab, setTab] = useState('write');
   const [maximized, setMaximized] = useState(false);
+  const [withCustomToolbar, setWithcustomToolbar] = useState(false);
+
+  const config = useMemo(() => {
+    const cmdMap = getDefaultCommandMap();
+    const toolbarCmd = getDefaultToolbarCommands();
+    if (withCustomToolbar) {
+      cmdMap.showalert = customCommand;
+      const removeIdx = toolbarCmd.findIndex((g) => g.name === 'lists');
+      toolbarCmd.splice(removeIdx, 1);
+      toolbarCmd.push(customDropDown);
+    }
+    return { cmdMap, toolbarCmd };
+  }, [withCustomToolbar]);
 
   const handleValueChange = (newValue: string) => {
     setValue(newValue);
@@ -128,6 +157,15 @@ const App = () => {
           .version {
             padding-left: 6px;
           }
+
+          .options {
+            display: ${maximized ? 'none' : 'flex'};
+            padding: 10px;
+            background-color: #fbfbfb;
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+            margin-top: 20px;
+          }
         `}
       </style>
       <div className="header">
@@ -145,11 +183,12 @@ const App = () => {
         </a>
       </div>
       <ReactMde
-        isMaximized={maximized}
+        value={value}
         onChange={handleValueChange}
+        commands={config.cmdMap}
+        toolbarCommands={config.toolbarCmd}
         onTabChange={handleTabChange}
         onMaximizedChange={handleMaximizedChange}
-        value={value}
         generateMarkdownPreview={(markdown) => {
           return Promise.resolve(converter.makeHtml(markdown));
         }}
@@ -159,7 +198,20 @@ const App = () => {
         paste={{
           saveImage: save,
         }}
+        minHeight={150}
       />
+      <div className="options">
+        <label>
+          With Custom Toolbar
+          <input
+            type="checkbox"
+            checked={withCustomToolbar}
+            onChange={(e) => {
+              setWithcustomToolbar(e.target.checked);
+            }}
+          />
+        </label>
+      </div>
     </div>
   );
 };

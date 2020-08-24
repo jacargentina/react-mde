@@ -1,25 +1,8 @@
 // @flow
 
-import * as React from 'react';
+export type ButtonChildProps = { [key: string]: any };
 
-export type ButtonChildProps = $Rest<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement> & { [key: string]: any, ... },
-    HTMLButtonElement
-  >,
-  { ... }
->;
-
-export type TextAreaChildProps = $Rest<
-  React.DetailedHTMLProps<
-    React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
-      [key: string]: any,
-      ...
-    },
-    HTMLTextAreaElement
-  >,
-  { ... }
->;
+export type TextAreaChildProps = { [key: string]: any };
 
 export interface ChildProps {
   writeButton?: ButtonChildProps;

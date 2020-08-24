@@ -51,6 +51,7 @@ export type TextAreaProps = {
     e: SyntheticKeyboardEvent<HTMLTextAreaElement>
   ) => boolean,
   maximized: boolean,
+  minHeight?: number,
 };
 
 const initialMention = {
@@ -74,6 +75,7 @@ export const TextArea = (props: TextAreaProps) => {
     onPaste,
     onDrop,
     maximized,
+    minHeight,
   } = props;
 
   const currentLoadSuggestionsPromise = useRef<Promise<any>>(Promise.resolve());
@@ -353,6 +355,7 @@ export const TextArea = (props: TextAreaProps) => {
             vertical-align: top;
             resize: ${maximized ? 'none' : 'vertical'};
             overflow-y: auto;
+            min-height: ${minHeight || 'auto'};
           }
         `}
       </style>
