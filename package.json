@@ -10,7 +10,7 @@
     "prepare": "yarn run build",
     "postversion": "yarn run ghpages && git add . && git commit -m 'rebuild docs'",
     "test": "jest",
-    "build": "cross-env NODE_ENV=production babel src -d lib",
+    "build": "cross-env NODE_ENV=production babel src -d lib --delete-dir-on-start",
     "dev": "cross-env NODE_ENV=development npx babel-node ./demo/server.js",
     "ghpages": "webpack --config webpack.config.ghpages.js",
     "cypress:open": "cypress open",
