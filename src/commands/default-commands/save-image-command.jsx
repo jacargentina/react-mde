@@ -31,17 +31,19 @@ const saveImageCommand: Command = {
   }: ExecuteOptions): Promise<void> {
     const { event, saveImage } = context;
 
-    const clipboardEvt: SyntheticClipboardEvent<HTMLTextAreaElement> = (event: any);
-    const dragEvt: SyntheticDragEvent<HTMLTextAreaElement> = (event: any);
-    const inputEvt: SyntheticInputEvent<HTMLTextAreaElement> = (event: any);
-
     let blobs;
-    if (clipboardEvt) {
-      blobs = extractBlobs(clipboardEvt.clipboardData.items);
-    } else if (dragEvt) {
-      blobs = extractBlobs(dragEvt.dataTransfer.items);
-    } else if (inputEvt) {
-      blobs = fileListToBlobs(inputEvt.target.files);
+    // $FlowIgnore
+    if (event.clipboardData) {
+      // $FlowIgnore
+      blobs = extractBlobs(event.clipboardData.items);
+      // $FlowIgnore
+    } else if (event.dataTransfer) {
+      // $FlowIgnore
+      blobs = extractBlobs(event.dataTransfer.items);
+      // $FlowIgnore
+    } else if (event.target) {
+      // $FlowIgnore
+      blobs = fileListToBlobs(event.target.files);
     } else {
       blobs = [];
     }
@@ -93,6 +95,7 @@ const saveImageCommand: Command = {
           });
         }
       });
+      // $FlowIgnore
       event.preventDefault();
     }
   },
