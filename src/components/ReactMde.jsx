@@ -293,9 +293,6 @@ export const ReactMde = (props: ReactMdeProps) => {
             }
           }}
           onPaste={(event: SyntheticClipboardEvent<HTMLTextAreaElement>) => {
-            if (!paste || !paste.saveImage) {
-              return;
-            }
             executePasteCommand(event);
           }}
           onDrop={(event: SyntheticDragEvent<HTMLTextAreaElement>) => {

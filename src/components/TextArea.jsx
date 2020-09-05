@@ -396,7 +396,6 @@ export const TextArea = (props: TextAreaProps) => {
           textAreaProps?.onPaste?.(event);
           if (onPaste) {
             onPaste(event);
-            event.preventDefault();
           }
         }}
         onDragOver={(event) => {
