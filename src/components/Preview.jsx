@@ -196,5 +196,16 @@ export const Preview = (props: PreviewProps) => {
     );
   }
 
-  return <div data-testid="mde-preview">{content}</div>;
+  return (
+    <div data-testid="mde-preview" className="wrapper">
+      <style jsx>
+        {`
+          .wrapper {
+            overflow: scroll;
+          }
+        `}
+      </style>
+      {content}
+    </div>
+  );
 };
