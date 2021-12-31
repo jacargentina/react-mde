@@ -1,7 +1,7 @@
 {
-  "parser": "babel-eslint",
-  "extends": ["plugin:flowtype/recommended", "airbnb", "prettier"],
-  "plugins": ["react-hooks", "import", "flowtype"],
+  "parser": "@babel/eslint-parser",
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["react-hooks", "import"],
   "ignorePatterns": ["cypress/*"],
   "rules": {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],

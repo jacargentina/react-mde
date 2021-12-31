@@ -1,0 +1,51 @@
+li.react-mde-toolbar-dropdown button {
+  text-align: left;
+  cursor: pointer;
+  height: 22px;
+  padding: 4px;
+  margin: 0;
+  border: none;
+  background: none;
+  color: #242729;
+}
+
+li.react-mde-toolbar-dropdown {
+  display: inline-block;
+  position: relative;
+  margin: 0 4px;
+}
+
+ul.react-mde-toolbar-dropdown-items {
+  position: absolute;
+  left: 0;
+  top: 30px;
+  background-color: white;
+  border: 1px solid #c8ccd0;
+  padding: 5px;
+  z-index: 2;
+  transform: translateX(-9px);
+}
+
+ul.react-mde-toolbar-dropdown-items::before {
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  border-bottom-color: rgba(0, 0, 0, 0.15);
+  top: -16px;
+  left: 3px;
+  transform: translateX(50%);
+}
+
+ul.react-mde-toolbar-dropdown-items::after {
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+  border-bottom-color: white;
+  top: -14px;
+  left: 5px;
+  transform: translateX(50%);
+}

@@ -1,0 +1,45 @@
+.app {
+  padding: 10px;
+  margin: 0 auto;
+  flex: 1;
+}
+
+.header {
+  padding: 20px 0;
+}
+
+.title {
+  font-size: 30px;
+  line-height: 30px;
+  flex: 1;
+}
+
+.project {
+  border: 1px solid #eaeaea;
+  background-color: #efefef;
+  border-radius: 4px;
+  padding: 0 4px;
+  white-space: nowrap;
+  vertical-align: bottom;
+  line-height: 30px;
+  flex: 0;
+  color: gray;
+}
+
+.icon,
+.version {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.version {
+  padding-left: 6px;
+}
+
+.options {
+  padding: 10px;
+  background-color: #fbfbfb;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  margin-top: 20px;
+}

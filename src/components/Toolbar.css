@@ -1,0 +1,40 @@
+div.react-mde-toolbar {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  border-bottom: 1px solid #c8ccd0;
+  border-radius: 2px 2px 0 0;
+  background: #f9f9f9;
+}
+
+div.react-mde-toolbar ul.maximizeRight {
+  margin: 0;
+  padding: 10px;
+  list-style: none;
+  display: flex;
+  flex: 1;
+  flex-direction: row-reverse;
+  flex-wrap: nowrap;
+}
+
+div.react-mde-toolbar-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+div.react-mde-toolbar-buttons button {
+  border-radius: 2px;
+  margin: 6px 3px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+div.react-mde-toolbar-buttons button:first-child {
+  margin-left: 6px;
+}
+
+div.react-mde-toolbar-buttons button.selected {
+  border: 1px solid #c8ccd0;
+}

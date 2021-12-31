@@ -1,0 +1,18 @@
+{
+  "include": ["react-mde.d.ts", "**/*.ts", "**/*.tsx"],
+  "compilerOptions": {
+    "outDir": "lib",
+    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+    "jsx": "react-jsx",
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "target": "ES2019",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "paths": {
+      "~": ["./react-mde.d.ts"],
+      "~/*": ["./src/*"]
+    }
+  },
+  "exclude": ["**/__tests__/**", "cypress/**"]
+}
