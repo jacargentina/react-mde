@@ -1,6 +1,6 @@
 {
   "name": "@javier.alejandro.castro/react-mde",
-  "version": "11.0.15",
+  "version": "12.0.0",
   "description": "React Markdown Editor",
   "type": "module",
   "main": "./lib/index.js",
@@ -9,12 +9,11 @@
   ],
   "scripts": {
     "prepare": "npm run build && npm run build-demo",
-    "postversion": "npm run ghpages && git add . && git commit -m 'rebuild docs'",
+    "postversion": "git add . && git commit -m 'Prepare version'",
     "test": "jest",
     "build": "cross-env NODE_ENV=production esbuild --bundle ./src/index.tsx --outdir=lib --minify",
     "build-demo": "esbuild --bundle ./demo/client.tsx --outfile=./demo/bundle.js --minify --charset=utf8",
     "dev": "node esbuild.config.js -w",
-    "ghpages": "webpack --config webpack.config.ghpages.js",
     "cypress:open": "cypress open",
     "lint": "eslint 'src/**'"
   },
