@@ -5,7 +5,6 @@ import insertText from '../util/InsertTextAtPosition';
 import mod from '../util/Math';
 import { SuggestionsDropdown } from './SuggestionsDropdown';
 import { CaretCoordinates, Suggestion } from '~';
-import './TextArea.css';
 
 export type MentionState = {
   status: 'active' | 'inactive' | 'loading';

@@ -1,5 +1,5 @@
 {
-  "include": ["react-mde.d.ts", "src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "compilerOptions": {
     "outDir": "lib",
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "paths": {
-      "~": ["./react-mde.d.ts"],
+      "~": ["./src/react-mde.d.ts"],
       "~/*": ["./src/*"]
     }
   },

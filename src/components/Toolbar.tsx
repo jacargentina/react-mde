@@ -10,7 +10,6 @@ import {
   L18n,
   ButtonChildProps,
 } from '~';
-import './Toolbar.css';
 
 export type ToolbarProps = {
   buttons: ToolbarRenderGroups;

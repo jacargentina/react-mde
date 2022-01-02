@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { ToolbarButton } from './ToolbarButton';
 import { ButtonChildProps, ToolbarRenderGroup } from '~';
-import './ToolbarDropdown.css';
 
 export type ToolbarDropdownProps = {
   dropdownContent: React.ReactNode;

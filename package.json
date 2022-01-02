@@ -11,7 +11,7 @@
   "scripts": {
     "prepare": "npm run build && npm run build-docs",
     "test": "jest",
-    "build": "tsc",
+    "build": "tsc && cp src/styles.css lib/styles.css",
     "build-docs": "esbuild --bundle ./docs/client.tsx --outfile=./docs/bundle.js --minify --charset=utf8",
     "dev": "node esbuild.config.js -w",
     "cypress:open": "cypress open",

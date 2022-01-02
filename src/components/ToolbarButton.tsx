@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './ToolbarButton.css';
 
 export type ToolbarButtonProps = {
   name: string;

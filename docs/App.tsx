@@ -8,6 +8,7 @@ import ReactMde, {
 import pkg from '../package.json';
 import { SaveImageHandler, Suggestion, Tab } from '~';
 import './App.css';
+import '~/styles.css';
 
 const converter = new Showdown.Converter({
   tables: true,

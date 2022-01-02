@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { GenerateMarkdownPreview, RefObj } from '~';
-import './Preview.css';
 
 export type PreviewProps = {
   refObject?: RefObj<HTMLDivElement>;

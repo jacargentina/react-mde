@@ -29,7 +29,6 @@ import {
   CommandContext,
   ToolbarRenderGroups,
 } from '~';
-import './ReactMde.css';
 
 export type ReactMdeProps = {
   value: string;
