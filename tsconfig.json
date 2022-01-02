@@ -6,7 +6,6 @@
     "jsx": "react-jsx",
     "declaration": true,
     "noImplicitAny": false,
-    "module": "commonjs",
     "target": "ES2019",
     "esModuleInterop": true,
     "resolveJsonModule": true,
