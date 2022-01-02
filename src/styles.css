@@ -159,7 +159,7 @@ div.react-mde.maximized {
   flex: 1;
 }
 
-div.react-mde .mde-editor {
+div.react-mde .react-mde-editor {
   display: flex;
   flex-direction: column;
   flex: 1;

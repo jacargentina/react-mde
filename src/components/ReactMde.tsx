@@ -248,7 +248,7 @@ export const ReactMde = (props: ReactMdeProps) => {
         previewButtonProps={childProps.previewButton}
       />
       <div
-        className="mde-editor"
+        className="react-mde-editor"
         style={{ display: selectedTab !== 'write' ? 'none' : 'flex' }}
       >
         <TextArea
