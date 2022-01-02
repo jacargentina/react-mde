@@ -7,6 +7,7 @@
     "declaration": true,
     "noImplicitAny": false,
     "target": "ES2019",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
