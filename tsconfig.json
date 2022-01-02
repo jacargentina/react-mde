@@ -1,13 +1,15 @@
 {
-  "include": ["react-mde.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["react-mde.d.ts", "src/**/*.ts", "src/**/*.tsx"],
   "compilerOptions": {
     "outDir": "lib",
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "jsx": "react-jsx",
+    "declaration": true,
     "noImplicitAny": false,
     "module": "commonjs",
     "target": "ES2019",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "paths": {
       "~": ["./react-mde.d.ts"],

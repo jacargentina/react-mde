@@ -36,7 +36,7 @@ const saveImageCommand: Command = {
       blobs = extractBlobs(event.clipboardData.items);
     } else if (event && 'dataTransfer' in event) {
       blobs = extractBlobs(event.dataTransfer.items);
-    } else if (event && 'target' in event) {
+    } else if (event && 'target' in event && 'files' in event.target) {
       blobs = fileListToBlobs(event.target.files);
     } else {
       blobs = [];
