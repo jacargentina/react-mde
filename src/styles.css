@@ -139,11 +139,12 @@
   margin-bottom: 0 !important;
 }
 
-.react-mde-preview ::after {
+.react-mde-preview::after {
   display: table;
   clear: both;
   content: '';
 }
+
 div.react-mde {
   border: 1px solid #c8ccd0;
   border-radius: 2px;
