@@ -166,7 +166,7 @@ div.react-mde .react-mde-editor {
   flex: 1;
 }
 
-div.react-mde .image-tip {
+div.react-mde .file-tip {
   user-select: none;
   display: flex !important;
   padding: 7px 10px;
@@ -179,7 +179,7 @@ div.react-mde .image-tip {
   position: relative;
 }
 
-div.react-mde .image-input {
+div.react-mde .file-input {
   min-height: 0;
   opacity: 0.01;
   width: 100% !important;

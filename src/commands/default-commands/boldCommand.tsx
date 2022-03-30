@@ -1,4 +1,3 @@
-import { Command } from '~';
 import { selectWord } from '../../util/MarkdownUtil';
 
 const boldCommand: Command = {

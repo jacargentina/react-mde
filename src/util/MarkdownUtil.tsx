@@ -1,5 +1,3 @@
-import { TextSection, Selection } from '~';
-
 export function getSurroundingWord(text: string, position: number): Selection {
   if (!text) throw Error("Argument 'text' should be truthy");
 

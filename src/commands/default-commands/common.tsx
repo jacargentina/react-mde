@@ -1,5 +1,4 @@
 import { selectWord } from '../../util/MarkdownUtil';
-import { TextState, TextApi } from '~';
 
 export function setHeader(
   initialState: TextState,

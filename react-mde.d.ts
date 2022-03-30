@@ -1,42 +1,42 @@
-export type CaretCoordinates = {
+type CaretCoordinates = {
   top: number;
   left: number;
   lineHeight: number;
 };
 
-export type ButtonChildProps = { [key: string]: any };
+type ButtonChildProps = { [key: string]: any };
 
-export type TextAreaChildProps = { [key: string]: any };
+type TextAreaChildProps = { [key: string]: any };
 
-export interface ChildProps {
+interface ChildProps {
   writeButton?: ButtonChildProps;
   previewButton?: ButtonChildProps;
   commandButtons?: ButtonChildProps;
   textArea?: TextAreaChildProps;
 }
 
-export type GetIcon = (iconName: string) => React.ReactNode;
+type GetIcon = (iconName: string) => React.ReactNode;
 
-export type SaveImageHandler = (
+type UploadFileHandler = (
   data: ArrayBuffer
 ) => AsyncGenerator<string, boolean, void>;
 
-export type CommandContext = {
+type CommandContext = {
   event?:
     | React.ClipboardEvent<HTMLTextAreaElement>
     | React.DragEvent<HTMLTextAreaElement>
-    | React.ChangeEvent<HTMLInputElement>
-  saveImage?: SaveImageHandler;
+    | React.ChangeEvent<HTMLInputElement>;
+  uploadFile?: UploadFileHandler;
 };
 
-export type ExecuteOptions = {
+type ExecuteOptions = {
   initialState: TextState;
   textApi: TextApi;
   context: CommandContext;
   l18n?: L18n;
 };
 
-export type Command = {
+type Command = {
   buttonComponentClass?: React.Component<any> | string;
   icon?: (getIconFromProvider: GetIcon) => React.ReactNode;
   title?: string;
@@ -51,39 +51,39 @@ export type Command = {
   handleKeyCommand?: HandleKeyCommand;
 };
 
-export type ToolbarGroup = {
+type ToolbarGroup = {
   name: string;
   dropdownContent?: React.ReactNode;
   dropdownProps?: ButtonChildProps;
   items: string[];
 };
 
-export type ToolbarGroups = ToolbarGroup[];
+type ToolbarGroups = ToolbarGroup[];
 
-export type ToolbarRenderData = {
+type ToolbarRenderData = {
   commandName: string;
   buttonContent: React.ReactNode;
   buttonProps: any;
   buttonComponentClass: any;
 };
 
-export type ToolbarRenderGroup = {
+type ToolbarRenderGroup = {
   name: string;
   dropdownContent?: React.ReactNode;
   dropdownProps?: ButtonChildProps;
   items: ToolbarRenderData[];
 };
 
-export type ToolbarRenderGroups = ToolbarRenderGroup[];
+type ToolbarRenderGroups = ToolbarRenderGroup[];
 
-export type CommandMap = { [key: string]: Command };
+type CommandMap = { [key: string]: Command };
 
-export type PasteOptions = {
+type PasteOptions = {
   /**
-   * Generator function to save images pasted.
-   * This generator should 1) Yield the image URL. 2) Return true if the save was successful or false, otherwise
+   * Generator function to save files pasted.
+   * This generator should 1) Yield the file URL. 2) Return true if the save was successful or false, otherwise
    */
-  saveImage: SaveImageHandler;
+  uploadFile: UploadFileHandler;
 
   /**
    * Command to execute on paste command
@@ -95,25 +95,23 @@ declare var INSERT_TEXT_AT_CURSOR: any;
 
 declare var SELECT_RANGE: any;
 
-export interface InsertTextAtCursorInstruction {
+interface InsertTextAtCursorInstruction {
   type: typeof INSERT_TEXT_AT_CURSOR;
   text: string;
 }
 
-export interface SelectRangeInstruction {
+interface SelectRangeInstruction {
   type: typeof SELECT_RANGE;
   selectionStart: number;
   selectionEnd: number;
 }
 
-export type Instruction =
-  | InsertTextAtCursorInstruction
-  | SelectRangeInstruction;
+type Instruction = InsertTextAtCursorInstruction | SelectRangeInstruction;
 
 /**
  * The state of the text of the whole editor
  */
-export interface TextApi {
+interface TextApi {
   /**
    * Replaces the current selection with the new text. This will make the new selectedText to be empty, the
    * selection start and selection end will be the same and will both point to the end
@@ -125,7 +123,7 @@ export interface TextApi {
    * Selects the specified text range
    * @param selection
    */
-  setSelectionRange(selection: Selection): TextState;
+  setSelectionRange(selection: SelectionRange): TextState;
 
   /**
    * Get the current text state
@@ -133,43 +131,41 @@ export interface TextApi {
   getState(): TextState;
 }
 
-export type GenerateMarkdownPreview = (
-  markdown: string
-) => Promise<React.ReactNode>;
+type GenerateMarkdownPreview = (markdown: string) => Promise<React.ReactNode>;
 
 /**
  * If the command returns true for a given KeyboardEvent,
  * the command is executed
  */
-export type HandleKeyCommand = (
+type HandleKeyCommand = (
   e: React.KeyboardEvent<HTMLTextAreaElement>
 ) => boolean;
 
-export interface L18n {
+interface L18n {
   write: React.ReactNode;
   preview: React.ReactNode;
-  uploadingImage: string;
+  uploadingFile: string;
   pasteDropSelect: string;
 }
 
-export interface MarkdownState {
-  selection: Selection;
+interface MarkdownState {
+  selection: SelectionRange;
   text: string;
 }
 
-export type RefObj<ElementType> = { current: null | ElementType };
+type RefObj<ElementType> = { current: null | ElementType };
 
-export interface Refs {
+interface Refs {
   textarea?: RefObj<HTMLTextAreaElement>;
   preview?: RefObj<HTMLDivElement>;
 }
 
-export type Selection = {
+type SelectionRange = {
   start: number;
   end: number;
 };
 
-export interface Suggestion {
+interface Suggestion {
   /**
    * React element to be used as the preview
    */
@@ -181,13 +177,13 @@ export interface Suggestion {
   value: string;
 }
 
-export type Tab = 'write' | 'preview';
+type Tab = 'write' | 'preview';
 
-export type TextSection = {
+type TextSection = {
   text: string;
-  selection: Selection;
+  selection: SelectionRange;
 };
-export type TextState = {
+type TextState = {
   /**
    * All the text in the editor
    */
@@ -201,5 +197,5 @@ export type TextState = {
   /**
    * The section of the text that is selected
    */
-  selection: Selection;
+  selection: SelectionRange;
 };

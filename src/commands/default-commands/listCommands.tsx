@@ -1,4 +1,3 @@
-import { Command, TextState, TextApi } from '~';
 import {
   getBreaksNeededForEmptyLineAfter,
   getBreaksNeededForEmptyLineBefore,

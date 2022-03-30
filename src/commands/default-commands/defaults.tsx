@@ -16,8 +16,7 @@ import {
   unorderedListCommand,
 } from './listCommands';
 import imageCommand from './imageCommand';
-import saveImageCommand from './save-image-command';
-import { ToolbarGroups, CommandMap } from '~';
+import uploadFileCommand from './uploadFileCommand';
 
 export function getDefaultToolbarCommands(): ToolbarGroups {
   return [
@@ -51,10 +50,10 @@ export function getDefaultCommandMap(): CommandMap {
     'unordered-list': unorderedListCommand,
     'ordered-list': orderedListCommand,
     'checked-list': checkedListCommand,
-    'save-image': saveImageCommand,
+    'upload-file': uploadFileCommand,
   };
 }
 
-export function getDefaultSaveImageCommandName() {
-  return 'save-image';
+export function getDefaultUploadFileCommandName() {
+  return 'upload-file';
 }

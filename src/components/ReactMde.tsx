@@ -6,7 +6,7 @@ import { TextArea } from './TextArea';
 import {
   getDefaultCommandMap,
   getDefaultToolbarCommands,
-  getDefaultSaveImageCommandName,
+  getDefaultUploadFileCommandName,
 } from '../commands/default-commands/defaults';
 import enL18n from '../l18n/react-mde.en';
 import SvgIcon from './SvgIcon';
@@ -15,20 +15,6 @@ import {
   getStateFromTextArea,
 } from '../commands/command-utils';
 import TextAreaTextApi from '../commands/TextAreaTextApi';
-import {
-  CommandMap,
-  Suggestion,
-  ChildProps,
-  PasteOptions,
-  GenerateMarkdownPreview,
-  GetIcon,
-  ToolbarGroups,
-  L18n,
-  Tab,
-  Command,
-  CommandContext,
-  ToolbarRenderGroups,
-} from '~';
 
 export type ReactMdeProps = {
   value: string;
@@ -151,10 +137,13 @@ export const ReactMde = (props: ReactMdeProps) => {
     event: React.ClipboardEvent<HTMLTextAreaElement>
   ): Promise<void> => {
     if (paste) {
-      return executeCommand(paste.command || getDefaultSaveImageCommandName(), {
-        saveImage: paste.saveImage,
-        event,
-      });
+      return executeCommand(
+        paste.command || getDefaultUploadFileCommandName(),
+        {
+          uploadFile: paste.uploadFile,
+          event,
+        }
+      );
     }
     return undefined;
   };
@@ -166,25 +155,31 @@ export const ReactMde = (props: ReactMdeProps) => {
     event: React.DragEvent<HTMLTextAreaElement>
   ): Promise<void> => {
     if (paste) {
-      return executeCommand(paste.command || getDefaultSaveImageCommandName(), {
-        saveImage: paste.saveImage,
-        event,
-      });
+      return executeCommand(
+        paste.command || getDefaultUploadFileCommandName(),
+        {
+          uploadFile: paste.uploadFile,
+          event,
+        }
+      );
     }
     return undefined;
   };
 
   /**
-   * Executes the "select image" command
+   * Executes the "select file" command
    */
-  const executeSelectImageCommand = async (
+  const executeSelectFileCommand = async (
     event: React.ChangeEvent<HTMLInputElement>
   ): Promise<void> => {
     if (paste) {
-      return executeCommand(paste.command || getDefaultSaveImageCommandName(), {
-        saveImage: paste.saveImage,
-        event,
-      });
+      return executeCommand(
+        paste.command || getDefaultUploadFileCommandName(),
+        {
+          uploadFile: paste.uploadFile,
+          event,
+        }
+      );
     }
     return undefined;
   };
@@ -262,7 +257,7 @@ export const ReactMde = (props: ReactMdeProps) => {
             executePasteCommand(event);
           }}
           onDrop={(event: React.DragEvent<HTMLTextAreaElement>) => {
-            if (!paste || !paste.saveImage) {
+            if (!paste || !paste.uploadFile) {
               return;
             }
             executeDropCommand(event);
@@ -280,17 +275,16 @@ export const ReactMde = (props: ReactMdeProps) => {
           minHeight={minHeight}
         />
         {paste && (
-          <label className="image-tip">
+          <label className="file-tip">
             <input
-              className="image-input"
+              className="file-input"
               type="file"
-              accept="image/*"
               multiple
               onChange={async (event: React.ChangeEvent<HTMLInputElement>) => {
-                if (!paste || !paste.saveImage) {
+                if (!paste || !paste.uploadFile) {
                   return;
                 }
-                executeSelectImageCommand(event);
+                executeSelectFileCommand(event);
               }}
             />
             <span>{l18n.pasteDropSelect}</span>

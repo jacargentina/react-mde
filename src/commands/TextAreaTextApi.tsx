@@ -1,4 +1,3 @@
-import { TextApi, TextState, Selection } from '~';
 import insertText from '../util/InsertTextAtPosition';
 import { getStateFromTextArea } from './command-utils';
 

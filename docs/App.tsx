@@ -6,7 +6,6 @@ import ReactMde, {
   getDefaultCommandMap,
 } from '../src';
 import pkg from '../package.json';
-import { SaveImageHandler, Suggestion, Tab } from '~';
 import './App.css';
 import '~/styles.css';
 
@@ -86,7 +85,7 @@ const App = () => {
     });
   };
 
-  const save: SaveImageHandler = async function* (data: ArrayBuffer) {
+  const save: UploadFileHandler = async function* (data: ArrayBuffer) {
     // Promise that waits for "time" milliseconds
     const wait = function (time: number) {
       return new Promise((a, r) => {
@@ -145,7 +144,7 @@ const App = () => {
         loadSuggestions={loadSuggestions}
         suggestionTriggerCharacters={['@']}
         paste={{
-          saveImage: save,
+          uploadFile: save,
         }}
         minHeight={150}
       />

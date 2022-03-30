@@ -1,4 +1,3 @@
-import { Command, ExecuteOptions } from '~';
 import readFileAsync from '../../util/files';
 import { getBreaksNeededForEmptyLineBefore } from '../../util/MarkdownUtil';
 
@@ -22,14 +21,18 @@ function fileListToBlobs(list: FileList): Array<File> {
   return result;
 }
 
-const saveImageCommand: Command = {
+function isImage(file: File) {
+  return file && file.type.split('/')[0] === 'image';
+}
+
+const uploadFileCommand: Command = {
   async execute({
     initialState,
     textApi,
     context,
     l18n,
   }: ExecuteOptions): Promise<void> {
-    const { event, saveImage } = context;
+    const { event, uploadFile } = context;
 
     let blobs: any[];
     if (event && 'clipboardData' in event) {
@@ -43,8 +46,8 @@ const saveImageCommand: Command = {
     }
 
     if (blobs.length > 0) {
-      if (!saveImage)
-        throw new Error("saveImage config missing, can't handle action");
+      if (!uploadFile)
+        throw new Error("uploadFile config missing, can't handle action");
 
       blobs.forEach(async (blob) => {
         const breaksBeforeCount = getBreaksNeededForEmptyLineBefore(
@@ -54,13 +57,13 @@ const saveImageCommand: Command = {
         const breaksBefore = Array(breaksBeforeCount + 1).join('\n');
 
         const placeHolder = `${breaksBefore}![${
-          l18n ? l18n.uploadingImage : 'Uploading image...'
+          l18n ? l18n.uploadingFile : 'Uploading ...'
         }]()`;
 
         textApi.replaceSelection(placeHolder);
 
         const blobContents = await readFileAsync(blob);
-        const savingImage = saveImage(blobContents);
+        const savingImage = uploadFile(blobContents);
         const imageUrl = (await savingImage.next()).value;
 
         const newState = textApi.getState();
@@ -78,8 +81,13 @@ const saveImageCommand: Command = {
             end: initialState.selection.start + placeHolder.length,
           });
 
-          const realImageMarkdown = `${breaksBefore}![image](${imageUrl})`;
+          let title = isImage(blob)
+            ? blob.name.substring(0, blob.name.lastIndexOf('.')) || blob.name
+            : blob.name;
 
+          title = isImage(blob) ? `![${title}]` : `[${title}]`;
+
+          const realImageMarkdown = `${breaksBefore}${title}(${imageUrl})`;
           const selectionDelta = realImageMarkdown.length - placeHolder.length;
 
           textApi.replaceSelection(realImageMarkdown);
@@ -94,4 +102,4 @@ const saveImageCommand: Command = {
   },
 };
 
-export default saveImageCommand;
+export default uploadFileCommand;

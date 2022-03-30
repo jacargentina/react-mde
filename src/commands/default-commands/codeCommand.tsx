@@ -1,4 +1,3 @@
-import { Command } from '~';
 import {
   getBreaksNeededForEmptyLineAfter,
   getBreaksNeededForEmptyLineBefore,

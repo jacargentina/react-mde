@@ -3,7 +3,7 @@ import { L18n } from "~";
 const enL18n: L18n = {
   write: 'Write',
   preview: 'Preview',
-  uploadingImage: 'Uploading image...',
+  uploadingFile: 'Uploading file...',
   pasteDropSelect:
     'Attach files by dragging & dropping, selecting or pasting them.',
 };

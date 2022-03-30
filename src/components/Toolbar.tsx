@@ -3,13 +3,6 @@ import { ToolbarButtonGroup } from './ToolbarButtonGroup';
 import { ToolbarButton } from './ToolbarButton';
 import { ToolbarDropdown } from './ToolbarDropdown';
 import SvgIcon from './SvgIcon';
-import {
-  ToolbarRenderGroups,
-  ToolbarRenderGroup,
-  Tab,
-  L18n,
-  ButtonChildProps,
-} from '~';
 
 export type ToolbarProps = {
   buttons: ToolbarRenderGroups;
