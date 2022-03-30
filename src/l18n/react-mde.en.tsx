@@ -1,4 +1,4 @@
-import { L18n } from "~";
+import { L18n } from "..";
 
 const enL18n: L18n = {
   write: 'Write',

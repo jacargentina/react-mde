@@ -1,3 +1,4 @@
+import { Command, ExecuteOptions } from '../..';
 import readFileAsync from '../../util/files';
 import { getBreaksNeededForEmptyLineBefore } from '../../util/MarkdownUtil';
 

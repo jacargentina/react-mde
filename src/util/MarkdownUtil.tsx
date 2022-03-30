@@ -1,4 +1,9 @@
-export function getSurroundingWord(text: string, position: number): Selection {
+import { SelectionRange, TextSection } from '..';
+
+export function getSurroundingWord(
+  text: string,
+  position: number
+): SelectionRange {
   if (!text) throw Error("Argument 'text' should be truthy");
 
   const isWordDelimiter = (c: string) => c === ' ' || c.charCodeAt(0) === 10;
@@ -33,7 +38,7 @@ export function getSurroundingWord(text: string, position: number): Selection {
  * @param text
  * @param selection
  */
-export function selectWord({ text, selection }: TextSection): Selection {
+export function selectWord({ text, selection }: TextSection): SelectionRange {
   if (text && text.length && selection.start === selection.end) {
     // the user is pointing to a word
     return getSurroundingWord(text, selection.start);

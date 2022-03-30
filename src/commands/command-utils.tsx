@@ -1,3 +1,5 @@
+import { CommandMap, SelectionRange, TextState } from '..';
+
 /**
  * Returns a flat array of commands that can be activated by the keyboard.
  * When keydowns happen, these commands 'handleKeyCommand' will be executed, in this order,
@@ -19,7 +21,7 @@ export function getStateFromTextArea(
   textArea: null | HTMLTextAreaElement
 ): TextState {
   if (textArea == null) {
-    const selection: Selection = {
+    const selection: SelectionRange = {
       start: 0,
       end: 0,
     };
@@ -29,7 +31,7 @@ export function getStateFromTextArea(
       selectedText: '',
     };
   }
-  const selection: Selection = {
+  const selection: SelectionRange = {
     start: textArea?.selectionStart,
     end: textArea?.selectionEnd,
   };

@@ -1,3 +1,4 @@
+import { Command } from '../..';
 import { setHeader } from './common';
 
 const header4Command: Command = {

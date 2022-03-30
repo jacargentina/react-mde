@@ -1,3 +1,4 @@
+import { TextState, TextApi, Command } from '../..';
 import {
   getBreaksNeededForEmptyLineAfter,
   getBreaksNeededForEmptyLineBefore,
@@ -12,7 +13,7 @@ export type AlterLineFunction = (line: string, index: number) => string;
 export function insertBeforeEachLine(
   selectedText: string,
   insertBefore: string | AlterLineFunction
-): { modifiedText: string, insertionLength: number } {
+): { modifiedText: string; insertionLength: number } {
   const lines = selectedText.split(/\n/);
 
   let insertionLength = 0;

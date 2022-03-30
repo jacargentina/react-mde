@@ -17,6 +17,7 @@ import {
 } from './listCommands';
 import imageCommand from './imageCommand';
 import uploadFileCommand from './uploadFileCommand';
+import { CommandMap, ToolbarGroups } from '../..';
 
 export function getDefaultToolbarCommands(): ToolbarGroups {
   return [

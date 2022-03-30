@@ -1,3 +1,4 @@
+import { SelectionRange, TextApi, TextState } from '..';
 import insertText from '../util/InsertTextAtPosition';
 import { getStateFromTextArea } from './command-utils';
 
@@ -16,7 +17,7 @@ export default class TextAreaTextApi implements TextApi {
     return getStateFromTextArea(textArea);
   }
 
-  setSelectionRange(selection: Selection): TextState {
+  setSelectionRange(selection: SelectionRange): TextState {
     const textArea = this.textAreaRef.current;
     if (textArea) {
       textArea.focus();

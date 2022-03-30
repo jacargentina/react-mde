@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useCallback } from 'react';
+import { CaretCoordinates, Suggestion } from '..';
 
 export type SuggestionsDropdownProps = {
   caret: CaretCoordinates;

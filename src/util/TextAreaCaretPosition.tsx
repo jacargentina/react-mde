@@ -1,4 +1,4 @@
-import { CaretCoordinates } from "~";
+import { CaretCoordinates } from "..";
 
 declare var window: any;
 declare var document: any;

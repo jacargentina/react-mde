@@ -1,13 +1,15 @@
-import * as React from 'react';
 import { useState, useMemo } from 'react';
 import * as Showdown from 'showdown';
 import ReactMde, {
   getDefaultToolbarCommands,
   getDefaultCommandMap,
+  UploadFileHandler,
+  Tab,
+  Suggestion,
 } from '../src';
 import pkg from '../package.json';
 import './App.css';
-import '~/styles.css';
+import '../src/styles.css';
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -88,8 +90,8 @@ const App = () => {
   const save: UploadFileHandler = async function* (data: ArrayBuffer) {
     // Promise that waits for "time" milliseconds
     const wait = function (time: number) {
-      return new Promise((a, r) => {
-        setTimeout(() => a(), time);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => resolve(true), time);
       });
     };
 

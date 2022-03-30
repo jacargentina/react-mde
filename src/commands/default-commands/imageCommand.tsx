@@ -1,3 +1,4 @@
+import { Command } from '../..';
 import { selectWord } from '../../util/MarkdownUtil';
 
 const imageCommand: Command = {

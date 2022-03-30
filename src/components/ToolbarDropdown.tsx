@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
+import { ButtonChildProps, ToolbarRenderGroup } from '..';
 import { ToolbarButton } from './ToolbarButton';
 
 export type ToolbarDropdownProps = {

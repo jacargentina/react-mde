@@ -15,6 +15,20 @@ import {
   getStateFromTextArea,
 } from '../commands/command-utils';
 import TextAreaTextApi from '../commands/TextAreaTextApi';
+import {
+  ChildProps,
+  Command,
+  CommandContext,
+  CommandMap,
+  GenerateMarkdownPreview,
+  GetIcon,
+  L18n,
+  PasteOptions,
+  Suggestion,
+  Tab,
+  ToolbarGroups,
+  ToolbarRenderGroups,
+} from '..';
 
 export type ReactMdeProps = {
   value: string;
@@ -24,8 +38,8 @@ export type ReactMdeProps = {
   onTabChange: (tab: Tab) => void;
   onMaximizedChange?: (isMaximized: boolean) => void;
   generateMarkdownPreview: GenerateMarkdownPreview;
-  toolbarCommands: ToolbarGroups;
-  commands: CommandMap;
+  toolbarCommands?: ToolbarGroups;
+  commands?: CommandMap;
   getIcon?: GetIcon;
   loadingPreview?: React.ReactNode;
   readOnly?: boolean;

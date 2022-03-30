@@ -4,6 +4,7 @@ import getCaretCoordinates from '../util/TextAreaCaretPosition';
 import insertText from '../util/InsertTextAtPosition';
 import mod from '../util/Math';
 import { SuggestionsDropdown } from './SuggestionsDropdown';
+import { CaretCoordinates, Suggestion } from '..';
 
 export type MentionState = {
   status: 'active' | 'inactive' | 'loading';
