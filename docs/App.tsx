@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState, useMemo } from 'react';
 import * as Showdown from 'showdown';
 import ReactMde, {
