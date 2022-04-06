@@ -18,7 +18,8 @@ export interface ChildProps {
 export type GetIcon = (iconName: string) => React.ReactNode;
 
 export type UploadFileHandler = (
-  data: ArrayBuffer
+  data: ArrayBuffer,
+  name: string
 ) => AsyncGenerator<string, boolean, void>;
 
 export type CommandContext = {

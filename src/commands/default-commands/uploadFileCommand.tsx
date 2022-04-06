@@ -35,7 +35,7 @@ const uploadFileCommand: Command = {
   }: ExecuteOptions): Promise<void> {
     const { event, uploadFile } = context;
 
-    let blobs: any[];
+    let blobs: Array<File>;
     if (event && 'clipboardData' in event) {
       blobs = extractBlobs(event.clipboardData.items);
     } else if (event && 'dataTransfer' in event) {
@@ -64,7 +64,7 @@ const uploadFileCommand: Command = {
         textApi.replaceSelection(placeHolder);
 
         const blobContents = await readFileAsync(blob);
-        const savingImage = uploadFile(blobContents);
+        const savingImage = uploadFile(blobContents, blob.name);
         const imageUrl = (await savingImage.next()).value;
 
         const newState = textApi.getState();
