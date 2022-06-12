@@ -23,7 +23,7 @@ React-mde is a completely controlled component.
 
 ```jsx
 import React, { useState } from 'react';
-import ReactMde from '@javier.alejandro.castro/react-mde';
+import { ReactMdeProvider, ReactMdeEditor } from '@javier.alejandro.castro/react-mde';
 import * as Showdown from 'showdown';
 
 const converter = new Showdown.Converter({
@@ -37,13 +37,15 @@ const App = () => {
   const [value, setValue] = useState('**Hello world!!!**');
   return (
     <div className="container">
-      <ReactMde
-        value={value}
-        onChange={setValue}
-        generateMarkdownPreview={(markdown) =>
-          Promise.resolve(converter.makeHtml(markdown))
-        }
-      />
+      <ReactMdeProvider>
+        <ReactMdeEditor
+          value={value}
+          onChange={setValue}
+          generateMarkdownPreview={(markdown) =>
+            Promise.resolve(converter.makeHtml(markdown))
+          }
+        />
+      </ReactMdeProvider>
     </div>
   );
 };
@@ -59,30 +61,39 @@ You can customize the way icons are resolved by passing your own `getIcon` that 
 given a command name.
 
 ```jsx
-<ReactMde
-  getIcon={(commandName) => <MyCustomIcon name={commandName} />}
+<ReactMdeProvider
+  getIcon={(name) => <MyCustomIcon name={name} />}
   // ...
-/>
+>
+  <ReactMdeEditor {...props} />
+</ReactMdeProvider>
 ```
 
-## React-mde Props
+## ReactMdeProvider Props
+
+The types are described below
+
+- **onTabChange?: (tab: Tab) => void;**
+- **getIcon?: GetIcon** An optional set of button content options, to allow custom icon rendering.
+- **disableMaximize?: boolean;** Disables the maximize command.
+- **initialMaximized?: boolean;** The initial maximized state; defaults to false.
+- **onMaximizedChange: (isMaximized: boolean) => void**: Function called when maximized
+- **l18n?**: A localization option. It contains the strings `write`, `preview`,`uploadingFile` and `pasteDropSelect`.
+- **children: any;** Pass children for adding custom non-ui commands
+
+## ReactMdeEditor Props
 
 The types are described below
 
 - **value: string**: The Markdown value.
-- **isMaximized: boolean**: The current maximized state; defaults to false.
 - **onChange: (value: string)**: Event handler for the `onChange` event.
-- **onMaximizedChange: (isMaximized: boolean) => void**: Function called when maximized state changes: allow the component user to customize surrounding CSS for allowing to expand to full screen editing.
+  state changes: allow the component user to customize surrounding CSS for allowing to expand to full screen editing.
 - **customLayout?**: React.ReactNode: Allows providing a custom toolbar layout, ie. adding new commands.
 - **generateMarkdownPreview: (markdown: string) => Promise<string | ReactElement>;**: Function that should return a Promise to the generated HTML or a React element for the preview. If this `prop` is falsy, then no preview is going to be generated.
-- **getIcon?: (commandName: string) => React.ReactNode }** An optional set of button content options, including an `iconProvider` to allow custom icon rendering.
-  options.
 - **loadingPreview**: What to display in the preview while it is loading. Value can be string, React Element or anything React can render.
 - **readOnly?: boolean**: Flag to render the editor in read-only mode.
 - **minHeight?: number**: Minimum height for textarea while in write.
 - **disablePreview?: boolean**: Flag to disable built-in preview, when you need to handle it outside the component.
-- **disableMaximize?: boolean**: Flag to disable (hide) maximize button.
-- **l18n?**: A localization option. It contains the strings `write`, `preview`,`uploadingFile` and `pasteDropSelect`.
 - **loadSuggestions?: (text: string, triggeredBy: string) => Promise<Suggestion[]>**: Function to load mention suggestions based on the
   given `text` and `triggeredBy` (character that triggered the suggestions). The result should be an array of `{preview: React.ReactNode, value: string}`.
   The `preview` is what is going to be displayed in the suggestions box. The `value` is what is going to be inserted in the `textarea` on click or enter.

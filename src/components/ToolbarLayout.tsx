@@ -18,7 +18,7 @@ import { useReactMde } from './ReactMdeContext';
 
 export const ToolbarLayout = (props: { children?: any }) => {
   const { children } = props;
-  const reactMde = useReactMde();
+  const { disableMaximize } = useReactMde();
   return (
     <>
       <ToolbarButtonGroup key="font">
@@ -39,7 +39,7 @@ export const ToolbarLayout = (props: { children?: any }) => {
         <CheckedListCommand />
       </ToolbarButtonGroup>
       {children}
-      {!reactMde.disableMaximize && (
+      {!disableMaximize && (
         <ul className="maximizeRight">
           <ToggleMaximizeCommand />
         </ul>

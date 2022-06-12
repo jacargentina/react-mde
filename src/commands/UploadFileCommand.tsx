@@ -151,7 +151,6 @@ export const UploadFileInputCommand = (props: {
 }) => {
   const { uploadFile } = props;
   const { getTextState, l18n, textApi } = useReactMde();
-
   return (
     <label className="file-tip">
       <input

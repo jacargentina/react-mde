@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { GetIcon, RefObj, SelectionRange, Tab, TextState } from '..';
+import { GetIcon, L18n, RefObj, SelectionRange, Tab, TextState } from '..';
 import TextAreaTextApi from '../commands/TextAreaTextApi';
 import enL18n from '../l18n/react-mde.en';
 import SvgIcon from './SvgIcon';
@@ -49,20 +49,24 @@ const ReactMdeContext = createContext<ReactMdeContextData | undefined>(
   undefined
 );
 
-export const ReactMdeProvider = (props: {
+export type ReactMdeProviderProps = {
   children: any;
   onTabChange?: (tab: Tab) => void;
   getIcon?: GetIcon;
   disableMaximize?: boolean;
   initialMaximized?: boolean;
   onMaximizedChange?: (isMaximized: boolean) => void;
-}) => {
+  l18n?: L18n;
+};
+
+export const ReactMdeProvider = (props: ReactMdeProviderProps) => {
   const {
     onTabChange,
     getIcon = (name) => <SvgIcon icon={name} />,
     disableMaximize,
     initialMaximized,
     onMaximizedChange,
+    l18n = enL18n,
     children,
   } = props;
   const textarea = useRef<null | HTMLTextAreaElement>(null);
@@ -142,7 +146,7 @@ export const ReactMdeProvider = (props: {
   return (
     <ReactMdeContext.Provider
       value={{
-        l18n: enL18n,
+        l18n,
         textApi: textApi.current,
         selectedTab,
         setSelectedTab,

@@ -1,8 +1,5 @@
 import * as React from 'react';
-import { Preview } from './Preview';
-import { Toolbar } from './Toolbar';
-import { TextArea } from './TextArea';
-import SvgIcon from './SvgIcon';
+import { Preview, Toolbar, TextArea, useReactMde } from '.';
 import {
   ChildProps,
   GenerateMarkdownPreview,
@@ -11,14 +8,13 @@ import {
   Suggestion,
   UploadFileHandler,
 } from '..';
-import { ReactMdeProvider, useReactMde } from './ReactMdeContext';
 import {
   UploadFileDragDropCommand,
   UploadFileInputCommand,
   UploadFilePasteCommand,
 } from '../commands';
 
-export type ReactMdeProps = {
+export type ReactMdeEditorProps = {
   value: string;
   onChange: (value: string) => void;
   generateMarkdownPreview: GenerateMarkdownPreview;
@@ -28,8 +24,6 @@ export type ReactMdeProps = {
   loadingPreview?: React.ReactNode;
   readOnly?: boolean;
   disablePreview?: boolean;
-  disableMaximize?: boolean;
-  onMaximizedChange?: (isMaximized: boolean) => void;
   suggestionTriggerCharacters?: string[];
   loadSuggestions?: (text: string) => Promise<Suggestion[]>;
   childProps?: ChildProps;
@@ -39,7 +33,7 @@ export type ReactMdeProps = {
   children?: any;
 };
 
-const ReactMdeEditor = (props: ReactMdeProps) => {
+export const ReactMdeEditor = (props: ReactMdeEditorProps) => {
   const {
     customLayout,
     loadingPreview,
@@ -96,14 +90,5 @@ const ReactMdeEditor = (props: ReactMdeProps) => {
         />
       )}
     </div>
-  );
-};
-
-export const ReactMde = (props: ReactMdeProps) => {
-  return (
-    <ReactMdeProvider {...props}>
-      <ReactMdeEditor {...props} />
-      {props.children}
-    </ReactMdeProvider>
   );
 };

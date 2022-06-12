@@ -5,5 +5,5 @@ export * from './TextArea';
 export * from './Toolbar';
 export * from './ToolbarLayout';
 export * from './ReactMdeContext';
-export * from './ReactMde';
+export * from './ReactMdeEditor';
 export * from './SuggestionsDropdown';

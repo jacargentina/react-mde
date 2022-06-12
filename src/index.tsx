@@ -126,6 +126,3 @@ export type TextState = {
 export * as MarkdownUtil from './util/MarkdownUtil';
 export * from './commands';
 export * from './components';
-
-import { ReactMde } from './components';
-export default ReactMde;
