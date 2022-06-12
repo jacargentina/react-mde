@@ -1,19 +1,14 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
-import { ButtonChildProps, ToolbarRenderGroup } from '..';
-import { ToolbarButton } from './ToolbarButton';
 
 export type ToolbarDropdownProps = {
   dropdownContent: React.ReactNode;
-  dropdownProps?: ButtonChildProps;
-  commands: ToolbarRenderGroup;
-  onCommand: (commandName: string) => void;
   readOnly: boolean;
+  children: any;
 };
 
 export const ToolbarDropdown = (props: ToolbarDropdownProps) => {
-  const { readOnly, onCommand, dropdownContent, dropdownProps, commands } =
-    props;
+  const { readOnly, dropdownContent, children } = props;
   const dropdown = useRef<any>();
   const dropdownOpener = useRef<any>();
   const [open, setOpen] = useState(false);
@@ -49,8 +44,9 @@ export const ToolbarDropdown = (props: ToolbarDropdownProps) => {
     };
   }, []);
 
+  // TODO
   const handleOnClickCommand = (commandName: string) => {
-    onCommand(commandName);
+    //onCommand(commandName);
     closeDropdown();
   };
 
@@ -62,41 +58,21 @@ export const ToolbarDropdown = (props: ToolbarDropdownProps) => {
     }
   };
 
-  const items = commands.items.map((c) => {
-    return (
-      <ToolbarButton
-        key={c.commandName}
-        name={c.commandName}
-        buttonContent={c.buttonContent}
-        buttonProps={c.buttonProps}
-        onClick={() => handleOnClickCommand(c.commandName)}
-        readOnly={readOnly}
-        buttonComponentClass={c.buttonComponentClass}
-      />
-    );
-  });
-
   const dropdownItems = open ? (
     <ul className="react-mde-toolbar-dropdown-items" ref={dropdown}>
-      {items}
+      {children}
     </ul>
   ) : null;
-
-  const finalButtonProps = {
-    tabIndex: -1,
-    ...(dropdownProps || {}),
-  };
 
   return (
     <li className="react-mde-toolbar-dropdown">
       <button
         className="toolbarButton"
         type="button"
-        {...finalButtonProps}
+        tabIndex={-1}
         ref={dropdownOpener}
         onClick={handleClick}
-        disabled={readOnly}
-      >
+        disabled={readOnly}>
         {dropdownContent}
       </button>
       {dropdownItems}

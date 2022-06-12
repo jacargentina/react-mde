@@ -1,9 +1,11 @@
-import { TextState, TextApi, Command } from '../..';
+import * as React from 'react';
+import { ToolbarButton, useReactMde } from '../components';
+import { TextApi, TextState } from '..';
 import {
   getBreaksNeededForEmptyLineAfter,
   getBreaksNeededForEmptyLineBefore,
   selectWord,
-} from '../../util/MarkdownUtil';
+} from '../util/MarkdownUtil';
 
 export type AlterLineFunction = (line: string, index: number) => string;
 
@@ -81,23 +83,50 @@ export const makeList = (
   });
 };
 
-export const unorderedListCommand: Command = {
-  buttonProps: { 'aria-label': 'Add unordered list' },
-  execute: ({ initialState, textApi }) => {
-    makeList(initialState, textApi, '- ');
-  },
+export const UnorderedListCommand = () => {
+  const { getTextState, textApi, getIcon } = useReactMde();
+
+  return (
+    <ToolbarButton
+      name="unordered-list"
+      aria-label="Add unordered list"
+      onClick={() => {
+        const initialState = getTextState();
+        makeList(initialState, textApi, '- ');
+      }}>
+      {getIcon('unordered-list')}
+    </ToolbarButton>
+  );
 };
 
-export const orderedListCommand: Command = {
-  buttonProps: { 'aria-label': 'Add ordered list' },
-  execute: ({ initialState, textApi }) => {
-    makeList(initialState, textApi, (item, index) => `${index + 1}. `);
-  },
+export const OrderedListCommand = () => {
+  const { getTextState, textApi, getIcon } = useReactMde();
+
+  return (
+    <ToolbarButton
+      name="ordered-list"
+      aria-label="Add ordered list"
+      onClick={() => {
+        const initialState = getTextState();
+        makeList(initialState, textApi, (item, index) => `${index + 1}. `);
+      }}>
+      {getIcon('ordered-list')}
+    </ToolbarButton>
+  );
 };
 
-export const checkedListCommand: Command = {
-  buttonProps: { 'aria-label': 'Add checked list' },
-  execute: ({ initialState, textApi }) => {
-    makeList(initialState, textApi, () => `- [ ] `);
-  },
+export const CheckedListCommand = () => {
+  const { getTextState, textApi, getIcon } = useReactMde();
+
+  return (
+    <ToolbarButton
+      name="checked-list"
+      aria-label="Add checked list"
+      onClick={() => {
+        const initialState = getTextState();
+        makeList(initialState, textApi, () => `- [ ] `);
+      }}>
+      {getIcon('checked-list')}
+    </ToolbarButton>
+  );
 };

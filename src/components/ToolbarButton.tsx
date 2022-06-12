@@ -2,31 +2,20 @@ import * as React from 'react';
 
 export type ToolbarButtonProps = {
   name: string;
-  buttonComponentClass?: any;
-  buttonProps?: any;
-  buttonContent: React.ReactNode;
   onClick?: React.MouseEventHandler;
-  readOnly: boolean;
+  readOnly?: boolean;
+  [name: string]: any;
 };
 
 export const ToolbarButton = (props: ToolbarButtonProps) => {
-  const {
-    buttonComponentClass,
-    buttonContent,
-    buttonProps,
-    onClick,
-    readOnly,
-    name,
-  } = props;
+  const { name, onClick, readOnly, children, ...rest } = props;
 
   const finalButtonProps = {
     className: 'toolbarButton',
     tabIndex: -1,
     'data-name': name,
-    ...(buttonProps || {}),
+    ...rest,
   };
-
-  const finalButtonComponent = buttonComponentClass || 'button';
 
   return (
     <li
@@ -34,10 +23,9 @@ export const ToolbarButton = (props: ToolbarButtonProps) => {
         display: 'inline-block',
         position: 'relative',
         margin: '0 4px',
-      }}
-    >
+      }}>
       {React.createElement(
-        finalButtonComponent,
+        'button',
         {
           ...finalButtonProps,
           ...{
@@ -46,7 +34,7 @@ export const ToolbarButton = (props: ToolbarButtonProps) => {
             type: 'button',
           },
         },
-        buttonContent
+        children
       )}
     </li>
   );

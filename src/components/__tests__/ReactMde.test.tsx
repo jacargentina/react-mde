@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { render, cleanup, waitFor } from '@testing-library/react';
+import {
+  render,
+  cleanup,
+  waitFor,
+  fireEvent,
+  getByRole,
+} from '@testing-library/react';
 import * as Showdown from 'showdown';
 import { ReactMde } from '../ReactMde';
 
@@ -31,18 +37,18 @@ describe('<ReactMde />', () => {
     });
   });
 
-  it('renders <TextArea /> when selectedTab is write', async () => {
-    const { getByTestId } = render(<ReactMde {...props} selectedTab="write" />);
+  it('renders <TextArea /> by default', async () => {
+    const { getByTestId } = render(<ReactMde {...props} />);
 
     await waitFor(() => {
       expect(getByTestId('text-area'));
     });
   });
 
-  it('renders <MdePreview /> when selectedTab is preview', async () => {
-    const { getByTestId } = render(
-      <ReactMde {...props} selectedTab="preview" />
-    );
+  it('renders <MdePreview /> when clicking "preview"', async () => {
+    const { getByTestId } = render(<ReactMde {...props} />);
+
+    fireEvent.click(getByTestId('preview-button'));
 
     await waitFor(() => {
       expect(getByTestId('react-mde-preview-container'));

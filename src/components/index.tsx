@@ -3,5 +3,7 @@ export * from './ToolbarButton';
 export * from './Preview';
 export * from './TextArea';
 export * from './Toolbar';
+export * from './ToolbarLayout';
+export * from './ReactMdeContext';
 export * from './ReactMde';
 export * from './SuggestionsDropdown';

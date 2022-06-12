@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import * as Showdown from 'showdown';
 import ReactMde, {
-  getDefaultToolbarCommands,
-  getDefaultCommandMap,
-  UploadFileHandler,
-  Tab,
   Suggestion,
+  ToolbarButton,
+  ToolbarButtonGroup,
+  ToolbarLayout,
+  useReactMde,
 } from '../src';
 import pkg from '../package.json';
 import './App.css';
@@ -19,43 +19,43 @@ const converter = new Showdown.Converter({
   tasklists: true,
 });
 
-const customDropDown = {
-  name: 'my-dropdown',
-  dropdownContent: 'Advanced',
-  items: ['showalert'],
+const CustomGroup = () => {
+  const { textApi } = useReactMde();
+
+  return (
+    <ToolbarButtonGroup>
+      <ToolbarButton
+        name="test"
+        onClick={async () => {
+          const resp = await fetch(
+            'https://movie-quote-api.herokuapp.com/v1/quote/'
+          );
+          const data = await resp.json();
+          textApi.replaceSelection(
+            `*"${data.quote}"*, from show **${data.show}**`
+          );
+        }}>
+        Insert Random Quote
+      </ToolbarButton>
+    </ToolbarButtonGroup>
+  );
 };
 
-const customCommand = {
-  title: 'Show alert',
-  execute: () => {
-    window.alert('Hey there!');
-  },
+const CustomLayout = () => {
+  return (
+    <ToolbarLayout>
+      <CustomGroup />
+    </ToolbarLayout>
+  );
 };
 
 const App = () => {
   const [value, setValue] = useState('**Hello world!!!**');
-  const [tab, setTab] = useState<Tab>('write');
   const [maximized, setMaximized] = useState(false);
   const [withCustomToolbar, setWithcustomToolbar] = useState(false);
 
-  const config = useMemo(() => {
-    const cmdMap = getDefaultCommandMap();
-    const toolbarCmd = getDefaultToolbarCommands();
-    if (withCustomToolbar) {
-      cmdMap.showalert = customCommand;
-      const removeIdx = toolbarCmd.findIndex((g) => g.name === 'lists');
-      toolbarCmd.splice(removeIdx, 1);
-      toolbarCmd.push(customDropDown);
-    }
-    return { cmdMap, toolbarCmd };
-  }, [withCustomToolbar]);
-
   const handleValueChange = (newValue: string) => {
     setValue(newValue);
-  };
-
-  const handleTabChange = (name: Tab) => {
-    setTab(name);
   };
 
   const handleMaximizedChange = (isMaximized: boolean) => {
@@ -88,28 +88,6 @@ const App = () => {
     });
   };
 
-  const save: UploadFileHandler = async function* (data: ArrayBuffer) {
-    // Promise that waits for "time" milliseconds
-    const wait = function (time: number) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(true), time);
-      });
-    };
-
-    // Upload "data" to your server
-    // Use XMLHttpRequest.send to send a FormData object containing
-    // "data"
-    // Check this question: https://stackoverflow.com/questions/18055422/how-to-receive-php-image-data-over-copy-n-paste-javascript-with-xmlhttprequest
-
-    await wait(2000);
-    // yields the URL that should be inserted in the markdown
-    yield 'https://picsum.photos/300';
-    await wait(2000);
-
-    // returns true meaning that the save was successful
-    return true;
-  };
-
   return (
     <div
       className="app"
@@ -117,8 +95,7 @@ const App = () => {
         display: maximized ? 'flex' : 'block',
         maxWidth: maximized ? 'none' : '650px',
         height: maximized ? 'auto' : '600px',
-      }}
-    >
+      }}>
       <div className="header" style={{ display: maximized ? 'none' : 'flex' }}>
         <div className="title">{pkg.name}</div>
         <a className="project" href={pkg.homepage}>
@@ -135,21 +112,36 @@ const App = () => {
       </div>
       <ReactMde
         value={value}
+        customLayout={withCustomToolbar ? <CustomLayout /> : undefined}
         onChange={handleValueChange}
-        commands={config.cmdMap}
-        toolbarCommands={config.toolbarCmd}
-        onTabChange={handleTabChange}
         onMaximizedChange={handleMaximizedChange}
         generateMarkdownPreview={(markdown) => {
           return Promise.resolve(converter.makeHtml(markdown));
         }}
-        selectedTab={tab}
         loadSuggestions={loadSuggestions}
         suggestionTriggerCharacters={['@']}
-        paste={{
-          uploadFile: save,
-        }}
         minHeight={150}
+        uploadFile={async function* (data: ArrayBuffer) {
+          // Promise that waits for "time" milliseconds
+          const wait = function (time: number) {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => resolve(true), time);
+            });
+          };
+
+          // Upload "data" to your server
+          // Use XMLHttpRequest.send to send a FormData object containing
+          // "data"
+          // Check this question: https://stackoverflow.com/questions/18055422/how-to-receive-php-image-data-over-copy-n-paste-javascript-with-xmlhttprequest
+
+          await wait(2000);
+          // yields the URL that should be inserted in the markdown
+          yield 'https://picsum.photos/300';
+          await wait(2000);
+
+          // returns true meaning that the save was successful
+          return true;
+        }}
       />
       <div className="options" style={{ display: maximized ? 'none' : 'flex' }}>
         <label>

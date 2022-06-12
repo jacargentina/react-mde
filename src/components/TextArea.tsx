@@ -5,6 +5,7 @@ import insertText from '../util/InsertTextAtPosition';
 import mod from '../util/Math';
 import { SuggestionsDropdown } from './SuggestionsDropdown';
 import { CaretCoordinates, Suggestion } from '..';
+import { useReactMde } from './ReactMdeContext';
 
 export type MentionState = {
   status: 'active' | 'inactive' | 'loading';
@@ -24,16 +25,12 @@ export type MentionState = {
 export type TextAreaProps = {
   value: string;
   onChange: (value: string) => void;
-  refObject?: any;
   readOnly?: boolean;
   suggestionTriggerCharacters?: string[];
   loadSuggestions?: (
     text: string,
     triggeredBy: string
   ) => Promise<Suggestion[]>;
-
-  onPaste?: (evt: React.ClipboardEvent<HTMLTextAreaElement>) => void;
-  onDrop?: (evt: React.DragEvent<HTMLTextAreaElement>) => void;
 
   /**
    * Custom textarea component. "textAreaComponent" can be any React component which
@@ -42,13 +39,6 @@ export type TextAreaProps = {
   textAreaComponent?: any;
   toolbarButtonComponent?: any;
   textAreaProps?: any;
-  /**
-   * On keydown, the TextArea will trigger "onPossibleKeyCommand" as an opportunity for React-Mde to
-   * execute a command. If a command is executed, React-Mde should return true, otherwise, false.
-   */
-  onPossibleKeyCommand?: (
-    e: React.KeyboardEvent<HTMLTextAreaElement>
-  ) => boolean;
   maximized?: boolean;
   minHeight?: number;
 };
@@ -63,16 +53,14 @@ const initialMention: MentionState = {
 };
 
 export const TextArea = (props: TextAreaProps) => {
+  const { textarea, handlePossibleEvent } = useReactMde();
   const {
     readOnly,
-    refObject,
     textAreaProps,
     value,
     suggestionTriggerCharacters,
     loadSuggestions,
     textAreaComponent,
-    onPaste,
-    onDrop,
     maximized = false,
     minHeight,
   } = props;
@@ -103,10 +91,10 @@ export const TextArea = (props: TextAreaProps) => {
   };
 
   const getTextArea = (): HTMLTextAreaElement => {
-    if (!refObject.current) {
+    if (!textarea.current) {
       throw new Error('TextArea not found');
     }
-    return refObject.current;
+    return textarea.current;
   };
 
   const handleOnChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -181,18 +169,16 @@ export const TextArea = (props: TextAreaProps) => {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (props.onPossibleKeyCommand) {
-      const handled = props.onPossibleKeyCommand(event);
-      if (handled) {
-        event.preventDefault();
-        // If the keydown resulted in a command being executed, we will just close the suggestions if they are open.
-        // Resetting suggestionsPromiseIndex will cause any promise that is yet to be resolved to have no effect
-        // when they finish loading.
-        // TODO: The code below is duplicate, we need to clean this up
-        suggestionsPromiseIndex.current = 0;
-        clearMention();
-        return;
-      }
+    const handled = handlePossibleEvent(event);
+    if (handled) {
+      event.preventDefault();
+      // If the keydown resulted in a command being executed, we will just close the suggestions if they are open.
+      // Resetting suggestionsPromiseIndex will cause any promise that is yet to be resolved to have no effect
+      // when they finish loading.
+      // TODO: The code below is duplicate, we need to clean this up
+      suggestionsPromiseIndex.current = 0;
+      clearMention();
+      return;
     }
 
     if (!suggestionsEnabled()) {
@@ -338,11 +324,10 @@ export const TextArea = (props: TextAreaProps) => {
       style={{
         resize: maximized ? 'none' : 'vertical',
         minHeight: minHeight || 'auto',
-      }}
-    >
+      }}>
       <TextAreaComponent
         className="textarea"
-        ref={refObject}
+        ref={textarea}
         readOnly={readOnly}
         value={value}
         data-testid="text-area"
@@ -374,21 +359,18 @@ export const TextArea = (props: TextAreaProps) => {
           }
         }}
         onPaste={(event) => {
-          textAreaProps?.onPaste?.(event);
-          if (onPaste) {
-            onPaste(event);
+          if (handlePossibleEvent(event)) {
+            event.preventDefault();
+          }
+        }}
+        onDrop={(event) => {
+          if (handlePossibleEvent(event)) {
+            event.preventDefault();
           }
         }}
         onDragOver={(event) => {
           event.preventDefault();
           event.stopPropagation();
-        }}
-        onDrop={(event) => {
-          textAreaProps?.onDrop?.(event);
-          if (onDrop) {
-            onDrop(event);
-            event.preventDefault();
-          }
         }}
       />
       {mention.status === 'active' && mention.suggestions.length && (
@@ -397,7 +379,7 @@ export const TextArea = (props: TextAreaProps) => {
           suggestions={mention.suggestions}
           onSuggestionSelected={handleSuggestionSelected}
           focusIndex={mention.focusIndex}
-          textAreaRef={refObject.current}
+          textAreaRef={textarea.current}
         />
       )}
     </div>

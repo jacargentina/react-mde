@@ -1,12 +1,5 @@
-const wp = require('@cypress/webpack-preprocessor');
+const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
 
-const webpackOptions = require('../webpack.config.js');
-
-module.exports = (on) => {
-  on(
-    'file:preprocessor',
-    wp({
-      webpackOptions,
-    })
-  );
+module.exports = (on, config) => {
+  on('file:preprocessor', createBundler());
 };

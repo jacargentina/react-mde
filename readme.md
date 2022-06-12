@@ -35,14 +35,11 @@ const converter = new Showdown.Converter({
 
 const App = () => {
   const [value, setValue] = useState('**Hello world!!!**');
-  const [selectedTab, setSelectedTab] = useState('write');
   return (
     <div className="container">
       <ReactMde
         value={value}
         onChange={setValue}
-        selectedTab={selectedTab}
-        onTabChange={setSelectedTab}
         generateMarkdownPreview={(markdown) =>
           Promise.resolve(converter.makeHtml(markdown))
         }
@@ -64,7 +61,6 @@ given a command name.
 ```jsx
 <ReactMde
   getIcon={(commandName) => <MyCustomIcon name={commandName} />}
-  onChange={this.handleValueChange}
   // ...
 />
 ```
@@ -74,13 +70,10 @@ given a command name.
 The types are described below
 
 - **value: string**: The Markdown value.
-- **selectedTab: "write" | "preview"**: The currently selected tab.
 - **isMaximized: boolean**: The current maximized state; defaults to false.
 - **onChange: (value: string)**: Event handler for the `onChange` event.
-- **onTabChange: (tab) => void**: Function called when the selected tab changes.
 - **onMaximizedChange: (isMaximized: boolean) => void**: Function called when maximized state changes: allow the component user to customize surrounding CSS for allowing to expand to full screen editing.
-- **commands?: Record<string, Command>**: An object with string properties representing keys, and a Command object as value for each key. These are custom commands. Commands are explained in more details below.
-- **toolbarCommands?: ToolbarGroups**: Array of ToolbarGroup, indicating which commands should be displayed. Each outer array is a named group. Example: `[{name: 'style' , items: ["bold", "italic"]}, {name: 'lists' , items: ["unordered", "ordered"]}]`
+- **customLayout?**: React.ReactNode: Allows providing a custom toolbar layout, ie. adding new commands.
 - **generateMarkdownPreview: (markdown: string) => Promise<string | ReactElement>;**: Function that should return a Promise to the generated HTML or a React element for the preview. If this `prop` is falsy, then no preview is going to be generated.
 - **getIcon?: (commandName: string) => React.ReactNode }** An optional set of button content options, including an `iconProvider` to allow custom icon rendering.
   options.
@@ -95,7 +88,7 @@ The types are described below
   The `preview` is what is going to be displayed in the suggestions box. The `value` is what is going to be inserted in the `textarea` on click or enter.
 - **suggestionTriggerCharacters (string[])**: Characters that will trigger mention suggestions to be loaded. This property is useless
   without `loadSuggestions`.
-- **childProps?: [Object](https://github.com/jacargentina/react-mde/blob/master/flow-typed/Child-props.js)**: An object containing props to be passed to `writeButton`, `previewButton`, `commandButtons` and `textArea`.
+- **childProps?: [Object](https://github.com/jacargentina/react-mde/blob/master/flow-typed/Child-props.js)**: An object containing props to be passed to `textArea`.
 
 ## XSS concerns
 

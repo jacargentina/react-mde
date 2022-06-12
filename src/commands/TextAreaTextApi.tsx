@@ -1,12 +1,16 @@
 import { SelectionRange, TextApi, TextState } from '..';
 import insertText from '../util/InsertTextAtPosition';
-import { getStateFromTextArea } from './command-utils';
 
 export default class TextAreaTextApi implements TextApi {
   textAreaRef: { current: null | HTMLTextAreaElement };
+  getTextState: Function;
 
-  constructor(textAreaRef: { current: null | HTMLTextAreaElement }) {
+  constructor(
+    getTextState: Function,
+    textAreaRef: { current: null | HTMLTextAreaElement }
+  ) {
     this.textAreaRef = textAreaRef;
+    this.getTextState = getTextState;
   }
 
   replaceSelection(text: string): TextState {
@@ -14,7 +18,7 @@ export default class TextAreaTextApi implements TextApi {
     if (textArea) {
       insertText(textArea, text);
     }
-    return getStateFromTextArea(textArea);
+    return this.getTextState(textArea);
   }
 
   setSelectionRange(selection: SelectionRange): TextState {
@@ -24,11 +28,11 @@ export default class TextAreaTextApi implements TextApi {
       textArea.selectionStart = selection.start;
       textArea.selectionEnd = selection.end;
     }
-    return getStateFromTextArea(textArea);
+    return this.getTextState(textArea);
   }
 
   getState(): TextState {
     const textArea = this.textAreaRef.current;
-    return getStateFromTextArea(textArea);
+    return this.getTextState(textArea);
   }
 }

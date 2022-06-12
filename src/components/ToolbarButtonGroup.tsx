@@ -1,18 +1,20 @@
 import * as React from 'react';
+import { useReactMde } from './ReactMdeContext';
 
 export type ToolbarButtonGroupProps = {
-  className: string;
+  className?: string;
   children: React.ReactNode;
-  hidden: boolean;
 };
 
 export const ToolbarButtonGroup = (props: ToolbarButtonGroupProps) => {
-  const { hidden, children, className = '' } = props;
+  const { children, className = '' } = props;
+  const reactMde = useReactMde();
   return (
     <ul
       className={`react-mde-toolbar-button-group ${className}`}
-      style={{ visibility: hidden ? 'hidden' : 'visible' }}
-    >
+      style={{
+        visibility: reactMde.selectedTab == 'preview' ? 'hidden' : 'visible',
+      }}>
       {children}
     </ul>
   );

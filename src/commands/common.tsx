@@ -1,5 +1,5 @@
-import { TextState, TextApi } from '../..';
-import { selectWord } from '../../util/MarkdownUtil';
+import { TextApi, TextState } from '..';
+import { selectWord } from '../util/MarkdownUtil';
 
 export function setHeader(
   initialState: TextState,
