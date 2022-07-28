@@ -4,7 +4,8 @@ import { ToolbarButton, useReactMde } from '../components';
 import { selectWord } from '../util/MarkdownUtil';
 
 const LinkCommand = () => {
-  const { getTextState, textApi, getIcon, registerEventHandler } = useReactMde();
+  const { getTextState, textApi, getIcon, registerEventHandler } =
+    useReactMde();
 
   const onClick = useCallback(() => {
     const initialState = getTextState();
@@ -30,7 +31,10 @@ const LinkCommand = () => {
           e as React.KeyboardEvent<HTMLTextAreaElement>;
         return (ctrlKey || metaKey) && key === 'k';
       },
-      handler: onClick,
+      handler: () => {
+        onClick();
+        return true;
+      },
     });
   }, [onClick]);
 

@@ -31,7 +31,10 @@ const BoldCommand = () => {
           e as React.KeyboardEvent<HTMLTextAreaElement>;
         return (ctrlKey || metaKey) && key === 'b';
       },
-      handler: onClick,
+      handler: () => {
+        onClick();
+        return true;
+      },
     });
   }, [onClick]);
 

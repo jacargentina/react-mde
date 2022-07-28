@@ -110,8 +110,9 @@ export const UploadFilePasteCommand = (props: {
         if (
           handleBlobsUpload(blobs, getTextState(), l18n, textApi, uploadFile)
         ) {
-          e.preventDefault();
+          return true;
         }
+        return false;
       },
     });
   }, []);
@@ -137,8 +138,9 @@ export const UploadFileDragDropCommand = (props: {
         if (
           handleBlobsUpload(blobs, getTextState(), l18n, textApi, uploadFile)
         ) {
-          e.preventDefault();
+          return true;
         }
+        return false;
       },
     });
   }, []);

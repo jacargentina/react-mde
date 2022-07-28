@@ -24,7 +24,7 @@ type EventFilter = (
 
 type EventRegistration = {
   filter: EventFilter;
-  handler: Function;
+  handler: (e: any) => boolean;
 };
 
 export type ReactMdeContextData = {
@@ -107,8 +107,7 @@ export const ReactMdeProvider = (props: ReactMdeProviderProps) => {
     for (let i = 0; i < eventHandlers.current.length; i += 1) {
       const { filter, handler } = eventHandlers.current[i];
       if (filter(e)) {
-        handler(e);
-        return true;
+        return handler(e);
       }
     }
     return false;
