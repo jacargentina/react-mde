@@ -281,7 +281,7 @@ div.react-mde-toolbar-buttons button.selected {
 .toolbarButton {
   text-align: left;
   cursor: pointer;
-  height: 22px;
+  height: 24px;
   padding: 4px;
   margin: 0;
   border: none;
