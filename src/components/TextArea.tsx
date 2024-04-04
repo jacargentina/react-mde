@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useState, useRef } from 'react';
-import getCaretCoordinates from '../util/TextAreaCaretPosition';
-import insertText from '../util/InsertTextAtPosition';
-import mod from '../util/Math';
-import { SuggestionsDropdown } from './SuggestionsDropdown';
-import { CaretCoordinates, Suggestion } from '..';
-import { useReactMde } from './ReactMdeContext';
+import getCaretCoordinates from '../util/TextAreaCaretPosition.js';
+import insertText from '../util/InsertTextAtPosition.js';
+import mod from '../util/Math.js';
+import { SuggestionsDropdown } from './SuggestionsDropdown.js';
+import { CaretCoordinates, Suggestion } from '../index.js';
+import { useReactMde } from './ReactMdeContext.js';
 
 export type MentionState = {
   status: 'active' | 'inactive' | 'loading';

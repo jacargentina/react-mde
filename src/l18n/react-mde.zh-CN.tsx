@@ -1,4 +1,4 @@
-import { L18n } from "..";
+import { L18n } from "../index.js";
 
 const zhL18n: L18n = {
   write: '编辑',

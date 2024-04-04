@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useEffect } from 'react';
-import { ToolbarButton, useReactMde } from '../components';
-import { selectWord } from '../util/MarkdownUtil';
+import { ToolbarButton, useReactMde } from '../components/index.js';
+import { selectWord } from '../util/MarkdownUtil.js';
 
 const BoldCommand = () => {
   const { getTextState, textApi, getIcon, registerEventHandler } =

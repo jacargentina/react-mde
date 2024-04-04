@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { L18n, TextApi, TextState, UploadFileHandler } from '..';
-import { useReactMde } from '../components';
-import readFileAsync from '../util/files';
-import { getBreaksNeededForEmptyLineBefore } from '../util/MarkdownUtil';
+import { L18n, TextApi, TextState, UploadFileHandler } from '../index.js';
+import { useReactMde } from '../components/index.js';
+import readFileAsync from '../util/files.js';
+import { getBreaksNeededForEmptyLineBefore } from '../util/MarkdownUtil.js';
 
 function extractBlobs(items: DataTransferItemList): Array<File> {
   const result = [];

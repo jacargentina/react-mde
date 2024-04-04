@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ToolbarButtonGroup } from './ToolbarButtonGroup';
+import { ToolbarButtonGroup } from './ToolbarButtonGroup.js';
 import {
   BoldCommand,
   Header3Command,
@@ -12,9 +12,9 @@ import {
   UnorderedListCommand,
   CheckedListCommand,
   StrikethroughCommand,
-} from '../commands';
-import ToggleMaximizeCommand from '../commands/ToggleMaximizeCommand';
-import { useReactMde } from './ReactMdeContext';
+} from '../commands/index.js';
+import ToggleMaximizeCommand from '../commands/ToggleMaximizeCommand.js';
+import { useReactMde } from './ReactMdeContext.js';
 
 export const ToolbarLayout = (props: { children?: any }) => {
   const { children } = props;

@@ -1,5 +1,5 @@
-import { SelectionRange, TextApi, TextState } from '..';
-import insertText from '../util/InsertTextAtPosition';
+import { SelectionRange, TextApi, TextState } from '../index.js';
+import insertText from '../util/InsertTextAtPosition.js';
 
 export default class TextAreaTextApi implements TextApi {
   textAreaRef: { current: null | HTMLTextAreaElement };

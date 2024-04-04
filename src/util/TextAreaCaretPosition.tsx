@@ -1,4 +1,4 @@
-import { CaretCoordinates } from "..";
+import { CaretCoordinates } from '../index.js';
 
 declare var window: any;
 declare var document: any;
@@ -53,7 +53,7 @@ const isFirefox = isBrowser && window.mozInnerScreenX != null;
 
 export default function getCaretCoordinates(
   element: HTMLTextAreaElement,
-  append?: string
+  append?: string,
 ): CaretCoordinates {
   if (!isBrowser) {
     throw new Error('getCaretCoordinates should only be called in a browser');

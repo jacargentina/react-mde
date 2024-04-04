@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { ToolbarButton, useReactMde } from '../components';
+import { ToolbarButton, useReactMde } from '../components/index.js';
 import {
   getBreaksNeededForEmptyLineAfter,
   getBreaksNeededForEmptyLineBefore,
   selectWord,
-} from '../util/MarkdownUtil';
+} from '../util/MarkdownUtil.js';
 
 const QuoteCommand = () => {
   const { getTextState, textApi, getIcon } = useReactMde();
@@ -24,19 +24,19 @@ const QuoteCommand = () => {
 
         const breaksBeforeCount = getBreaksNeededForEmptyLineBefore(
           state1.text,
-          state1.selection.start
+          state1.selection.start,
         );
         const breaksBefore = Array(breaksBeforeCount + 1).join('\n');
 
         const breaksAfterCount = getBreaksNeededForEmptyLineAfter(
           state1.text,
-          state1.selection.end
+          state1.selection.end,
         );
         const breaksAfter = Array(breaksAfterCount + 1).join('\n');
 
         // Replaces the current selection with the quote mark up
         textApi.replaceSelection(
-          `${breaksBefore}> ${state1.selectedText}${breaksAfter}`
+          `${breaksBefore}> ${state1.selectedText}${breaksAfter}`,
         );
 
         const selectionStart = state1.selection.start + breaksBeforeCount + 2;

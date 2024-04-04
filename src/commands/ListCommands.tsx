@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { ToolbarButton, useReactMde } from '../components';
-import { TextApi, TextState } from '..';
+import { ToolbarButton, useReactMde } from '../components/index.js';
+import { TextApi, TextState } from '../index.js';
 import {
   getBreaksNeededForEmptyLineAfter,
   getBreaksNeededForEmptyLineBefore,
   selectWord,
-} from '../util/MarkdownUtil';
+} from '../util/MarkdownUtil.js';
 
 export type AlterLineFunction = (line: string, index: number) => string;
 

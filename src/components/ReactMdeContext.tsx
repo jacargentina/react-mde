@@ -9,17 +9,24 @@ import {
   useRef,
   useState,
 } from 'react';
-import { GetIcon, L18n, RefObj, SelectionRange, Tab, TextState } from '..';
-import TextAreaTextApi from '../commands/TextAreaTextApi';
-import enL18n from '../l18n/react-mde.en';
-import SvgIcon from './SvgIcon';
+import {
+  GetIcon,
+  L18n,
+  RefObj,
+  SelectionRange,
+  Tab,
+  TextState,
+} from '../index.js';
+import TextAreaTextApi from '../commands/TextAreaTextApi.js';
+import enL18n from '../l18n/react-mde.en.js';
+import SvgIcon from './SvgIcon.js';
 
 type EventFilter = (
   e:
     | React.KeyboardEvent<HTMLTextAreaElement>
     | React.ClipboardEvent<HTMLTextAreaElement>
     | React.DragEvent<HTMLTextAreaElement>
-    | React.ChangeEvent<HTMLInputElement>
+    | React.ChangeEvent<HTMLInputElement>,
 ) => boolean;
 
 type EventRegistration = {
@@ -46,7 +53,7 @@ export type ReactMdeContextData = {
 };
 
 const ReactMdeContext = createContext<ReactMdeContextData | undefined>(
-  undefined
+  undefined,
 );
 
 export type ReactMdeProviderProps = {
@@ -92,7 +99,7 @@ export const ReactMdeProvider = (props: ReactMdeProviderProps) => {
       text: textarea.current?.value,
       selectedText: textarea.current?.value.slice(
         textarea.current?.selectionStart,
-        textarea.current?.selectionEnd
+        textarea.current?.selectionEnd,
       ),
     };
   }, [textarea.current]);
@@ -102,7 +109,7 @@ export const ReactMdeProvider = (props: ReactMdeProviderProps) => {
   }, []);
 
   const handlePossibleEvent = (
-    e: React.KeyboardEvent<HTMLTextAreaElement>
+    e: React.KeyboardEvent<HTMLTextAreaElement>,
   ): boolean => {
     for (let i = 0; i < eventHandlers.current.length; i += 1) {
       const { filter, handler } = eventHandlers.current[i];

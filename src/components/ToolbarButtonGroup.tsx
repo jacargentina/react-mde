@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useReactMde } from './ReactMdeContext';
+import { useReactMde } from './ReactMdeContext.js';
 
 export type ToolbarButtonGroupProps = {
   className?: string;

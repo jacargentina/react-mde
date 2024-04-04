@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { WritePreviewTabs } from './WritePreviewTabs';
-import ToolbarLayout from './ToolbarLayout';
+import { WritePreviewTabs } from './WritePreviewTabs.js';
+import ToolbarLayout from './ToolbarLayout.js';
 
 export type ToolbarProps = {
   customLayout?: React.ReactNode;

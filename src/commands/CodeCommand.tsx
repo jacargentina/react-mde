@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { ToolbarButton, useReactMde } from '../components';
+import { ToolbarButton, useReactMde } from '../components/index.js';
 import {
   getBreaksNeededForEmptyLineAfter,
   getBreaksNeededForEmptyLineBefore,
   selectWord,
-} from '../util/MarkdownUtil';
+} from '../util/MarkdownUtil.js';
 
 const CodeCommand = () => {
   const { getTextState, textApi, getIcon } = useReactMde();

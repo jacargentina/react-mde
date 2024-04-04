@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Preview, Toolbar, TextArea, useReactMde } from '.';
+import { Preview, Toolbar, TextArea, useReactMde } from './index.js';
 import {
   ChildProps,
   GenerateMarkdownPreview,
@@ -7,12 +7,12 @@ import {
   L18n,
   Suggestion,
   UploadFileHandler,
-} from '..';
+} from '../index.js';
 import {
   UploadFileDragDropCommand,
   UploadFileInputCommand,
   UploadFilePasteCommand,
-} from '../commands';
+} from '../commands/index.js';
 
 export type ReactMdeEditorProps = {
   value: string;

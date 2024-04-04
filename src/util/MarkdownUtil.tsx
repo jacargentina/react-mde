@@ -1,4 +1,4 @@
-import { SelectionRange, TextSection } from '..';
+import { SelectionRange, TextSection } from '../index.js';
 
 export function getSurroundingWord(
   text: string,

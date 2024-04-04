@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ToolbarButton, useReactMde } from '../components';
-import { selectWord } from '../util/MarkdownUtil';
+import { ToolbarButton, useReactMde } from '../components/index.js';
+import { selectWord } from '../util/MarkdownUtil.js';
 
 const ImageCommand = () => {
   const { getTextState, textApi, getIcon } = useReactMde();

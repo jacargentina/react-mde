@@ -123,6 +123,6 @@ export type TextState = {
   selection: SelectionRange;
 };
 
-export * as MarkdownUtil from './util/MarkdownUtil';
-export * from './commands';
-export * from './components';
+export * from './util/MarkdownUtil.js';
+export * from './commands/index.js';
+export * from './components/index.js';

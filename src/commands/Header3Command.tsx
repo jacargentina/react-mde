@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ToolbarButton, useReactMde } from '../components';
-import { setHeader } from './common';
+import { ToolbarButton, useReactMde } from '../components/index.js';
+import { setHeader } from './common.js';
 
 const Header3Command = () => {
   const { getTextState, textApi, getIcon } = useReactMde();
