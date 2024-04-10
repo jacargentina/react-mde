@@ -30,11 +30,11 @@ const CustomGroup = () => {
         name="test"
         onClick={async () => {
           const resp = await fetch(
-            'https://movie-quote-api.herokuapp.com/v1/quote/'
+            'https://movie-quote-api.herokuapp.com/v1/quote/',
           );
           const data = await resp.json();
           textApi.replaceSelection(
-            `*"${data.quote}"*, from show **${data.show}**`
+            `*"${data.quote}"*, from show **${data.show}**`,
           );
         }}>
         Insert Random Quote
@@ -136,10 +136,9 @@ const App = () => {
             // "data"
             // Check this question: https://stackoverflow.com/questions/18055422/how-to-receive-php-image-data-over-copy-n-paste-javascript-with-xmlhttprequest
 
-            await wait(2000);
+            await wait(Math.floor(Math.random() * 4000));
             // yields the URL that should be inserted in the markdown
             yield 'https://picsum.photos/300';
-            await wait(2000);
 
             // returns true meaning that the save was successful
             return true;
