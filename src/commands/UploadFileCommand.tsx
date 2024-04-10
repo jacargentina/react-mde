@@ -34,39 +34,42 @@ function handleBlobsUpload(
   initialState: TextState,
   l18n: L18n,
   textApi: TextApi,
-  uploadFile: UploadFileHandler
+  uploadFile: UploadFileHandler,
 ): boolean {
   if (blobs.length > 0) {
-    blobs.forEach(async (blob) => {
+    var lastPlaceholderState: TextState;
+    var blobsUploadedCount: number = 0;
+    blobs.forEach(async (blob, blobIndex) => {
       const breaksBeforeCount = getBreaksNeededForEmptyLineBefore(
         initialState.text,
-        initialState.selection.start
+        initialState.selection.start,
       );
       const breaksBefore = Array(breaksBeforeCount + 1).join('\n');
 
       const placeHolder = `${breaksBefore}![${
         l18n ? l18n.uploadingFile : 'Uploading ...'
-      }]()`;
+      } ${blob.name}]()\n`;
 
       textApi.replaceSelection(placeHolder);
+
+      var isLast = blobIndex == blobs.length - 1;
+      if (isLast) {
+        lastPlaceholderState = textApi.getState();
+      }
 
       const blobContents = await readFileAsync(blob);
       const savingImage = uploadFile(blobContents, blob.name);
       const imageUrl = (await savingImage.next()).value;
 
       const newState = textApi.getState();
+      const uploadingTextIndex = newState.text.indexOf(placeHolder);
 
-      const uploadingText = newState.text.substr(
-        initialState.selection.start,
-        placeHolder.length
-      );
-
-      if (uploadingText === placeHolder && typeof imageUrl === 'string') {
-        // In this case, the user did not touch the placeholder. Good user
+      if (uploadingTextIndex != -1 && typeof imageUrl === 'string') {
+        // In this case, the user did not touch the placeholders. Good user
         // we will replace it with the real one that came from the server
         textApi.setSelectionRange({
-          start: initialState.selection.start,
-          end: initialState.selection.start + placeHolder.length,
+          start: uploadingTextIndex,
+          end: uploadingTextIndex + placeHolder.length,
         });
 
         let title = isImage(blob)
@@ -75,14 +78,15 @@ function handleBlobsUpload(
 
         title = isImage(blob) ? `![${title}]` : `[${title}]`;
 
-        const realImageMarkdown = `${breaksBefore}${title}(${imageUrl})`;
-        const selectionDelta = realImageMarkdown.length - placeHolder.length;
-
+        const realImageMarkdown = `${breaksBefore}${title}(${imageUrl})\n`;
         textApi.replaceSelection(realImageMarkdown);
-        textApi.setSelectionRange({
-          start: newState.selection.start + selectionDelta,
-          end: newState.selection.end + selectionDelta,
-        });
+        blobsUploadedCount++;
+        if (blobsUploadedCount == blobs.length) {
+          textApi.setSelectionRange({
+            start: initialState.selection.start,
+            end: initialState.selection.start,
+          });
+        }
       }
     });
     return true;
