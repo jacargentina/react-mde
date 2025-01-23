@@ -9,8 +9,8 @@ export type ToolbarDropdownProps = {
 
 export const ToolbarDropdown = (props: ToolbarDropdownProps) => {
   const { readOnly, dropdownContent, children } = props;
-  const dropdown = useRef<any>();
-  const dropdownOpener = useRef<any>();
+  const dropdown = useRef<any>(null);
+  const dropdownOpener = useRef<any>(null);
   const [open, setOpen] = useState(false);
 
   const openDropdown = () => {
