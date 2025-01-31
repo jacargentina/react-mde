@@ -16,8 +16,8 @@ import {
 import ToggleMaximizeCommand from '../commands/ToggleMaximizeCommand.js';
 import { useReactMde } from './ReactMdeContext.js';
 
-export const ToolbarLayout = (props: { children?: any }) => {
-  const { children } = props;
+export const ToolbarLayout = (props: { beforeSpacer?: any, afterSpacer?: any }) => {
+  const { beforeSpacer, afterSpacer } = props;
   const { disableMaximize } = useReactMde();
   return (
     <>
@@ -38,7 +38,9 @@ export const ToolbarLayout = (props: { children?: any }) => {
         <OrderedListCommand />
         <CheckedListCommand />
       </ToolbarButtonGroup>
-      {children}
+      {beforeSpacer}
+      <ul className='spacer' />
+      {afterSpacer}
       {!disableMaximize && (
         <ul className="maximizeRight">
           <ToggleMaximizeCommand />

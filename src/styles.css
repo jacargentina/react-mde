@@ -248,12 +248,16 @@ div.react-mde-toolbar {
   background: #f9f9f9;
 }
 
+div.react-mde-toolbar ul.spacer {
+  display: flex;
+  flex: 1;
+}
 div.react-mde-toolbar ul.maximizeRight {
   margin: 0;
   padding: 10px;
   list-style: none;
   display: flex;
-  flex: 1;
+  flex: 0;
   flex-direction: row-reverse;
   flex-wrap: nowrap;
 }
