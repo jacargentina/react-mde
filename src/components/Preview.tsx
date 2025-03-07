@@ -42,5 +42,5 @@ export const Preview = (props: PreviewProps) => {
     content = <div className="react-mde-preview">{finalHtml}</div>;
   }
 
-  return <div data-testid="react-mde-preview-container">{content}</div>;
+  return <div className="react-mde-preview-container" data-testid="react-mde-preview-container">{content}</div>;
 };

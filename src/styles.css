@@ -1,8 +1,17 @@
 .react-mde-preview-container {
-  overflow: scroll;
+  position: relative;
+  flex-grow: 1;
+  overflow: hidden;
+  min-height: 150px;
 }
 
 .react-mde-preview {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: scroll;
   padding: 10px;
 }
 
